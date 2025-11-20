@@ -1,45 +1,109 @@
-<section class="vh-100 gradient-custom">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-        <div class="text-white card bg-dark" style="border-radius: 1rem;">
-          <div class="p-5 text-center card-body">
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng nhập</title>
 
-            <div class="pb-5 mb-md-5 mt-md-4">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
-              <h2 class="mb-2 fw-bold text-uppercase">Login</h2>
-              <p class="mb-5 text-white-50">Please enter your login and password!</p>
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
-              <div data-mdb-input-init class="mb-4 form-outline form-white">
-                <input type="email" id="typeEmailX" class="form-control form-control-lg" />
-                <label class="form-label" for="typeEmailX">Email</label>
-              </div>
+</head>
+<body>
 
-              <div data-mdb-input-init class="mb-4 form-outline form-white">
-                <input type="password" id="typePasswordX" class="form-control form-control-lg" />
-                <label class="form-label" for="typePasswordX">Password</label>
-              </div>
+<div class="login-wrapper">
+    <div class="login-box">
 
-              <p class="mb-5 small pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>
-
-              <button data-mdb-button-init data-mdb-ripple-init class="px-5 btn btn-outline-light btn-lg" type="submit">Login</button>
-
-              <div class="pt-1 mt-4 text-center d-flex justify-content-center">
-                <a href="#!" class="text-white"><i class="fab fa-facebook-f fa-lg"></i></a>
-                <a href="#!" class="text-white"><i class="px-2 mx-4 fab fa-twitter fa-lg"></i></a>
-                <a href="#!" class="text-white"><i class="fab fa-google fa-lg"></i></a>
-              </div>
-
-            </div>
-
-            <div>
-              <p class="mb-0">Don't have an account? <a href="#!" class="text-white-50 fw-bold">Sign Up</a>
-              </p>
-            </div>
-
-          </div>
+        <div class="login-header">
+            <img src="{{ asset('images/icons/user.png') }}" alt="User Icon" class="login-icon">
+            <h2>Đăng Nhập</h2>
         </div>
-      </div>
+
+        <form method="POST" action="{{ route('login.post') }}">
+            @csrf
+            <input type="email" name="email" placeholder="Email" class="login-input">
+            <input type="password" name="password" placeholder="Mật khẩu" class="login-input">
+
+            <button type="submit" class="login-btn">Đăng nhập</button>
+        </form>
+
+        <div class="login-footer">
+            <a href="{{ route('register.show') }}">Tạo tài khoản</a>
+            <a href="#">Quên mật khẩu?</a>
+        </div>
+
     </div>
-  </div>
-</section>
+</div>
+
+
+<style>
+    body {
+        margin: 0;
+        font-family: Poppins, sans-serif;
+        background: linear-gradient(135deg, #4dadff, #1e8df3);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login-wrapper {
+        width: 100%;
+        max-width: 420px;
+    }
+
+    .login-box {
+        background: #ffffff;
+        padding: 40px 30px;
+        border-radius: 16px;
+        box-shadow: 0px 10px 40px rgba(0,0,0,0.2);
+        text-align: center;
+        animation: fadeIn 0.7s ease;
+    }
+
+    .login-icon {
+        width: 70px;
+        height: 70px;
+        object-fit: cover;
+        margin-bottom: 10px;
+    }
+
+    .login-input {
+        width: 100%;
+        padding: 12px 15px;
+        margin: 10px 0;
+        border: 1px solid #d9d9d9;
+        border-radius: 8px;
+        font-size: 15px;
+    }
+
+    .login-btn {
+        width: 100%;
+        background: #1e8df3;
+        color: #fff;
+        padding: 13px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        margin-top: 15px;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<!-- jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<!-- MUST BE AT THE END -->
+{!! Toastr::message() !!}
+
+</body>
+</html>

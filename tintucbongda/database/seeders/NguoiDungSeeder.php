@@ -54,3 +54,4 @@ class NguoiDungSeeder extends Seeder
         ]);
     }
 }
+    

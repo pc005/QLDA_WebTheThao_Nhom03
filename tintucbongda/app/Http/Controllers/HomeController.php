@@ -14,8 +14,5 @@ class HomeController extends Controller
 {
     return view('home'); // Trả về view video.blade.php
 }
- public function testttttt()
-{
-    return view('home'); // Trả về view video.blade.php
-}
+
 }

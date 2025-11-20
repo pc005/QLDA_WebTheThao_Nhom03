@@ -14,5 +14,9 @@ class HomeController extends Controller
 {
     return view('home'); // Trả về view video.blade.php
 }
+    public function login()
+    {
+        return view('login.login'); // Laravel tự hiểu 'views/' và '.blade.php'
+    }
 
 }

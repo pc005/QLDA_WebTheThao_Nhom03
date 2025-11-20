@@ -10,7 +10,7 @@
         <!-- Icon -->
         <div class="fadeIn first">
             {{-- <img src="" id="icon" alt="User Icon" /> --}}
-            <h1>Login</h1>
+            <h1>Loginn</h1>
         </div>
 
         <!-- Login Form -->

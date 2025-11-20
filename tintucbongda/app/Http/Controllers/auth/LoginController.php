@@ -6,28 +6,32 @@ use App\Http\Controllers\Controller;
 use App\Models\NguoiDung;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class LoginController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Hiển thị form login
+    public function showFormLogin()
+    {
+        return view('auth.login'); // resources/views/auth/login.blade.php
+    }
+
+    // Xử lý đăng nhập
     public function login(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:6',
-        ], [
-            'email.required' => 'Email là bắt buộc.',
-            'email.email' => 'Email không hợp lệ.',
-            'password.required' => 'Mật khẩu là bắt buộc.',
-            'password.min' => 'Mật khẩu phải ít nhất 6 ký tự.',
         ]);
 
-        // Tìm người dùng
+        if ($validator->fails()) {
+            toastr()->error($validator->errors()->first());
+            return back()->withInput();
+        }
+
         $user = NguoiDung::where('email', $request->email)->first();
 
         if (!$user) {
@@ -35,94 +39,78 @@ class LoginController extends Controller
             return back();
         }
 
-        // Check mật khẩu
         if (!Hash::check($request->password, $user->mat_khau)) {
             toastr()->error('Mật khẩu không chính xác.');
             return back();
         }
 
-        // Check trạng thái
         if ($user->trang_thai !== 'Hoạt động') {
             toastr()->warning('Tài khoản đã bị khóa hoặc không hoạt động.');
             return back();
         }
 
-        // Đăng nhập
         Auth::login($user);
         $request->session()->regenerate();
 
-        // Điều hướng theo vai trò
-        if ($user->vai_tro === 'Admin') {
-            toastr()->success('Đăng nhập thành công (Admin).');
-            return redirect()->route('admin.dashboard');
+        toastr()->success('Đăng nhập thành công!');
+
+        if ($user->vai_tro === 'Admin') return redirect()->route('admin.dashboard');
+        if ($user->vai_tro === 'BTV') return redirect()->route('btv.dashboard');
+
+        return redirect()->route('home');
+    }
+    public function showFormRegister(){
+        return view('auth.register'); // resources/views/auth/login.blade.php
+    }
+
+
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'ho_ten' => 'required|string|max:100',
+            'email' => 'required|email|unique:nguoi_dungs,email',
+            'password' => [
+                'required',
+                'min:6',
+                'confirmed',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*?&]/'
+            ],
+        ], [
+            'password.regex' => 'Mật khẩu phải có chữ hoa, chữ thường, số và ký tự đặc biệt.',
+            'password.min' => 'Mật khẩu tối thiểu 6 ký tự.',
+            'password.confirmed' => 'Mật khẩu nhập lại không khớp.',
+            'email.unique' => 'Email đã tồn tại trong hệ thống.',
+        ]);
+
+        if ($validator->fails()) {
+            // Lấy lỗi đầu tiên và hiển thị toastr
+            toastr()->error($validator->errors()->first());
+            return back()->withInput();
         }
 
-        if ($user->vai_tro === 'BTV') {
-            toastr()->success('Đăng nhập thành công (Biên tập viên).');
-            return redirect()->route('btv.dashboard');
-        }
+        // Tạo người dùng mới
+        NguoiDung::create([ 
+            'ho_ten' => $request->ho_ten,
+            'email' => $request->email,
+            'mat_khau' => $request->password, // bỏ Hash::make
+            'vai_tro' => 'Người dùng',
+            'trang_thai' => 'Hoạt động',
+        ]);
 
-        // Người dùng thường không được vào admin
-        toastr()->error('Bạn không có quyền truy cập vào hệ thống quản trị.');
-        Auth::logout();
-        return back();
+
+        toastr()->success('Tạo tài khoản thành công! Hãy đăng nhập.');
+
+        return redirect()->route('login.show');
     }
 
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
 
-        toastr()->success('Đăng xuất thành công.');
-        return redirect()->route('admin.login.show');
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(NguoiDung $nguoiDung)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(NguoiDung $nguoiDung)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, NguoiDung $nguoiDung)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(NguoiDung $nguoiDung)
-    {
-        //
-    }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
             $table->string('tieu_de');
-            $table->string('url');
+            $table->text('url');
             $table->unsignedBigInteger('bai_viet_id');
             $table->unsignedBigInteger('nguoi_dung_id');
             $table->string('trang_thai');

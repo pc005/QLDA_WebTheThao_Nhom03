@@ -27,8 +27,6 @@ Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/register', [LoginController::class, 'showFormRegister'])->name('register.show');
 Route::post('/register', [LoginController::class, 'register'])->name('register.post');
-<<<<<<< HEAD
-=======
 // Hiển thị form quên mật khẩu
 
 Route::get('/forgot-password', [LoginController::class, 'showForgotForm'])->name('password.forgot');
@@ -41,7 +39,3 @@ Route::get('/reset-password/{token}', [LoginController::class, 'showResetForm'])
 
 // Xử lý đặt lại mật khẩu
 Route::post('/reset-password', [LoginController::class, 'resetPassword'])->name('password.update');
-
-
-
->>>>>>> d7f1c1e6014c7e011900987b1042fc1f23e1c043

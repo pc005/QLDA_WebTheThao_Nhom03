@@ -43,25 +43,26 @@ class DanhMucController extends Controller
     }
     public function create()
     {
-            // Lấy tất cả danh mục để hiển thị dropdown
+
     $categories = DanhMuc::all();
 
-    // Trả về view và truyền biến $categories
     return view('Admin.DanhMuc.ThemDanhMuc', compact('categories'));
     }
 
-    public function store(Request $request)
-{
-    $request->validate([
-        'ten_danh_muc' => 'required|string|max:255',
-        'mo_ta' => 'nullable|string',
-        'danh_muc_cha_id' => 'nullable|exists:danh_mucs,id',
-        'trang_thai' => 'required|boolean',
-    ]);
+ public function store(Request $request)
+    {
+        // Xác thực dữ liệu nếu cần
+        $request->validate([
+            'ten_danh_muc' => 'required|string|max:255',
+            'mo_ta' => 'nullable|string',
+            'danh_muc_cha_id' => 'nullable|integer|exists:categories,id',
+            'trang_thai' => 'required|string|in:Hoạt động,K không hoạt động',
+        ]);
 
-    DanhMuc::create($request->only(['ten_danh_muc','mo_ta','danh_muc_cha_id','trang_thai']));
+        // Tạo mới danh mục
+        danhmuc ::create($request->all());
 
-    return redirect()->route('danhmucs.index')
-                     ->with('success', 'Thêm danh mục thành công!');
-}
+        // Chuyển hướng về trang danh sách hoặc thông báo thành công
+        return redirect()->route('danhmucs.index')->with('success', 'Danh mục đã được thêm thành công!');
+    }
 }

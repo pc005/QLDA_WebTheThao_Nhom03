@@ -9,6 +9,7 @@ use App\Http\Controllers\DanhMucController;
 
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::get('/home', [HomeController::class, 'home'])->name('home');
 Route::get('/video', [HomeController::class, 'video'])->name('video');
 
 
@@ -22,6 +23,7 @@ Route::post('/categories', [DanhMucController::class, 'store'])->name('categorie
 
 Route::resource('videos', VideoController::class);
 Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show');
+Route::get('/video/{id}/like', [VideoController::class, 'like'])->name('video.like');
 
 
 

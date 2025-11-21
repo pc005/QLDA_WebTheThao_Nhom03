@@ -5,28 +5,8 @@
     <title>Blog Detail With Sidebar</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--===============================================================================================-->
-    {{-- <link rel="icon" type="image/png" href="images/icons/favicon.png" />
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="fonts/fontawesome-5.0.8/css/fontawesome-all.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
-    <!--===============================================================================================-->
-
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-
-    <link rel="stylesheet" type="text/css" href="css/util.min.css"> --}}
-    <!--===============================================================================================-->
+   
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
 </head>
 
 <body class="animsition">
@@ -179,34 +159,34 @@
                     </li>
 
                     <li>
-                        <a href="/video">News</a>
+                        <a href="/videos">News</a>
                     </li>
 
                     <li>
-                        <a href="/video">Entertainment </a>
+                        <a href="/videos">Entertainment </a>
                     </li>
 
                     <li>
-                        <a href="/video">Business</a>
+                        <a href="/videos">Business</a>
                     </li>
 
                     <li>
-                        <a href="/video">Travel</a>
+                        <a href="/videos">Travel</a>
                     </li>
 
                     <li>
-                        <a href="/video">Life Style</a>
+                        <a href="/videos">Life Style</a>
                     </li>
 
                     <li>
-                        <a href="/video">Video</a>
+                        <a href="/videos">Video</a>
                     </li>
 
                     <li>
                         <a href="#">Features</a>
                         <ul class="sub-menu-m">
-                            <li><a href="/video">Category Page v1</a></li>
-                            <li><a href="/video">Category Page v2</a></li>
+                            <li><a href="/videoss">Category Page v1</a></li>
+                            <li><a href="/videoss">Category Page v2</a></li>
                             <li><a href="blog-grid.html">Blog Grid Sidebar</a></li>
                             <li><a href="blog-list-01.html">Blog List Sidebar v1</a></li>
                             <li><a href="blog-list-02.html">Blog List Sidebar v2</a></li>
@@ -256,7 +236,7 @@
                             </li>
 
                             <li class="mega-menu-item">
-                                <a href="/video">News</a>
+                                <a href="/videos">News</a>
 
                                 <div class="sub-mega-menu">
                                     <div class="nav flex-column nav-pills" role="tablist">
@@ -1119,7 +1099,7 @@
                             </li>
 
                             <li class="mega-menu-item">
-                                <a href="/video">Entertainment </a>
+                                <a href="/videos">Entertainment </a>
 
                                 <div class="sub-mega-menu">
                                     <div class="nav flex-column nav-pills" role="tablist">
@@ -1556,7 +1536,7 @@
                             </li>
 
                             <li class="mega-menu-item">
-                                <a href="/video">Business</a>
+                                <a href="/videos">Business</a>
 
                                 <div class="sub-mega-menu">
                                     <div class="nav flex-column nav-pills" role="tablist">
@@ -1851,7 +1831,7 @@
                             </li>
 
                             <li class="mega-menu-item">
-                                <a href="/video">Travel</a>
+                                <a href="/videos">Travel</a>
 
                                 <div class="sub-mega-menu">
                                     <div class="nav flex-column nav-pills" role="tablist">
@@ -2146,7 +2126,7 @@
                             </li>
 
                             <li class="mega-menu-item">
-                                <a href="/video">Life Style</a>
+                                <a href="/videos">Life Style</a>
 
                                 <div class="sub-mega-menu">
                                     <div class="nav flex-column nav-pills" role="tablist">
@@ -2299,7 +2279,7 @@
                             </li>
 
                             <li class="mega-menu-item">
-                                <a href="/video">Video</a>
+                                <a href="/videos">Video</a>
 
                                 <div class="sub-mega-menu">
                                     <div class="nav flex-column nav-pills" role="tablist">
@@ -2454,8 +2434,8 @@
                             <li class="main-menu-active">
                                 <a href="#">Features</a>
                                 <ul class="sub-menu">
-                                    <li><a href="/video">Category Page v1</a></li>
-                                    <li><a href="/video">Category Page v2</a></li>
+                                    <li><a href="/videos">Category Page v1</a></li>
+                                    <li><a href="/videos">Category Page v2</a></li>
                                     <li><a href="blog-grid.html">Blog Grid Sidebar</a></li>
                                     <li><a href="blog-list-01.html">Blog List Sidebar v1</a></li>
                                     <li><a href="blog-list-02.html">Blog List Sidebar v2</a></li>

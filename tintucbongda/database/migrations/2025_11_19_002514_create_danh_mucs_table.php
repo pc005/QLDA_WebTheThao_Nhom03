@@ -14,15 +14,21 @@ return new class extends Migration
         Schema::create('danh_mucs', function (Blueprint $table) {
             $table->id();
             $table->string('ten_danh_muc', 100);
+            $table->string('slug', 255);
             $table->string('mo_ta', 255)->nullable();
             $table->unsignedBigInteger('danh_muc_cha_id')->nullable();
-            $table->string('trang_thai', 20);
+            $table->string('trang_thai', 20)->default('active'); // ← SỬA Ở ĐÂY
             $table->dateTime('ngay_tao')->nullable();
             $table->dateTime('ngay_cap_nhat')->nullable();
 
-            $table->foreign('danh_muc_cha_id')->references('id')->on('danh_mucs')->onDelete('set null');
+            $table->foreign('danh_muc_cha_id')
+                ->references('id')
+                ->on('danh_mucs')
+                ->onDelete('set null');
+
             $table->timestamps();
         });
+
     }
 
     /**

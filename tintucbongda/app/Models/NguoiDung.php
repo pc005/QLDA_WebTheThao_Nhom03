@@ -45,4 +45,8 @@ class NguoiDung extends Authenticatable
     {
         $this->attributes['mat_khau'] = bcrypt($value);
     }
+    public function getAuthPassword()
+    {
+        return $this->mat_khau;
+    }
 }

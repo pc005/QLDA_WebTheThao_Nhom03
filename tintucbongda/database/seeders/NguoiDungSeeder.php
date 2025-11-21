@@ -34,7 +34,7 @@ class NguoiDungSeeder extends Seeder
                 'anh_dai_dien' => null,
                 'vai_tro' => 'BTV',
                 'trang_thai' => 'Hoạt động',
-                'ngay_tao' => now(),
+                'ngay_tao' => now(),    
                 'ngay_cap_nhat' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -54,4 +54,3 @@ class NguoiDungSeeder extends Seeder
         ]);
     }
 }
-    

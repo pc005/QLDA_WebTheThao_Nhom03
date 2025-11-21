@@ -5,13 +5,15 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\DanhMucController;
+use App\Http\Controllers\BaiVietController;
 
 
 
+// Route::get('/', [HomeController::class, 'home'])->name('home');
+// Route::get('/home', [HomeController::class, 'home'])->name('home');
+Route::get('/video', [HomeController::class, 'video'])->name('video');
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/home', [HomeController::class, 'home'])->name('home');
-Route::get('/video', [HomeController::class, 'video'])->name('video');
-
 
 
 Route::resource('DanhMuc', DanhMucController::class);
@@ -26,6 +28,7 @@ Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show');
 Route::get('/video/{id}/like', [VideoController::class, 'like'])->name('video.like');
 
 
+Route::get('/bai-viet/{id}', [BaiVietController::class, 'show'])->name('bai-viet.show');
 
 
 

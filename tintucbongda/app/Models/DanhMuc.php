@@ -9,7 +9,7 @@ class DanhMuc extends Model
     use HasFactory;
 
     protected $table = 'danh_mucs'; // Chỉ định tên bảng nếu khác với quy ước
-    protected $fillable = ['ten_danh_muc', 'mo_ta', 'danh_muc_cha_id', 'trang_thai']; // Các trường hợp gán
+    protected $fillable = ['ten_danh_muc', 'mo_ta', 'danh_muc_cha_id', 'trang_thai','slug']; // Các trường hợp gán
 
 
     public function parent()

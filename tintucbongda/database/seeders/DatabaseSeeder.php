@@ -17,6 +17,9 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             NguoiDungSeeder::class,
+            DanhMucSeeder::class,
+            BaiVietSeeder::class,
+            VideoSeeder::class,
         ]);
     }
 }

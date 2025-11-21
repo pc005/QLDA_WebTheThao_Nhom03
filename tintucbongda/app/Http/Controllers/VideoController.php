@@ -14,7 +14,7 @@ class VideoController extends Controller
 public function index()
     {
         // Lấy dữ liệu từ DB
-        $videos = Video::paginate(10);
+        $videos = Video::paginate(9);
 
         // Trả về view
         return view('user.DanhSachVideo', compact('videos'));
@@ -76,4 +76,26 @@ public function index()
 
         return response()->json(['message' => 'Video đã được xóa']);
     }
+
+
+public function like(Request $request, Video $video)
+{
+    if (!auth()->check()) {
+        return response()->json(['status' => 'not_logged_in', 'message' => 'Vui lòng đăng nhập để thích video này.']);
+    }
+
+    // Phần còn lại của mã xử lý lưu thích
+    $like = Like::where('user_id', auth()->id())->where('video_id', $video->id)->first();
+
+    if ($like) {
+        $like->delete();
+        return response()->json(['status' => 'unliked']);
+    } else {
+        Like::create([
+            'user_id' => auth()->id(),
+            'video_id' => $video->id
+        ]);
+        return response()->json(['status' => 'liked']);
+    }
+}
 }

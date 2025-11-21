@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\NguoiDung;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 
 class LoginController extends Controller
@@ -18,7 +20,6 @@ class LoginController extends Controller
     {
         return view('auth.login'); // resources/views/auth/login.blade.php
     }
-
     // Xử lý đăng nhập
     public function login(Request $request)
     {
@@ -59,11 +60,11 @@ class LoginController extends Controller
 
         return redirect()->route('home');
     }
+    //Hiển thị form đăng ký
     public function showFormRegister(){
         return view('auth.register'); // resources/views/auth/login.blade.php
     }
-
-
+    //Xử lý đăng ký
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -92,7 +93,7 @@ class LoginController extends Controller
         }
 
         // Tạo người dùng mới
-        NguoiDung::create([ 
+        NguoiDung::create([
             'ho_ten' => $request->ho_ten,
             'email' => $request->email,
             'mat_khau' => $request->password, // bỏ Hash::make
@@ -105,8 +106,76 @@ class LoginController extends Controller
 
         return redirect()->route('login.show');
     }
+    // =============================
+    // QUÊN MẬT KHẨU
+    // =============================
 
+    public function showForgotForm()
+    {
+        return view('auth.forgot');
+    }
 
+    public function sendResetLink(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+
+        $user = NguoiDung::where('email', $request->email)->first();
+
+        if (!$user) {
+            toastr()->error("Email không tồn tại trong hệ thống.");
+            return back();
+        }
+
+        // Tạo token reset
+        $token = Str::random(60);
+
+        // Lưu vào bảng password_resets
+        DB::table('password_resets')->updateOrInsert(
+            ['email' => $request->email],
+            [
+                'token' => $token,
+                'created_at' => now()
+            ]
+        );
+
+        // Gửi email
+        Mail::raw("Nhấn vào link đặt lại mật khẩu: " . route('password.reset', $token), function ($message) use ($request) {
+            $message->to($request->email)->subject("Đặt lại mật khẩu");
+        });
+
+        toastr()->success("Đã gửi link đặt lại mật khẩu tới email của bạn!");
+        return back();
+    }
+
+    public function showResetForm($token)
+    {
+        return view('auth.reset', compact('token'));
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        $reset = DB::table('password_resets')->where('token', $request->token)->first();
+
+        if (!$reset) {
+            toastr()->error("Token không hợp lệ hoặc đã hết hạn!");
+            return back();
+        }
+
+        $user = NguoiDung::where('email', $reset->email)->first();
+
+        $user->update([
+            'mat_khau' => $request->password  // ❗ Bạn đang không dùng Hash
+        ]);
+
+        DB::table('password_resets')->where('email', $reset->email)->delete();
+
+        toastr()->success("Đặt lại mật khẩu thành công! Hãy đăng nhập.");
+        return redirect()->route('login.show');
+    }
 
 
 

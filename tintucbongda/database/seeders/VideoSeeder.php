@@ -7,7 +7,11 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class VideoSeeder extends Seeder
-{   
+
+{
+
+
+
     public function run(): void
     {
         DB::table('videos')->insert([

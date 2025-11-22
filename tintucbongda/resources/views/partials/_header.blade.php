@@ -5,7 +5,7 @@
     <title>Blog Detail With Sidebar</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
+
     <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
 </head>
 
@@ -16,7 +16,7 @@
         <!-- Header desktop -->
         <div class="container-menu-desktop">
             <div class="topbar">
-                <div class="content-topbar container h-100">
+                <div class="container content-topbar h-100">
                     <div class="left-topbar">
                         <span class="left-topbar-item flex-wr-s-c">
                             <span>
@@ -37,14 +37,26 @@
                         <a href="#" class="left-topbar-item">
                             Contact
                         </a>
+                        @if(Auth::check())
+                            <span class="left-topbar-item">
+                                Xin chào, {{ Auth::user()->ho_ten }}
+                            </span>
 
-                        <a href="#" class="left-topbar-item">
-                            Sing up
-                        </a>
+                            <a href="{{ route('logout') }}" class="left-topbar-item"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Đăng xuất
+                            </a>
 
-                        <a href="#" class="left-topbar-item">
-                            Log in
-                        </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+
+                        @else
+                            <a href="{{ route('register.show') }}" class="left-topbar-item">Đăng Nhập</a>
+                            <a href="{{ route('login.show') }}" class="left-topbar-item">Đăng Kí</a>
+                        @endif
+
+                            
                     </div>
 
                     <div class="right-topbar">
@@ -204,7 +216,7 @@
             </div>
 
             <!--  -->
-            <div class="wrap-logo container">
+            <div class="container wrap-logo">
                 <!-- Logo desktop -->
                 <div class="logo">
                     <a href="/home"><img src="images/icons/logo-01.png" alt="LOGO"></a>

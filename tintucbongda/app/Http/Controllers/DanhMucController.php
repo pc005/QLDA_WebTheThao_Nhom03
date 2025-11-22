@@ -55,12 +55,12 @@ class DanhMucController extends Controller
         $request->validate([
             'ten_danh_muc' => 'required|string|max:255',
             'mo_ta' => 'nullable|string',
-            'danh_muc_cha_id' => 'nullable|integer|exists:categories,id',
+            'danh_muc_cha_id' => 'nullable|integer|exists:danh_mucs,id',
             'trang_thai' => 'required|string|in:Hoạt động,K không hoạt động',
         ]);
 
         // Tạo mới danh mục
-        danhmuc ::create($request->all());
+        DanhMuc ::create($request->all());
 
         // Chuyển hướng về trang danh sách hoặc thông báo thành công
         return redirect()->route('danhmucs.index')->with('success', 'Danh mục đã được thêm thành công!');

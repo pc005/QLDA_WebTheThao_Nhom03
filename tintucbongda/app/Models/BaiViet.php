@@ -14,9 +14,11 @@ class BaiViet extends Model
         'hinh_anh',
         'nguoi_dung_id',
         'trang_thai',
-        'ngay_tao',
-        'ngay_cap_nhat',
-    ];
 
-    public $timestamps = true; // dùng created_at và updated_at
+    ];
+    public $timestamps = true;
+
+    protected $dates = ['created_at', 'updated_at', 'ngay_tao', 'ngay_cap_nhat'];
+
+
 }

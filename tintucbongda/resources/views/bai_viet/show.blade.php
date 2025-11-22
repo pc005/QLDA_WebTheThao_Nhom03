@@ -232,7 +232,11 @@
 
 
     </div>
+
     <div class="row justify-content-center">
+        {{-- <div>
+            <h1 style="baivietngaunhien">bài viết ngẫu nhiên</h1>
+        </div> --}}
         @foreach ($articles->random(4) as $article)
             <div class="b col-md-4 mb-4">
                 <div class="card h-100 shadow-sm border-0">
@@ -274,7 +278,7 @@
 
         .b {
             max-width: 300px;
-            max-height: 300px
+            /* max-height: 300px */
         }
 
         .square-img {

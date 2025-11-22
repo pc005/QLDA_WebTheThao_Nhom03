@@ -54,7 +54,7 @@
 
 
             <!-- Nút Like -->
-            <div class="mt-4">
+            {{-- <div class="mt-4">
                 <button id="likeButton" class="like-button">
                     <i id="likeIcon" class="fa-regular fa-heart"></i>
                     <span id="likeText">Like</span>
@@ -80,7 +80,7 @@
                         likeText.textContent = 'Like';
                     }
                 });
-            </script>
+            </script> --}}
 
 
 

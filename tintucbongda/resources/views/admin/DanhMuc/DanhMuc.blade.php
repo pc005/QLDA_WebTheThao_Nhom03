@@ -28,12 +28,18 @@
                         <td>{{ $danhMuc->created_at }}</td>
                         <td>{{ $danhMuc->updated_at }}</td>
                         <td>
-                            <a href="{{ route('danhmucs.edit', $danhMuc) }}" class="btn btn-warning">Sửa</a>
+                            <a href="{{ route('danhmucs.edit', $danhMuc) }}" class="a btn btn-warning">Sửa</a>
                             <form action="{{ route('danhmucs.destroy', $danhMuc) }}" method="POST" style="display:inline;"
                                 onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục này không?');">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Xóa</button>
+                                <button type="submit" class=" a btn btn-danger">Xóa</button>
+                                <style>
+                                    .a {
+                                        margin-top: 5px;
+                                        width: 60px;
+                                    }
+                                </style>
                             </form>
 
                         </td>

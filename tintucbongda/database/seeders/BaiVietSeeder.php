@@ -13,102 +13,84 @@ use Carbon\Carbon;
 class BaiVietSeeder extends Seeder {
     public function run(): void {
         $data = [
-            [
-                'tieu_de' => 'Khám Phá Ẩm Thực Việt Nam',
-                'noi_dung' => 'Ẩm thực Việt Nam là bức tranh phong phú và đầy màu sắc, phản ánh sự hòa quyện tinh tế giữa thiên nhiên, văn hóa và con người trên dải đất hình chữ S. Từ Bắc chí Nam, mỗi vùng miền lại sở hữu những hương vị riêng biệt nhưng vẫn giữ được nét chung là sự thanh nhẹ, hài hòa và tinh tế trong cách nêm nếm. Ở miền Bắc, ẩm thực chú trọng đến vị thanh, không quá cay hay quá ngọt, thể hiện trong những món ăn đã trở thành biểu tượng như phở Hà Nội với nước dùng trong veo, ngọt tự nhiên từ xương hầm, cùng mùi thơm nhẹ của quế hồi; hay bún chả với những miếng thịt nướng vàng ruộm, thơm lừng hòa quyện cùng nước chấm đậm đà. Tiến vào miền Trung, người ta lại cảm nhận sự mạnh mẽ, đậm đà trong từng món ăn – vùng đất nắng gió này sản sinh ra những hương vị cay nồng, mặn mà như bún bò Huế, mì Quảng, bánh bèo, bánh lọc… tất cả đều đậm dấu ấn của sự tỉ mỉ và tinh tế trong từng công đoạn chế biến. Miền Nam – nơi con người hào sảng và phóng khoáng – lại tái hiện điều đó trong ẩm thực qua vị ngọt thanh đặc trưng, nguyên liệu phong phú từ đồng bằng sông Cửu Long và sự sáng tạo không giới hạn. Bát canh chua cá lóc, đĩa cá kho tộ, ly trà đá bình dân hay tô hủ tiếu nóng hổi đều chứa đựng sự giản dị nhưng đầy ắp tình người. Điểm cuốn hút của ẩm thực Việt Nam còn nằm ở các món ăn đường phố – một “thiên đường” hương vị mà chỉ cần bước ra bất kỳ góc phố nào cũng có thể bắt gặp: bánh mì giòn rụm với pate béo ngậy, cà phê sữa đá thơm nồng khó cưỡng, hay những xiên thịt nướng phảng phất mùi khói rực lửa. Người Việt còn rất tinh tế trong việc kết hợp rau thơm và nước chấm – yếu tố tạo nên linh hồn cho món ăn. Nước mắm, chanh, tỏi, ớt, đường… chỉ là những thành phần đơn giản, nhưng khi hòa quyện đúng tỷ lệ lại tạo nên dư vị khó quên, khiến ẩm thực Việt Nam trở thành một trong những nền ẩm thực được yêu thích nhất trên thế giới. Qua bao thăng trầm lịch sử, ẩm thực Việt Nam không chỉ đơn thuần là nhu cầu ăn uống mà còn là sự gìn giữ bản sắc, là câu chuyện về vùng đất, con người và truyền thống lâu đời, khiến những ai đã từng thưởng thức đều mang trong lòng một sự lưu luyến khó tả.',
-                'anh_dai_dien' => 'https://imgs.search.brave.com/9kAvQpGWYtKMpMH_rzXFGheQG82PoHg9hyRTzavN6cs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hbmhu/Z2hldGh1YXR2aWV0/bmFtMjAyMi5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjUv/MDMvYW5oLWdhaS14/aW5oLWhvLWhhbmct/MTIud2VicA'
-            ],
-            [
-                'tieu_de' => 'Lợi Ích Của Việc Tập Thể Dục',
-                'noi_dung' => 'Tập thể dục không chỉ giúp cơ thể khỏe mạnh mà còn cải thiện tâm trạng và tăng cường sức đề kháng. Hãy dành ít nhất 30 phút mỗi ngày cho việc này để tạo thói quen tốt cho sức khỏe.',
-                'anh_dai_dien' => 'https://imgs.search.brave.com/9kAvQpGWYtKMpMH_rzXFGheQG82PoHg9hyRTzavN6cs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hbmhu/Z2hldGh1YXR2aWV0/bmFtMjAyMi5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjUv/MDMvYW5oLWdhaS14/aW5oLWhvLWhhbmct/MTIud2VicA'
-            ],
-            [
-                'tieu_de' => 'Xu Hướng Thời Trang Năm 2023',
-                'noi_dung' => 'Năm 2023 chứng kiến sự trở lại của nhiều xu hướng thời trang độc đáo, bao gồm các phong cách retro và vintage. Đặc biệt, màu sắc tươi sáng và họa tiết nổi bật đang được yêu thích.',
-                'anh_dai_dien' => 'https://imgs.search.brave.com/9kAvQpGWYtKMpMH_rzXFGheQG82PoHg9hyRTzavN6cs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hbmhu/Z2hldGh1YXR2aWV0/bmFtMjAyMi5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjUv/MDMvYW5oLWdhaS14/aW5oLWhvLWhhbmct/MTIud2VicA'
-            ],
-            [
-                'tieu_de' => 'Cách Chăm Sóc Da Mùa Đông',
-                'noi_dung' => 'Mùa đông là thời điểm da thường khô và mất nước. Để chăm sóc da hiệu quả, hãy duy trì độ ẩm bằng kem dưỡng và uống đủ nước hàng ngày.',
-                'anh_dai_dien' => 'https://imgs.search.brave.com/9kAvQpGWYtKMpMH_rzXFGheQG82PoHg9hyRTzavN6cs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hbmhu/Z2hldGh1YXR2aWV0/bmFtMjAyMi5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjUv/MDMvYW5oLWdhaS14/aW5oLWhvLWhhbmct/MTIud2VicA'
-            ],
-            [
-                'tieu_de' => 'Du Lịch Đà Nẵng: Điểm Đến Không Thể Bỏ Qua',
-                'noi_dung' => 'Đà Nẵng, với những bãi biển tuyệt đẹp và nhiều địa danh nổi tiếng, luôn là điểm đến hấp dẫn. Hãy khám phá Ngũ Hành Sơn, bãi biển Mỹ Khê và thưởng thức hải sản tươi ngon nơi đây.',
-                'anh_dai_dien' => 'https://imgs.search.brave.com/9kAvQpGWYtKMpMH_rzXFGheQG82PoHg9hyRTzavN6cs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hbmhu/Z2hldGh1YXR2aWV0/bmFtMjAyMi5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjUv/MDMvYW5oLWdhaS14/aW5oLWhvLWhhbmct/MTIud2VicA'
-            ],
-            [
-                'tieu_de' => 'Sự Phát Triển Của Công Nghệ Thông Tin',
-                'noi_dung' => 'Công nghệ thông tin đang ngày càng phát triển và ảnh hưởng sâu rộng đến mọi lĩnh vực. Từ giáo dục, y tế đến thương mại điện tử, sự tích hợp công nghệ đã đem lại nhiều lợi ích cho cuộc sống.',
-                'anh_dai_dien' => 'https://imgs.search.brave.com/9kAvQpGWYtKMpMH_rzXFGheQG82PoHg9hyRTzavN6cs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hbmhu/Z2hldGh1YXR2aWV0/bmFtMjAyMi5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjUv/MDMvYW5oLWdhaS14/aW5oLWhvLWhhbmct/MTIud2VicA'
-            ],
-            [
-                'tieu_de' => 'Những Cuốn Sách Hay Nên Đọc',
-                'noi_dung' => 'Nếu bạn đang tìm kiếm nguồn cảm hứng, hãy thử đọc những cuốn sách như "Đắc Nhân Tâm" của Dale Carnegie, "Sapiens" của Yuval Noah Harari hay "Ngày Xưa Có Một Con Bò" của Lê Hà.',
-                'anh_dai_dien' => 'https://imgs.search.brave.com/9kAvQpGWYtKMpMH_rzXFGheQG82PoHg9hyRTzavN6cs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hbmhu/Z2hldGh1YXR2aWV0/bmFtMjAyMi5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjUv/MDMvYW5oLWdhaS14/aW5oLWhvLWhhbmct/MTIud2VicA'
-            ],
-            [
-                'tieu_de' => 'Bí Quyết Tạo Mối Quan Hệ Tốt',
-                'noi_dung' => 'Mối quan hệ cá nhân rất quan trọng trong cuộc sống. Hãy lắng nghe, thấu hiểu và chia sẻ để xây dựng những mối quan hệ tốt đẹp hơn với mọi người xung quanh.',
-                'anh_dai_dien' => 'https://imgs.search.brave.com/9kAvQpGWYtKMpMH_rzXFGheQG82PoHg9hyRTzavN6cs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hbmhu/Z2hldGh1YXR2aWV0/bmFtMjAyMi5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjUv/MDMvYW5oLWdhaS14/aW5oLWhvLWhhbmct/MTIud2VicA'
-            ],
-            [
-                'tieu_de' => 'Tìm Hiểu Về Thị Trường Chứng Khoán',
-                'noi_dung' => 'Thị trường chứng khoán mang lại cơ hội đầu tư hấp dẫn, nhưng cũng chứa đựng nhiều rủi ro. Hãy trang bị kiến thức và nghiên cứu kỹ lưỡng trước khi quyết định đầu tư.',
-                'anh_dai_dien' => 'https://imgs.search.brave.com/9kAvQpGWYtKMpMH_rzXFGheQG82PoHg9hyRTzavN6cs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hbmhu/Z2hldGh1YXR2aWV0/bmFtMjAyMi5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjUv/MDMvYW5oLWdhaS14/aW5oLWhvLWhhbmct/MTIud2VicA'
-            ],
-            [
-                'tieu_de' => 'Phát Triển Bản Thân Qua Sách',
-                'noi_dung' => 'Sách không chỉ là nguồn kiến thức mà còn giúp phát triển tư duy và nhận thức. Hãy dành thời gian đọc sách mỗi ngày để mở mang tri thức.',
-                'anh_dai_dien' => 'https://imgs.search.brave.com/9kAvQpGWYtKMpMH_rzXFGheQG82PoHg9hyRTzavN6cs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hbmhu/Z2hldGh1YXR2aWV0/bmFtMjAyMi5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjUv/MDMvYW5oLWdhaS14/aW5oLWhvLWhhbmct/MTIud2VicA'
-            ],
-            [
-                'tieu_de' => 'Giới Thiệu Về Yoga',
-                'noi_dung' => 'Yoga không chỉ là một bộ môn thể dục mà còn là phương pháp giảm stress, cải thiện tinh thần và thể chất. Hãy thử tham gia các lớp yoga để trải nghiệm.',
-                'anh_dai_dien' => 'https://imgs.search.brave.com/9kAvQpGWYtKMpMH_rzXFGheQG82PoHg9hyRTzavN6cs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hbmhu/Z2hldGh1YXR2aWV0/bmFtMjAyMi5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjUv/MDMvYW5oLWdhaS14/aW5oLWhvLWhhbmct/MTIud2VicA'
-            ],
-            [
-                'tieu_de' => 'Những Lợi Ích Của Việc Ngồi Thiền',
-                'noi_dung' => 'Ngồi thiền giúp giảm căng thẳng, tăng cường sự tập trung và cải thiện sức khỏe tâm lý. Hãy dành 10-15 phút mỗi ngày để thiền định và cảm nhận sự khác biệt.',
-                'anh_dai_dien' => 'https://imgs.search.brave.com/9kAvQpGWYtKMpMH_rzXFGheQG82PoHg9hyRTzavN6cs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hbmhu/Z2hldGh1YXR2aWV0/bmFtMjAyMi5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjUv/MDMvYW5oLWdhaS14/aW5oLWhvLWhhbmct/MTIud2VicA'
-            ],
-            [
-                'tieu_de' => 'Cách Lên Kế Hoạch Du Lịch Thông Minh',
-                'noi_dung' => 'Lên kế hoạch cho chuyến du lịch không chỉ giúp tiết kiệm thời gian mà còn làm tăng trải nghiệm. Hãy khảo sát địa điểm, hoạt động và chi phí trước khi khởi hành.',
-                'anh_dai_dien' => 'https://imgs.search.brave.com/9kAvQpGWYtKMpMH_rzXFGheQG82PoHg9hyRTzavN6cs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hbmhu/Z2hldGh1YXR2aWV0/bmFtMjAyMi5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjUv/MDMvYW5oLWdhaS14/aW5oLWhvLWhhbmct/MTIud2VicA'
-            ],
-            [
-                'tieu_de' => 'Khám Phá Nền Ẩm Thực Châu Á',
-                'noi_dung' => 'Ẩm thực châu Á đa dạng và phong phú với nhiều hương vị độc đáo. Từ sushi Nhật Bản, phở Việt Nam đến dim sum Trung Quốc, mỗi món ăn đều có câu chuyện riêng.',
-                'anh_dai_dien' => 'https://imgs.search.brave.com/9kAvQpGWYtKMpMH_rzXFGheQG82PoHg9hyRTzavN6cs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hbmhu/Z2hldGh1YXR2aWV0/bmFtMjAyMi5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjUv/MDMvYW5oLWdhaS14/aW5oLWhvLWhhbmct/MTIud2VicA'
-            ],
-            [
-                'tieu_de' => 'Lợi Ích Của Việc Học Ngoại Ngữ',
-                'noi_dung' => 'Học ngoại ngữ mở ra cánh cửa đến với thế giới. Bạn sẽ có cơ hội giao tiếp, kết nối với nhiều người và khám phá văn hóa mới.',
-                'anh_dai_dien' => 'https://imgs.search.brave.com/9kAvQpGWYtKMpMH_rzXFGheQG82PoHg9hyRTzavN6cs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hbmhu/Z2hldGh1YXR2aWV0/bmFtMjAyMi5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjUv/MDMvYW5oLWdhaS14/aW5oLWhvLWhhbmct/MTIud2VicA'
-            ],
-            [
-                'tieu_de' => 'Sự Kiện Thể Thao Nổi Bật Năm 2023',
-                'noi_dung' => 'Năm 2023 chứng kiến nhiều sự kiện thể thao lớn như World Cup, Olympic… Đây là cơ hội để các vận động viên thể hiện tài năng và cống hiến cho môn thể thao của họ.',
-                'anh_dai_dien' => 'https://imgs.search.brave.com/9kAvQpGWYtKMpMH_rzXFGheQG82PoHg9hyRTzavN6cs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hbmhu/Z2hldGh1YXR2aWV0/bmFtMjAyMi5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjUv/MDMvYW5oLWdhaS14/aW5oLWhvLWhhbmct/MTIud2VicA'
-            ],
-            [
-                'tieu_de' => 'Hướng Dẫn Xây Dựng Thói Quen Tốt',
-                'noi_dung' => 'Xây dựng thói quen tốt giúp bạn nâng cao năng suất và cải thiện chất lượng cuộc sống. Hãy bắt đầu từ những thói quen nhỏ và nhân rộng chúng theo thời gian.',
-                'anh_dai_dien' => 'https://imgs.search.brave.com/9kAvQpGWYtKMpMH_rzXFGheQG82PoHg9hyRTzavN6cs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hbmhu/Z2hldGh1YXR2aWV0/bmFtMjAyMi5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjUv/MDMvYW5oLWdhaS14/aW5oLWhvLWhhbmct/MTIud2VicA'
-            ],
-            [
-                'tieu_de' => 'Cách Tăng Cường Sức Khỏe Tâm Thần',
-                'noi_dung' => 'Sức khỏe tâm thần cũng quan trọng như sức khỏe thể chất. Hãy tìm cách giữ gìn tâm trạng ổn định qua việc giao tiếp, tập thể dục và thư giãn.',
-                'anh_dai_dien' => 'https://imgs.search.brave.com/9kAvQpGWYtKMpMH_rzXFGheQG82PoHg9hyRTzavN6cs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hbmhu/Z2hldGh1YXR2aWV0/bmFtMjAyMi5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjUv/MDMvYW5oLWdhaS14/aW5oLWhvLWhhbmct/MTIud2VicA'
-            ],
-            [
-                'tieu_de' => 'Những Địa Điểm Du Lịch Nổi Bật Ở Châu Âu',
-                'noi_dung' => 'Châu Âu là nơi có nhiều điểm đến hấp dẫn như Paris, Rome, London... Hãy lên kế hoạch khám phá lịch sử, văn hóa và ẩm thực nơi đây.',
-                'anh_dai_dien' => 'https://imgs.search.brave.com/9kAvQpGWYtKMpMH_rzXFGheQG82PoHg9hyRTzavN6cs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hbmhu/Z2hldGh1YXR2aWV0/bmFtMjAyMi5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjUv/MDMvYW5oLWdhaS14/aW5oLWhvLWhhbmct/MTIud2VicA'
-            ],
-        ];
+    [
+        'tieu_de' => 'Top 5 Ngôi Sao Bóng Đá Đang Thống Trị Thế Giới',
+        'noi_dung' => 'Bóng đá thế giới đang chứng kiến sự vươn lên mạnh mẽ của nhiều ngôi sao trẻ đầy triển vọng.
+        Những cái tên như Kylian Mbappé, Erling Haaland hay Vinícius Jr. đang liên tục lập công và phá vỡ các kỷ lục
+        tại châu Âu. Tốc độ, sức mạnh và khả năng dứt điểm chính xác đã biến họ trở thành nỗi ám ảnh của mọi hàng thủ.
+        Thế hệ cầu thủ trẻ hiện nay không chỉ tài năng mà còn có ý thức chuyên nghiệp cao, hứa hẹn đem lại những màn
+        trình diễn mãn nhãn cho người hâm mộ bóng đá toàn cầu trong nhiều năm tới.',
+        'anh_dai_dien' => 'https://i.pinimg.com/736x/ab/23/e1/ab23e13afcf13a67dfc41943a7507c23.jpg',
+    ],
+    [
+        'tieu_de' => 'Những Chiến Thuật Đang Làm Thay Đổi Bóng Đá Hiện Đại',
+        'noi_dung' => 'Bóng đá hiện đại không chỉ dựa vào kỹ thuật cá nhân mà còn phụ thuộc rất lớn vào hệ thống chiến thuật.
+        Những sơ đồ như 4-3-3, 3-4-3 hay 4-2-3-1 đang được nhiều HLV hàng đầu áp dụng để tối ưu hóa khả năng kiểm soát bóng.
+        Bên cạnh đó, chiến thuật pressing tầm cao và phản công nhanh đang trở thành xu hướng mạnh mẽ. Khi bóng đá phát triển,
+        người ta thấy rõ vai trò quan trọng của nhà cầm quân trong việc kiểm soát trận đấu và khai thác điểm yếu của đối phương.',
+        'anh_dai_dien' => 'https://i.pinimg.com/736x/ab/23/e1/ab23e13afcf13a67dfc41943a7507c23.jpg',
+    ],
+    [
+        'tieu_de' => 'Việt Nam và Hành Trình Vươn Tầm Châu Lục',
+        'noi_dung' => 'Đội tuyển Việt Nam đang có nhiều bước tiến quan trọng trên bản đồ bóng đá châu Á.
+        Những thành tích nổi bật như vào tứ kết Asian Cup hay thi đấu ấn tượng tại vòng loại World Cup đã tạo nên động lực lớn
+        cho bóng đá nước nhà. Các cầu thủ trẻ từ lò đào tạo HAGL, Hà Nội FC hay Viettel đang trưởng thành nhanh chóng và có cơ hội
+        cọ xát ở đấu trường quốc tế. Với sự đầu tư bài bản, Việt Nam hoàn toàn có thể hướng đến mục tiêu tham dự World Cup trong tương lai gần.',
+        'anh_dai_dien' => 'https://i.pinimg.com/736x/ab/23/e1/ab23e13afcf13a67dfc41943a7507c23.jpg',
+    ],
+    [
+        'tieu_de' => 'Cách Các CLB Lớn Kiếm Tiền Từ Bóng Đá',
+        'noi_dung' => 'Các câu lạc bộ bóng đá lớn trên thế giới có nguồn thu khổng lồ từ nhiều lĩnh vực như bán vé, bản quyền truyền hình,
+        tài trợ và bán áo đấu. Real Madrid, Barcelona hay Manchester United mỗi năm thu hàng tỷ đô nhờ vào thương hiệu toàn cầu.
+        Ngoài ra, việc xây dựng học viện trẻ và bán cầu thủ cũng là nguồn thu quan trọng. Điều này cho thấy bóng đá hiện đại đã trở thành
+        một ngành công nghiệp thực sự, nơi mỗi quyết định kinh doanh đều có thể ảnh hưởng lớn đến thành công của đội bóng.',
+        'anh_dai_dien' => 'https://i.pinimg.com/736x/ab/23/e1/ab23e13afcf13a67dfc41943a7507c23.jpg',
+    ],
+    [
+        'tieu_de' => 'Hậu Trường Một Trận Đấu Bóng Đá Chuyên Nghiệp',
+        'noi_dung' => 'Ít ai biết rằng để tổ chức một trận đấu bóng đá chuyên nghiệp, hàng trăm nhân sự phải làm việc liên tục.
+        Từ đội ngũ an ninh, tổ trọng tài, nhân viên kỹ thuật cho đến ban huấn luyện, tất cả đều phối hợp nhịp nhàng để đảm bảo trận đấu diễn ra suôn sẻ.
+        Các cầu thủ cũng phải tuân thủ chế độ ăn uống nghiêm ngặt, phục hồi thể lực và họp chiến thuật trước giờ bóng lăn.
+        Đằng sau 90 phút trên sân là cả một hệ thống vận hành chuyên nghiệp.',
+        'anh_dai_dien' => 'https://i.pinimg.com/736x/ab/23/e1/ab23e13afcf13a67dfc41943a7507c23.jpg',
+    ],
+    [
+        'tieu_de' => 'VAR – Công Nghệ Gây Tranh Cãi Nhưng Cần Thiết',
+        'noi_dung' => 'Công nghệ VAR đã thay đổi bóng đá theo hướng minh bạch hơn, giúp trọng tài có thêm cơ sở để ra quyết định chính xác.
+        Tuy nhiên, VAR cũng gây ra nhiều tranh cãi khi khiến trận đấu bị gián đoạn hoặc các quyết định vẫn gây nhiều tranh luận.
+        Dù vậy, nhiều chuyên gia cho rằng VAR vẫn cần thiết để đảm bảo sự công bằng, và tương lai công nghệ này sẽ tiếp tục được cải tiến.',
+        'anh_dai_dien' => 'https://i.pinimg.com/736x/ab/23/e1/ab23e13afcf13a67dfc41943a7507c23.jpg',
+    ],
+    [
+        'tieu_de' => 'Những Trận Derby Nóng Bỏng Nhất Thế Giới',
+        'noi_dung' => 'Derby luôn là những trận đấu không chỉ mang ý nghĩa chuyên môn mà còn chứa đựng sự thù địch lịch sử giữa hai đội bóng.
+        Những trận siêu kinh điển như El Clásico (Real Madrid vs Barcelona), Derby Manchester, hay Derby Milan đều thu hút hàng triệu người xem.
+        Bầu không khí cuồng nhiệt, sự căng thẳng và những pha bóng máu lửa luôn khiến người hâm mộ không thể rời mắt.',
+        'anh_dai_dien' => 'https://i.pinimg.com/736x/ab/23/e1/ab23e13afcf13a67dfc41943a7507c23.jpg',
+    ],
+    [
+        'tieu_de' => 'Tương Lai Của Bóng Đá Khi Trí Tuệ Nhân Tạo Lên Ngôi',
+        'noi_dung' => 'AI đang được áp dụng để phân tích chiến thuật, dự đoán phong độ cầu thủ và tối ưu hóa công tác huấn luyện.
+        Các CLB hàng đầu thế giới đã sử dụng dữ liệu lớn để đánh giá hiệu suất thi đấu và lên kế hoạch chuyển nhượng.
+        Trong tương lai, AI có thể giúp dự đoán chấn thương, nâng cao thể lực và thậm chí xây dựng mô phỏng chiến thuật trước trận đấu.',
+        'anh_dai_dien' => 'https://i.pinimg.com/736x/ab/23/e1/ab23e13afcf13a67dfc41943a7507c23.jpg',
+    ],
+    [
+        'tieu_de' => 'Những Bàn Thắng Đẹp Nhất Mọi Thời Đại',
+        'noi_dung' => 'Từ cú solo của Maradona năm 1986, pha xe đạp chổng ngược của Cristiano Ronaldo cho đến cú vô-lê đẳng cấp của Zidane,
+        bóng đá luôn mang đến những khoảnh khắc đẹp đến nghẹt thở. Những bàn thắng kinh điển không chỉ thể hiện kỹ thuật thượng thừa mà còn mang lại cảm xúc mãnh liệt cho người hâm mộ trên toàn thế giới.',
+        'anh_dai_dien' => 'https://i.pinimg.com/736x/ab/23/e1/ab23e13afcf13a67dfc41943a7507c23.jpg',
+    ],
+    [
+        'tieu_de' => 'Những Huyền Thoại Không Thể Bị Lãng Quên',
+        'noi_dung' => 'Pele, Maradona, Zidane, Ronaldo Nazário… là những cái tên đã đi vào huyền thoại.
+        Tài năng của họ không chỉ tạo nên dấu ấn trong lịch sử bóng đá mà còn truyền cảm hứng cho nhiều thế hệ.
+        Dù đã giải nghệ, những di sản họ để lại vẫn sống mãi trong lòng người hâm mộ.',
+        'anh_dai_dien' => 'https://i.pinimg.com/736x/ab/23/e1/ab23e13afcf13a67dfc41943a7507c23.jpg',
+    ],
+];
+
+
 
         foreach ($data as $item) {
             DB::table('bai_viets')->insert([

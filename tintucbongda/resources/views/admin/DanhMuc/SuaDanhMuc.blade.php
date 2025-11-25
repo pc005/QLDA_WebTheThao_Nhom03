@@ -35,6 +35,13 @@
                     @endforeach
                 </select>
             </div>
+            <div class="form-group mb-3">
+                <label for="trang_thai">Trạng thái</label>
+                <select class="form-control" id="trang_thai" name="trang_thai" required>
+                    <option value="Hoạt động">Hoạt động</option>
+                    <option value="Không hoạt động">Không hoạt động</option>
+                </select>
+            </div>
 
             <div class="form-group mb-3">
                 <label for="mo_ta">Mô tả</label>

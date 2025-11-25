@@ -2,6 +2,14 @@
 @extends('layouts.app') <!-- Kế thừa layout chính của bạn -->
 
 @section('content')
+    {{-- <head>
+        <meta property="og:title" content="{{ $baiViet->tieu_de }}" />
+        <meta property="og:description" content="{{ Str::limit($baiViet->noi_dung, 150) }}" />
+        <meta property="og:image" content="{{ asset($baiViet->hinh_anh) }}" />
+        <meta property="og:url" content="{{ url()->current() }}" />
+        <meta property="og:type" content="article" />
+
+    </head> --}}
     <!--===============================================================================================-->
     <link rel="icon" type="image/png" href="{{ asset('images/icons/favicon.png') }}" />
 
@@ -52,6 +60,8 @@
                     $url = url()->current(); // Lấy URL hiện tại
                 @endphp
 
+
+
                 <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($url) }}"
                     class="dis-block f1-s-13 cl0 bg-facebook borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03"
                     target="_blank" rel="noopener noreferrer">
@@ -59,23 +69,128 @@
                     Facebook
                 </a>
 
-                <a href="#"
-                    class="dis-block f1-s-13 cl0 bg-twitter borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03">
-                    <i class="fab fa-twitter m-r-7"></i>
-                    Twitter
+                @php
+                    $url = url()->current(); // Lấy URL hiện tại
+                @endphp
+
+                <a href="https://zalo.me/share?url={{ urlencode($url) }}"
+                    class="zalo dis-block f1-s-13 cl0 bg-zalo borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03"
+                    target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-share-alt m-r-7"></i>
+                    Zalo
                 </a>
 
-                <a href="#"
-                    class="dis-block f1-s-13 cl0 bg-google borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03">
-                    <i class="fab fa-google-plus-g m-r-7"></i>
-                    Google+
-                </a>
 
-                <a href="#"
-                    class="dis-block f1-s-13 cl0 bg-pinterest borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03">
-                    <i class="fab fa-pinterest-p m-r-7"></i>
-                    Pinterest
-                </a>
+
+                <!-- Nút Like -->
+                <!-- Nút Like -->
+                {{-- <button id="likeButton" data-id="{{ $baiViet->id }}" class="like-button {{ $daLike ? 'liked' : '' }}">
+                    @if ($daLike)
+                        <i id="likeIcon" class="fa-solid fa-heart" style="color:#e0245e"></i>
+                        <span id="likeText">Đã like</span>
+                    @else
+                        <i id="likeIcon" class="fa-regular fa-heart"></i>
+                        <span id="likeText">Like</span>
+                    @endif
+                </button>
+
+
+
+                <script>
+                    document.getElementById('likeButton').addEventListener('click', function() {
+                        let baiVietId = this.getAttribute('data-id');
+
+                        fetch(`/like/${baiVietId}`, {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({})
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                const icon = document.getElementById('likeIcon');
+                                const text = document.getElementById('likeText');
+
+                                if (data.status === 'liked') {
+                                    this.classList.add('liked');
+                                    icon.classList.remove('fa-regular');
+                                    icon.classList.add('fa-solid');
+                                    icon.style.color = '#e0245e';
+                                    text.textContent = 'Đã like';
+                                } else {
+                                    this.classList.remove('liked');
+                                    icon.classList.remove('fa-solid');
+                                    icon.classList.add('fa-regular');
+                                    icon.style.color = '';
+                                    text.textContent = 'Like';
+                                }
+                            });
+                    });
+                </script> --}}
+
+
+                <!-- CSS -->
+                <style>
+                    .zalo {
+                        background-color: #0068ff;
+                    }
+
+                    .like-button {
+                        cursor: pointer;
+                        display: inline-flex;
+                        align-items: center;
+                        padding: 10px 16px;
+                        border: none;
+                        border-radius: 25px;
+                        background-color: #f5f5f5;
+                        font-size: 16px;
+                        font-weight: 500;
+                        color: #333;
+                        transition: all 0.3s ease;
+                    }
+
+                    .like-button:hover {
+                        background-color: #eaeaea;
+                    }
+
+                    .like-button i {
+                        font-size: 20px;
+                        margin-right: 8px;
+                        transition: color 0.3s ease;
+                    }
+
+                    .like-button.liked {
+                        background-color: #ffe6eb;
+                        color: #e0245e;
+                    }
+
+                    .like-button.liked i {
+                        color: #e0245e;
+                    }
+                </style>
+
+                {{-- <!-- JS -->
+                <script>
+                    const likeButton = document.getElementById('likeButton');
+                    const likeIcon = document.getElementById('likeIcon');
+                    const likeText = document.getElementById('likeText');
+
+                    likeButton.addEventListener('click', function() {
+                        this.classList.toggle('liked');
+                        if (this.classList.contains('liked')) {
+                            likeIcon.classList.remove('fa-regular');
+                            likeIcon.classList.add('fa-solid');
+                            likeText.textContent = 'Đã like';
+                        } else {
+                            likeIcon.classList.remove('fa-solid');
+                            likeIcon.classList.add('fa-regular');
+                            likeText.textContent = 'Like';
+                        }
+                    });
+                </script> --}}
+
 
             </div>
             <!-- Leave a comment -->
@@ -114,70 +229,14 @@
     </div>
 
 
-    <style>
-        .like-button {
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f0f0f0;
-            transition: background-color 0.3s;
-        }
 
-        .like-button:hover {
-            background-color: #0c0404;
-        }
 
-        .hidden {
-            display: none;
-        }
-
-        #likeIcon {
-            font-size: 24px;
-            /* Kích thước biểu tượng */
-            margin-right: 8px;
-        }
-
-        .ratio.ratio-21x9 {
-            height: 600px;
-            /* tăng chiều cao khung baiviet */
-        }
-
-        .ratio.ratio-21x9 iframe {
-            width: 100%;
-            height: 100%;
-        }
-
-        .container.mt-5 {
-            max-width: 1200px;
-            /* tăng chiều rộng tối đa */
-        }
-
-        h1 {
-            font-size: 3rem;
-            /* tăng kích thước chữ */
-            font-weight: bold;
-            /* chữ đậm */
-            text-align: center;
-            /* căn giữa */
-            margin-bottom: 20px;
-            /* khoảng cách dưới */
-            color: #2c3e50;
-            /* màu chữ đẹp hơn */
-        }
-
-        .ratio iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-    </style>
     </div>
+
     <div class="row justify-content-center">
+        {{-- <div>
+            <h1 style="baivietngaunhien">bài viết ngẫu nhiên</h1>
+        </div> --}}
         @foreach ($articles->random(4) as $article)
             <div class="b col-md-4 mb-4">
                 <div class="card h-100 shadow-sm border-0">
@@ -219,7 +278,7 @@
 
         .b {
             max-width: 300px;
-            max-height: 300px
+            /* max-height: 300px */
         }
 
         .square-img {

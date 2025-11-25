@@ -71,9 +71,9 @@
                     <!-- Card wrapper -->
                     <div class="card h-100 shadow-sm">
                         <!-- Ảnh đại diện -->
-                        <div class="card-img-top bg-img1 size-a-11 how1 pos-relative"
+                        <div class="img card-img-top bg-img1 size-a-11 how1 pos-relative"
                             style="background-image: url('{{ asset($article['anh_dai_dien']) }}');">
-                            <a href="{{ route('bai-viet.show', $article->id) }}" class="dis-block how1-child1 trans-03"></a>
+                            <a href="{{ route('bai-viet.show', $article->id) }}" class=" dis-block how1-child1 trans-03"></a>
                         </div>
 
                         <!-- Nội dung card -->
@@ -98,6 +98,8 @@
             @endforeach
         </div>
         <style>
+            .img {}
+
             .c10 {
                 color: #050708;
             }

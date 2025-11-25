@@ -27,6 +27,9 @@ Route::post('/categories', [DanhMucController::class, 'store'])->name('categorie
 Route::resource('videos', VideoController::class);
 Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show');
 Route::get('/video/{id}/like', [VideoController::class, 'like'])->name('video.like');
+use App\Http\Controllers\LuotThichController;
+
+Route::post('/like/{baiViet}', [LuotThichController::class, 'store'])->name('like.store');
 
 
 Route::get('/bai-viet/{id}', [BaiVietController::class, 'show'])->name('bai-viet.show');

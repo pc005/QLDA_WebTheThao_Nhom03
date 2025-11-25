@@ -1,4 +1,4 @@
-@extends('layouts.app') {{-- hoặc layouts.app nếu bạn dùng layout khác --}}
+@extends('admin.layouts.admin')
 
 @section('content')
     <div class="container">

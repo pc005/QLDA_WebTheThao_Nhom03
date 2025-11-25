@@ -6,7 +6,7 @@
                 <div class="col-lg-4 p-b-20">
                     <div class="size-h-3 flex-s-c">
                         <a href="index.html">
-                            <img class="max-s-full" src="images/icons/logo-02.png" alt="LOGO">
+                            <img class="max-s-full" src="{{ asset('images/icons/logo-02.png') }}" alt="LOGO">
                         </a>
                     </div>
 
@@ -55,7 +55,7 @@
                     <ul>
                         <li class="flex-wr-sb-s p-b-20">
                             <a href="#" class="size-w-4 wrap-pic-w hov1 trans-03">
-                                <img src="images/popular-post-01.jpg" alt="IMG">
+                                <img src="{{ asset('images/popular-post-01.jpg') }}" alt="IMG">
                             </a>
 
                             <div class="size-w-5">
@@ -73,7 +73,7 @@
 
                         <li class="flex-wr-sb-s p-b-20">
                             <a href="#" class="size-w-4 wrap-pic-w hov1 trans-03">
-                                <img src="images/popular-post-02.jpg" alt="IMG">
+                                <img src="{{ asset('images/popular-post-02.jpg') }}" alt="IMG">
                             </a>
 
                             <div class="size-w-5">
@@ -91,7 +91,7 @@
 
                         <li class="flex-wr-sb-s p-b-20">
                             <a href="#" class="size-w-4 wrap-pic-w hov1 trans-03">
-                                <img src="images/popular-post-03.jpg" alt="IMG">
+                                <img src="{{ asset('images/popular-post-03.jpg') }}" alt="IMG">
                             </a>
 
                             <div class="size-w-5">

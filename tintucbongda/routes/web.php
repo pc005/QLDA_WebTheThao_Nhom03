@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\DanhMucController;
 use App\Http\Controllers\BaiVietController;
+use App\Http\Controllers\Admin\AdminController;
 
 
 
@@ -40,18 +41,28 @@ Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/register', [LoginController::class, 'showFormRegister'])->name('register.show');
 Route::post('/register', [LoginController::class, 'register'])->name('register.post');
-// Hiển thị form quên mật khẩu
-
 Route::get('/forgot-password', [LoginController::class, 'showForgotForm'])->name('password.forgot');
-
-// Gửi email đặt lại mật khẩu
 Route::post('/forgot-password', [LoginController::class, 'sendResetLink'])->name('password.email');
-
-// Form đặt lại mật khẩu
 Route::get('/reset-password/{token}', [LoginController::class, 'showResetForm'])->name('password.reset');
-
-// Xử lý đặt lại mật khẩu
 Route::post('/reset-password', [LoginController::class, 'resetPassword'])->name('password.update');
+
+//AdminController
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware(['auth', 'checkadmin'])
+    ->group(function () {
+
+        Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+
+        Route::get('/posts', [AdminController::class, 'posts'])->name('posts.index');
+        Route::get('/videos', [AdminController::class, 'videos'])->name('videos.index');
+        Route::get('/users', [AdminController::class, 'users'])->name('users.index');
+        Route::get('/categories', [AdminController::class, 'categories'])->name('categories.index');
+        Route::get('/ads', [AdminController::class, 'ads'])->name('ads.index');
+        Route::get('/settings', [AdminController::class, 'settings'])->name('settings.index');
+
+});
+
 
 
 

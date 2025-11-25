@@ -52,11 +52,11 @@
                             </form>
 
                         @else
-                            <a href="{{ route('register.show') }}" class="left-topbar-item">Đăng Nhập</a>
-                            <a href="{{ route('login.show') }}" class="left-topbar-item">Đăng Kí</a>
+                            <a href="{{ route('login.show') }}" class="left-topbar-item">Đăng Nhập</a>
+                            <a href="{{ route('register.show') }}" class="left-topbar-item">Đăng Kí</a>
                         @endif
 
-                            
+
                     </div>
 
                     <div class="right-topbar">

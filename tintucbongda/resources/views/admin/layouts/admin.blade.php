@@ -233,21 +233,24 @@
             <!-- Avatar + Dropdown -->
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://i.pravatar.cc/40" alt="Avatar" class="rounded-circle me-2" width="40" height="40">
-                    <span class="d-none d-sm-inline">Nguyễn Minh Tân</span>
+                    @php $user = Auth::user(); @endphp
+                    @if($user && $user->anh_dai_dien)
+                        <img src="{{ asset($user->anh_dai_dien) }}" alt="Avatar" class="rounded-circle me-2" width="40" height="40">
+                    @else
+                        <img src="https://i.pravatar.cc/40?u={{ optional($user)->id ?? '' }}" alt="Avatar" class="rounded-circle me-2" width="40" height="40">
+                    @endif
+                    <span class="d-none d-sm-inline">{{ $user->ho_ten ?? ($user->email ?? 'Tài khoản') }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                     <li><a class="dropdown-item" href="#">Hồ sơ</a></li>
                     <li><a class="dropdown-item" href="#">Cài đặt</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    {{-- <li><a class="dropdown-item text-danger" href="#">Đăng xuất</a></li> --}}
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="dropdown-item text-danger">Đăng xuất</button>
                         </form>
                     </li>
-
                 </ul>
             </div>
         </div>

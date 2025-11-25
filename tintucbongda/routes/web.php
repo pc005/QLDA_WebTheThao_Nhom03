@@ -7,6 +7,7 @@ use App\Http\Controllers\VideoController;
 use App\Http\Controllers\DanhMucController;
 use App\Http\Controllers\BaiVietController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\BTV\BTVController;
 
 
 
@@ -62,6 +63,20 @@ Route::prefix('admin')
         Route::get('/settings', [AdminController::class, 'settings'])->name('settings.index');
 
 });
+
+//BTV (Biên tập viên)
+Route::prefix('btv')
+    ->name('btv.')
+    ->middleware(['auth', 'checkbtv'])
+    ->group(function () {
+        Route::get('/', [BTVController::class, 'dashboard'])->name('dashboard');
+        Route::get('/posts/create', [BTVController::class, 'createPost'])->name('posts.create');
+        Route::get('/posts', [BTVController::class, 'listPosts'])->name('posts.index');
+        Route::get('/posts/{id}/edit', [BTVController::class, 'editPost'])->name('posts.edit');
+        Route::delete('/posts/{id}', [BTVController::class, 'deletePost'])->name('posts.delete');
+        Route::get('/videos', [BTVController::class, 'listVideos'])->name('videos.index');
+        // Thêm các route khác cho BTV nếu cần
+    });
 
 
 

@@ -56,6 +56,14 @@ Route::prefix('admin')
         Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
 
         Route::get('/posts', [AdminController::class, 'posts'])->name('posts.index');
+        Route::get('/posts/create', [AdminController::class, 'createPost'])->name('posts.create');
+        Route::post('/posts', [AdminController::class, 'store'])->name('posts.store');
+        Route::get('/posts/{id}', [AdminController::class, 'show'])->name('posts.show');
+        Route::get('/posts/{id}/edit', [AdminController::class, 'editPost'])->name('posts.edit');
+        Route::put('/posts/{id}', [AdminController::class, 'update'])->name('posts.update');
+        Route::delete('/posts/{id}', [AdminController::class, 'destroy'])->name('posts.destroy');
+        Route::post('/posts/{id}/approve', [AdminController::class, 'approvePost'])->name('posts.approve');
+        Route::post('/posts/{id}/reject', [AdminController::class, 'rejectPost'])->name('posts.reject');
         Route::get('/videos', [AdminController::class, 'videos'])->name('videos.index');
         Route::get('/users', [AdminController::class, 'users'])->name('users.index');
         Route::get('/categories', [AdminController::class, 'categories'])->name('categories.index');
@@ -71,8 +79,10 @@ Route::prefix('btv')
     ->group(function () {
         Route::get('/', [BTVController::class, 'dashboard'])->name('dashboard');
         Route::get('/posts/create', [BTVController::class, 'createPost'])->name('posts.create');
+        Route::post('/posts', [BTVController::class, 'store'])->name('posts.store');
         Route::get('/posts', [BTVController::class, 'listPosts'])->name('posts.index');
         Route::get('/posts/{id}/edit', [BTVController::class, 'editPost'])->name('posts.edit');
+        Route::put('/posts/{id}', [BTVController::class, 'update'])->name('posts.update');
         Route::delete('/posts/{id}', [BTVController::class, 'deletePost'])->name('posts.delete');
         Route::get('/videos', [BTVController::class, 'listVideos'])->name('videos.index');
         // Thêm các route khác cho BTV nếu cần

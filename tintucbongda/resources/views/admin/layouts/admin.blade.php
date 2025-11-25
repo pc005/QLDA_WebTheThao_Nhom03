@@ -9,12 +9,10 @@
 
     <!-- Font + Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!-- Bootstrap -->
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
     <style>
         body {
@@ -134,17 +132,18 @@
             background: #ffffff;
             border-top: 1px solid #e5e7eb;
             display: flex;
-            justify-content: center; /* căn giữa chữ */
+            justify-content: center;
+            /* căn giữa chữ */
             align-items: center;
             padding: 0 30px;
             font-size: 14px;
             color: #555;
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
             z-index: 5;
         }
 
         .shadow-top {
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
         }
     </style>
 </head>
@@ -157,8 +156,7 @@
 
         <div class="section-title">Tổng quan</div>
 
-        <a href="{{ route('admin.dashboard') }}"
-            class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+        <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
             <i class="fa-solid fa-chart-pie"></i> Dashboard
         </a>
 
@@ -180,8 +178,8 @@
             <i class="fa-solid fa-chevron-down ms-auto"></i>
         </a>
         <div class="collapse" id="categoryMenu">
-            <a class="sub-item">Danh sách danh mục</a>
-            <a class="sub-item">Thêm danh mục</a>
+            <a href="/DanhMuc" class="sub-item">Danh sách danh mục</a>
+            <a href="/danhmucs/create" class="sub-item">Thêm danh mục</a>
         </div>
 
         <!-- Video -->
@@ -232,19 +230,24 @@
 
             <!-- Avatar + Dropdown -->
             <div class="dropdown">
-                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle"
+                    id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     @php $user = Auth::user(); @endphp
-                    @if($user && $user->anh_dai_dien)
-                        <img src="{{ asset($user->anh_dai_dien) }}" alt="Avatar" class="rounded-circle me-2" width="40" height="40">
+                    @if ($user && $user->anh_dai_dien)
+                        <img src="{{ asset($user->anh_dai_dien) }}" alt="Avatar" class="rounded-circle me-2"
+                            width="40" height="40">
                     @else
-                        <img src="https://i.pravatar.cc/40?u={{ optional($user)->id ?? '' }}" alt="Avatar" class="rounded-circle me-2" width="40" height="40">
+                        <img src="https://i.pravatar.cc/40?u={{ optional($user)->id ?? '' }}" alt="Avatar"
+                            class="rounded-circle me-2" width="40" height="40">
                     @endif
                     <span class="d-none d-sm-inline">{{ $user->ho_ten ?? ($user->email ?? 'Tài khoản') }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                     <li><a class="dropdown-item" href="#">Hồ sơ</a></li>
                     <li><a class="dropdown-item" href="#">Cài đặt</a></li>
-                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -269,4 +272,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

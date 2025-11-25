@@ -170,7 +170,7 @@
             <i class="fa-solid fa-chevron-down ms-auto"></i>
         </a>
         <div class="collapse" id="postsMenu">
-            <a class="sub-item" href="#">Danh sách bài viết</a>
+            <a class="sub-item" href="{{ route('admin.posts.index') }}">Danh sách bài viết</a>
             <a class="sub-item" href="#">Thêm bài viết</a>
         </div>
 

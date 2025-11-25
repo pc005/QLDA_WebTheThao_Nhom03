@@ -65,38 +65,72 @@
 
 
 
-        <div class="row m-rl-0 justify-content-center">
-            @foreach ($articles as $article)
-                <div class="col-md-4 p-rl-1 p-b-2">
-                    <!-- Card wrapper -->
-                    <div class="card h-100 shadow-sm">
-                        <!-- Ảnh đại diện -->
-                        <div class="img card-img-top bg-img1 size-a-11 how1 pos-relative"
-                            style="background-image: url('{{ asset($article['anh_dai_dien']) }}');">
-                            <a href="{{ route('bai-viet.show', $article->id) }}" class=" dis-block how1-child1 trans-03"></a>
-                        </div>
-
-                        <!-- Nội dung card -->
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <a href="{{ route('bai-viet.show', $article->id) }}"
-                                    class="tieu_de f1-l-1 cl0 hov-cl10 trans-03 respon1">
-                                    {{ $article['tieu_de'] }}
-                                </a>
-                            </h5>
-                            <p class="card-text">
-                                {{ Str::limit($article['noi_dung'], 100) }}
-                            </p>
-                        </div>
-
-                        <!-- Footer card -->
-                        <div class="card-footer text-muted">
-                            Đăng ngày {{ optional($article->created_at)->format('d/m/Y') }}
+        <div class="container mb-4">
+            <div class="row justify-content-center gx-4 gy-4">
+                @foreach ($featuredArticles as $article)
+                    <div class="col-lg-4 col-md-6 col-12 d-flex">
+                        <div class="border-0 shadow card featured-card flex-fill position-relative">
+                            <div class="featured-img position-relative w-100" style="background-image: url('{{ asset($article['anh_dai_dien']) }}');">
+                                <a href="{{ route('bai-viet.show', $article->id) }}" class="dis-block how1-child1 trans-03 w-100 h-100"></a>
+                                <span class="top-0 px-3 py-2 m-2 shadow featured-badge badge bg-warning text-dark position-absolute start-0 fs-6">Nổi bật</span>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <div class="flex-wrap mb-2 d-flex align-items-center">
+                                    <span class="mb-1 badge bg-primary me-2">{{ $article->danhMuc->ten_danh_muc ?? 'Chưa phân loại' }}</span>
+                                    <span class="mb-1 text-muted small ms-auto"><i class="fa fa-user me-1"></i>{{ $article->user->ho_ten ?? 'Ẩn danh' }}</span>
+                                </div>
+                                <h5 class="mb-2 card-title">
+                                    <a href="{{ route('bai-viet.show', $article->id) }}" class="tieu_de text-decoration-none fw-bold text-dark hov-cl10">
+                                        {{ $article['tieu_de'] }}
+                                    </a>
+                                </h5>
+                                <p class="mb-0 card-text text-secondary flex-grow-1">
+                                    {{ Str::limit(strip_tags($article['noi_dung']), 120) }}
+                                </p>
+                            </div>
+                            <div class="bg-white border-0 card-footer text-end">
+                                <span class="text-muted small"><i class="fa fa-calendar me-1"></i>{{ optional($article->created_at)->format('d/m/Y') }}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
+        <style>
+            .featured-card {
+                transition: transform 0.2s, box-shadow 0.2s;
+                border-radius: 1rem;
+                min-width: 0;
+                display: flex;
+                flex-direction: column;
+            }
+            .featured-card:hover {
+                transform: translateY(-8px) scale(1.03);
+                box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            }
+            .featured-img {
+                height: 180px;
+                background-size: cover;
+                background-position: center;
+                border-top-left-radius: 1rem;
+                border-top-right-radius: 1rem;
+            }
+            .featured-badge {
+                font-size: 1rem;
+                border-radius: 0.75rem;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            }
+            @media (max-width: 991.98px) {
+                .featured-img {
+                    height: 140px;
+                }
+            }
+            @media (max-width: 767.98px) {
+                .featured-img {
+                    height: 100px;
+                }
+            }
+        </style>
         <style>
             .img {}
 
@@ -624,7 +658,7 @@
                                 <ul class="p-t-35">
                                     <li class="flex-wr-sb-c p-b-20">
                                         <a href="#"
-                                            class="size-a-8 flex-c-c borad-3 size-a-8 bg-facebook fs-16 cl0 hov-cl0">
+                                            class="size-a-8 flex-c-c borad-3 bg-facebook fs-16 cl0 hov-cl0">
                                             <span class="fab fa-facebook-f"></span>
                                         </a>
 
@@ -641,7 +675,7 @@
 
                                     <li class="flex-wr-sb-c p-b-20">
                                         <a href="#"
-                                            class="size-a-8 flex-c-c borad-3 size-a-8 bg-twitter fs-16 cl0 hov-cl0">
+                                            class="size-a-8 flex-c-c borad-3 bg-twitter fs-16 cl0 hov-cl0">
                                             <span class="fab fa-twitter"></span>
                                         </a>
 
@@ -658,7 +692,7 @@
 
                                     <li class="flex-wr-sb-c p-b-20">
                                         <a href="#"
-                                            class="size-a-8 flex-c-c borad-3 size-a-8 bg-youtube fs-16 cl0 hov-cl0">
+                                            class="size-a-8 flex-c-c borad-3 bg-youtube fs-16 cl0 hov-cl0">
                                             <span class="fab fa-youtube"></span>
                                         </a>
 
@@ -685,7 +719,7 @@
 
                                 <ul class="p-t-35">
                                     <li class="flex-wr-sb-s p-b-22">
-                                        <div class="size-a-8 flex-c-c borad-3 size-a-8 bg9 f1-m-4 cl0 m-b-6">
+                                        <div class="size-a-8 flex-c-c borad-3 bg9 f1-m-4 cl0 m-b-6">
                                             1
                                         </div>
 
@@ -695,7 +729,7 @@
                                     </li>
 
                                     <li class="flex-wr-sb-s p-b-22">
-                                        <div class="size-a-8 flex-c-c borad-3 size-a-8 bg9 f1-m-4 cl0 m-b-6">
+                                        <div class="size-a-8 flex-c-c borad-3 bg9 f1-m-4 cl0 m-b-6">
                                             2
                                         </div>
 
@@ -705,7 +739,7 @@
                                     </li>
 
                                     <li class="flex-wr-sb-s p-b-22">
-                                        <div class="size-a-8 flex-c-c borad-3 size-a-8 bg9 f1-m-4 cl0 m-b-6">
+                                        <div class="size-a-8 flex-c-c borad-3 bg9 f1-m-4 cl0 m-b-6">
                                             3
                                         </div>
 
@@ -715,7 +749,7 @@
                                     </li>
 
                                     <li class="flex-wr-sb-s p-b-22">
-                                        <div class="size-a-8 flex-c-c borad-3 size-a-8 bg9 f1-m-4 cl0 m-b-6">
+                                        <div class="size-a-8 flex-c-c borad-3 bg9 f1-m-4 cl0 m-b-6">
                                             4
                                         </div>
 
@@ -725,7 +759,7 @@
                                     </li>
 
                                     <li class="flex-wr-sb-s p-b-22">
-                                        <div class="size-a-8 flex-c-c borad-3 size-a-8 bg9 f1-m-4 cl0">
+                                        <div class="size-a-8 flex-c-c borad-3 bg9 f1-m-4 cl0">
                                             5
                                         </div>
 
@@ -875,196 +909,42 @@
             <div class="container">
                 <div class="how2 how2-cl4 flex-s-c">
                     <h3 class="f1-m-2 cl3 tab01-title">
-                        Latest Articles
+                        Bài viết mới nhất
                     </h3>
                 </div>
 
                 <div class="row p-t-35">
-                    <div class="col-sm-6 col-md-4">
-                        <!-- Item latest -->
-                        <div class="m-b-45">
-                            <a href="blog-detail-02.html" class="wrap-pic-w hov1 trans-03">
-                                <img src="images/latest-01.jpg" alt="IMG">
-                            </a>
+                    @foreach ($latestArticles as $article)
+                        <div class="col-sm-6 col-md-4">
+                            <div class="m-b-45">
+                                <a href="{{ route('bai-viet.show', $article->id) }}" class="wrap-pic-w hov1 trans-03">
+                                    <img src="{{ asset($article['anh_dai_dien']) }}" alt="IMG">
+                                </a>
 
-                            <div class="p-t-16">
-                                <h5 class="p-b-5">
-                                    <a href="blog-detail-02.html" class="f1-m-3 cl2 hov-cl10 trans-03">
-                                        You wish lorem ipsum dolor sit amet consectetur
-                                    </a>
-                                </h5>
+                                <div class="p-t-16">
+                                    <h5 class="p-b-5">
+                                        <a href="{{ route('bai-viet.show', $article->id) }}" class="f1-m-3 cl2 hov-cl10 trans-03">
+                                            {{ $article['tieu_de'] }}
+                                        </a>
+                                    </h5>
 
-                                <span class="cl8">
-                                    <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
-                                        by John Alvarado
-                                    </a>
+                                    <span class="cl8">
+                                        <span class="f1-s-4 cl8 hov-cl10 trans-03">
+                                            {{ $article->user->ho_ten ?? 'Ẩn danh' }}
+                                        </span>
 
-                                    <span class="f1-s-3 m-rl-3">
-                                        -
+                                        <span class="f1-s-3 m-rl-3">
+                                            -
+                                        </span>
+
+                                        <span class="f1-s-3">
+                                            {{ optional($article->created_at)->format('d/m/Y') }}
+                                        </span>
                                     </span>
-
-                                    <span class="f1-s-3">
-                                        Feb 18
-                                    </span>
-                                </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <!-- Item latest -->
-                        <div class="m-b-45">
-                            <a href="blog-detail-02.html" class="wrap-pic-w hov1 trans-03">
-                                <img src="images/latest-02.jpg" alt="IMG">
-                            </a>
-
-                            <div class="p-t-16">
-                                <h5 class="p-b-5">
-                                    <a href="blog-detail-02.html" class="f1-m-3 cl2 hov-cl10 trans-03">
-                                        You wish lorem ipsum dolor sit amet consectetur
-                                    </a>
-                                </h5>
-
-                                <span class="cl8">
-                                    <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
-                                        by John Alvarado
-                                    </a>
-
-                                    <span class="f1-s-3 m-rl-3">
-                                        -
-                                    </span>
-
-                                    <span class="f1-s-3">
-                                        Feb 16
-                                    </span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <!-- Item latest -->
-                        <div class="m-b-45">
-                            <a href="blog-detail-02.html" class="wrap-pic-w hov1 trans-03">
-                                <img src="images/latest-03.jpg" alt="IMG">
-                            </a>
-
-                            <div class="p-t-16">
-                                <h5 class="p-b-5">
-                                    <a href="blog-detail-02.html" class="f1-m-3 cl2 hov-cl10 trans-03">
-                                        You wish lorem ipsum dolor sit amet consectetur
-                                    </a>
-                                </h5>
-
-                                <span class="cl8">
-                                    <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
-                                        by John Alvarado
-                                    </a>
-
-                                    <span class="f1-s-3 m-rl-3">
-                                        -
-                                    </span>
-
-                                    <span class="f1-s-3">
-                                        Feb 15
-                                    </span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <!-- Item latest -->
-                        <div class="m-b-45">
-                            <a href="blog-detail-02.html" class="wrap-pic-w hov1 trans-03">
-                                <img src="images/latest-04.jpg" alt="IMG">
-                            </a>
-
-                            <div class="p-t-16">
-                                <h5 class="p-b-5">
-                                    <a href="blog-detail-02.html" class="f1-m-3 cl2 hov-cl10 trans-03">
-                                        You wish lorem ipsum dolor sit amet consectetur
-                                    </a>
-                                </h5>
-
-                                <span class="cl8">
-                                    <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
-                                        by John Alvarado
-                                    </a>
-
-                                    <span class="f1-s-3 m-rl-3">
-                                        -
-                                    </span>
-
-                                    <span class="f1-s-3">
-                                        Feb 13
-                                    </span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <!-- Item latest -->
-                        <div class="m-b-45">
-                            <a href="blog-detail-02.html" class="wrap-pic-w hov1 trans-03">
-                                <img src="images/latest-05.jpg" alt="IMG">
-                            </a>
-
-                            <div class="p-t-16">
-                                <h5 class="p-b-5">
-                                    <a href="blog-detail-02.html" class="f1-m-3 cl2 hov-cl10 trans-03">
-                                        You wish lorem ipsum dolor sit amet consectetur
-                                    </a>
-                                </h5>
-
-                                <span class="cl8">
-                                    <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
-                                        by John Alvarado
-                                    </a>
-
-                                    <span class="f1-s-3 m-rl-3">
-                                        -
-                                    </span>
-
-                                    <span class="f1-s-3">
-                                        Feb 10
-                                    </span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <!-- Item latest -->
-                        <div class="m-b-45">
-                            <a href="blog-detail-02.html" class="wrap-pic-w hov1 trans-03">
-                                <img src="images/latest-06.jpg" alt="IMG">
-                            </a>
-
-                            <div class="p-t-16">
-                                <h5 class="p-b-5">
-                                    <a href="blog-detail-02.html" class="f1-m-3 cl2 hov-cl10 trans-03">
-                                        You wish lorem ipsum dolor sit amet consectetur
-                                    </a>
-                                </h5>
-
-                                <span class="cl8">
-                                    <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
-                                        by John Alvarado
-                                    </a>
-
-                                    <span class="f1-s-3 m-rl-3">
-                                        -
-                                    </span>
-
-                                    <span class="f1-s-3">
-                                        Feb 09
-                                    </span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </section>

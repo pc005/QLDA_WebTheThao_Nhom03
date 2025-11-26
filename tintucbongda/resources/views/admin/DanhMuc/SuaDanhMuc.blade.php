@@ -23,7 +23,7 @@
             <div class="form-group mb-3">
                 <label for="ten_danh_muc">Tên danh mục</label>
                 <input type="text" name="ten_danh_muc" id="ten_danh_muc" class="form-control"
-                    value="{{ old('ten_danh_muc', $danhMuc->ten_danh_mucn) }}" required>
+                    value="{{ old('ten_danh_muc', $danhMuc->ten_danh_muc) }}" required>
             </div>
 
             <div class="form-group mb-3">

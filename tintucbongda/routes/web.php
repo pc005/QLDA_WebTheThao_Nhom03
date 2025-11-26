@@ -35,7 +35,9 @@ Route::post('/like/{baiViet}', [LuotThichController::class, 'store'])->name('lik
 
 Route::get('/bai-viet/{id}', [BaiVietController::class, 'show'])->name('bai-viet.show');
 
-
+//report
+Route::post('/bai-viet/{id}/report', [ReportController::class, 'store'])
+    ->name('bai-viet.report');
 
 
 

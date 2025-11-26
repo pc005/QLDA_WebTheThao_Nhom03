@@ -20,7 +20,6 @@ return new class extends Migration
             $table->text('mo_ta')->nullable();
             $table->string('trang_thai');
             $table->dateTime('ngay_tao')->nullable();
-
             $table->foreign('nguoi_dung_id')->references('id')->on('nguoi_dungs')->onDelete('cascade');
             $table->timestamps();
         });

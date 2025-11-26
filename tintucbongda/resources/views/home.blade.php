@@ -4,68 +4,196 @@
     <!-- Content -->
     <!-- Feature post -->
     <section class="bg0">
-        {{-- <div class="row m-rl-0 justify-content-center">
-            <div class="col-md-4 p-rl-1 p-b-2">
-                <div class="bg-img1 size-a-11 how1 pos-relative" style="background-image: url(images/post-01.jpg);">
-                    <a href="blog-detail-02.html" class="dis-block how1-child1 trans-03"></a>
-
-                    <div class="flex-col-e-s s-full p-rl-25 p-tb-18">
-                        <a href="#"
-                            class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
-                            Technology
-                        </a>
-
-                        <h3 class="how1-child2 m-t-14 m-b-10">
-                            <a href="blog-detail-02.html" class="f1-l-1 cl0 hov-cl10 trans-03 respon1">
-                                Microsoft quisque at ipsum vel orci eleifend ultrices
-                            </a>
-                        </h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4 p-rl-1 p-b-2">
-                <div class="bg-img1 size-a-11 how1 pos-relative" style="background-image: url(images/post-19.jpg);">
-                    <a href="blog-detail-02.html" class="dis-block how1-child1 trans-03"></a>
-
-                    <div class="flex-col-e-s s-full p-rl-25 p-tb-18">
-                        <a href="#"
-                            class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
-                            Technology
-                        </a>
-
-                        <h3 class="how1-child2 m-t-14 m-b-10">
-                            <a href="blog-detail-02.html" class="f1-l-1 cl0 hov-cl10 trans-03 respon1">
-                                London ipsum dolor sit amet, consectetur adipiscing elit.
-                            </a>
-                        </h3>
-                    </div>
-                </div>
-            </div> --}}
-
-        {{-- <div class="col-md-4 p-rl-1 p-b-2">
-            <div class="bg-img1 size-a-11 how1 pos-relative" style="background-image: url(images/post-20.jpg);">
-                <a href="blog-detail-02.html" class="dis-block how1-child1 trans-03"></a>
-
-                <div class="flex-col-e-s s-full p-rl-25 p-tb-18">
-                    <a href="#" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
-                        Life Style
-                    </a>
-
-                    <h3 class="how1-child2 m-t-14 m-b-10">
-                        <a href="blog-detail-02.html" class="f1-l-1 cl0 hov-cl10 trans-03 respon1">
-                            Pellentesque dui nibh, pellentesque ut dapibus ut
-                        </a>
-                    </h3>
-                </div>
-            </div>
-        </div>
-        </div>
-    </section> --}}
-
 
 
         <div class="row m-rl-0 justify-content-center">
+            @foreach ($articles as $article)
+                <div class="col-md-4 p-rl-1 p-b-2">
+                    <div class="card h-100 shadow-sm">
+                        <div class="img card-img-top bg-img1 size-a-11 how1 pos-relative"
+                            style="background-image: url('{{ asset($article['anh_dai_dien']) }}');">
+                            {{-- Liên kết phủ toàn bộ ảnh --}}
+                            <a href="{{ route('bai-viet.show', $article->id) }}" class="dis-block how1-child1 trans-03"></a>
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{{ route('bai-viet.show', $article->id) }}"
+                                    class="tieu_de f1-l-1 cl0 hov-cl10 trans-03 respon1">
+                                    {{ $article['tieu_de'] }}
+                                </a>
+                            </h5>
+                            <p class="card-text">
+                                {{ Str::limit($article['tom_tat'] ?? $article['noi_dung'], 100) }}
+                            </p>
+                        </div>
+
+                        <div class="card-footer text-muted">
+                            Đăng ngày {{ optional($article->created_at)->format('d/m/Y') }}
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        <style>
+            /* ------------------------------------ */
+            /* 1. STYLING CƠ BẢN CỦA CARD (H-100) */
+            /* ------------------------------------ */
+            .card {
+                border: 1px solid #e0e0e0;
+                /* Viền nhẹ */
+                border-radius: 8px;
+                /* Bo góc nhẹ */
+                overflow: hidden;
+                /* Thêm hiệu ứng chuyển động cho card */
+                transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            }
+
+            /* Hiệu ứng khi di chuột qua card */
+            .card:hover {
+                transform: translateY(-5px);
+                /* Nâng card lên 5px */
+                box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15) !important;
+                /* Đổ bóng mạnh hơn */
+            }
+
+            /* ------------------------------------ */
+            /* 2. STYLING CHO ẢNH ĐẠI DIỆN (.img) */
+            /* ------------------------------------ */
+            .img {
+                overflow: hidden;
+                background-size: cover;
+                /* Đảm bảo ảnh nền phủ kín vùng chứa */
+                background-position: center;
+                /* Căn giữa ảnh nền */
+            }
+
+            /* ------------------------------------ */
+            /* 3. STYLING CHO TIÊU ĐỀ (.tieu_de) */
+            /* ------------------------------------ */
+            .tieu_de {
+                color: #333333 !important;
+                /* Đảm bảo màu tối cho tiêu đề */
+                text-decoration: none;
+                font-weight: 600;
+                /* Làm tiêu đề nổi bật hơn */
+                margin-bottom: 0.5rem;
+                line-height: 1.3;
+                /* Giới hạn số dòng cho tiêu đề (cần cho tính đồng bộ) */
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                /* Ví dụ: Giới hạn 2 dòng */
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            /* ------------------------------------ */
+            /* 4. STYLING CHO TÓM TẮT (.card-text) */
+            /* ------------------------------------ */
+            .card-text {
+                color: #6c757d;
+                /* Màu xám cho nội dung tóm tắt */
+                font-size: 0.9rem;
+                line-height: 1.5;
+                /* Giới hạn 3 dòng cho tóm tắt */
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            /* ------------------------------------ */
+            /* 5. STYLING CHO FOOTER (.card-footer) */
+            /* ------------------------------------ */
+            .card-footer {
+                background-color: #f7f7f7;
+                /* Nền xám nhạt */
+                border-top: 1px solid #e0e0e0;
+                font-size: 0.8rem;
+                color: #999;
+                /* Màu chữ rất nhẹ */
+                padding: 0.75rem 1.25rem;
+            }
+
+            /* Xóa class c10 và img trống cũ */
+            .c10,
+            .img {}
+
+
+
+            /* ------------------------------------ */
+            /* 1. STYLING CƠ BẢN CỦA CARD (Bo góc chính) */
+            /* ------------------------------------ */
+            .card {
+                border: 1px solid #e0e0e0;
+                border-radius: 10px;
+                /* **Tăng độ bo góc của toàn bộ card** */
+                overflow: hidden;
+                /* **Rất quan trọng: Để các thành phần bên trong (ảnh) được bo góc theo card** */
+                transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            }
+
+            /* Hiệu ứng khi di chuột qua card */
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+                /* Đổ bóng mạnh hơn và rõ ràng hơn */
+            }
+
+            /* ------------------------------------ */
+            /* 2. STYLING CHO ẢNH ĐẠI DIỆN (.img) */
+            /* ------------------------------------ */
+            .img {
+                overflow: hidden;
+                /* Bo góc chỉ ảnh hưởng đến góc trên cùng của ảnh (theo bo góc card) */
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+
+                background-size: cover;
+                /* Đảm bảo ảnh nền phủ kín vùng chứa */
+                background-position: center;
+                /* Căn giữa ảnh nền */
+            }
+
+            /* ------------------------------------ */
+            /* 3. STYLING CHO TIÊU ĐỀ (.tieu_de) */
+            /* ------------------------------------ */
+            .tieu_de {
+                color: #333333 !important;
+                text-decoration: none;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+                line-height: 1.3;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            /* ------------------------------------ */
+            /* 4. STYLING CHO TÓM TẮT VÀ FOOTER */
+            /* ------------------------------------ */
+            .card-text {
+                color: #6c757d;
+                font-size: 0.9rem;
+                line-height: 1.5;
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            .card-footer {
+                background-color: #f7f7f7;
+                border-top: 1px solid #e0e0e0;
+                font-size: 0.8rem;
+                color: #999;
+                padding: 0.75rem 1.25rem;
+            }
+        </style>
+
+        {{-- <div class="row m-rl-0 justify-content-center">
             @foreach ($articles as $article)
                 <div class="col-md-4 p-rl-1 p-b-2">
                     <!-- Card wrapper -->
@@ -106,50 +234,11 @@
 
             .tieu_de {
 
-                color: #1900fc;
+                color: #000000;
                 text-decoration: none;
             }
-        </style>
-
-        {{-- <style>
-            .row {
-                display: flex;
-                /* Sử dụng Flexbox */
-                flex-wrap: wrap;
-                /* Cho phép dòng mới khi không đủ chỗ */
-                margin: -15px;
-                /* Giảm khoảng cách giữa các cột */
-            }
-
-            .col-md-4 {
-                flex: 1 0 30%;
-                /* Mỗi cột chiếm 30% chiều rộng */
-                max-width: 30%;
-                /* Đặt chiều rộng tối đa của cột là 30% */
-                padding: 15px;
-                /* Khoảng cách giữa các cột */
-                box-sizing: border-box;
-                /* Đảm bảo padding không làm vượt quá chiều rộng */
-            }
-
-            .bg-img1 {
-                background-size: cover;
-                /* Đảm bảo hình ảnh được phóng to để lấp đầy khu vực */
-                background-position: center;
-                /* Căn giữa hình ảnh */
-                height: 200px;
-                /* Chiều cao cố định cho hình ảnh */
-                position: relative;
-                /* Để trẻ em có thể định vị chính xác */
-            }
-
-            .how1-child1 {
-                display: block;
-                /* Tạo khối cho liên kết */
-                height: 100%;
-                /* Cho liên kết chiếm đầy chiều cao vùng chứa */
-            }
         </style> --}}
+
 
         <!-- Post -->
         <section class="post bg0 p-t-85">

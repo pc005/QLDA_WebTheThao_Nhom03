@@ -3,7 +3,8 @@
 @section('content')
     <div class="container">
         <h1>Quản lý Danh mục</h1>
-        <a href="{{ route('danhmucs.create') }}" class="btn btn-primary">Thêm Danh mục</a>
+        <a href="{{ route('danhmucs.create') }}" class=" adddanhmuc btn btn-primary">Thêm Danh mục</a>
+
         <table class="table">
             <thead>
                 <tr>
@@ -35,6 +36,12 @@
                                 @method('DELETE')
                                 <button type="submit" class=" a btn btn-danger">Xóa</button>
                                 <style>
+                                    .adddanhmuc {
+
+                                        margin-bottom: 10px;
+
+                                    }
+
                                     .a {
                                         margin-top: 5px;
                                         width: 60px;

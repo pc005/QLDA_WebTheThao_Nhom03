@@ -8,11 +8,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- Thẻ Open Graph -->
-        <meta property="og:tieu_de" content="Tiêu đề của Bài Viết" />
+        {{-- <meta property="og:tieu_de" content="Tiêu đề của Bài Viết" />
         <meta property="og:description" content="Mô tả ngắn về bài viết." />
         <meta property="og:image" content="{{ asset('images/your-image-url.jpg') }}" /> <!-- Đường dẫn ảnh đại diện -->
         <meta property="og:url" content="{{ url()->current() }}" /> <!-- Đường dẫn hiện tại -->
-        <meta property="og:type" content="article" /> <!-- Kiểu nội dung -->
+        <meta property="og:type" content="video" /> <!-- Kiểu nội dung --> --}}
 
         <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
         <!-- Các thẻ link khác -->
@@ -88,8 +88,27 @@
 
 
 
-
         </div>
+         {{-- report --}}
+            <div class="my-3">
+                <button type="button" class="btn btn-sm btn-outline-danger report-button-right" data-bs-toggle="modal"
+                    data-bs-target="#reportModal">
+                    <i class="fas fa-flag me-2"></i> Báo cáo bài viết
+                </button>
+            </div>
+            <style>
+                .report-button-right {
+                    float: right;
+                    /* Đẩy nút sang phải */
+                }
+
+                /* Đảm bảo vùng chứa (div bao ngoài) không bị ảnh hưởng bởi float */
+                .my-3 {
+                    overflow: auto;
+                }
+            </style>
+
+            
         <!-- Leave a comment -->
         <div>
             <h4 class="f1-l-4 cl3 p-b-12">
@@ -187,4 +206,143 @@
         }
     </style>
     </div>
+
+
+
+
+
+
+    <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reportModalLabel">Báo cáo Bài viết</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form action="{{ route('bai-viet.report', $video->id) }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <p>Vui lòng chọn lý do bạn muốn báo cáo bài viết này:</p>
+
+                        <div class="mb-3">
+                            <label for="report_reason" class="form-label">Lý do báo cáo:</label>
+                            <select class="form-select" id="report_reason" name="reason" required>
+                                <option value="" selected disabled>-- Chọn lý do --</option>
+                                <option value="spam">Spam hoặc Quảng cáo</option>
+                                <option value="hate_speech">Nội dung thù địch/Phân biệt chủng tộc</option>
+                                <option value="misinformation">Thông tin sai lệch/Giả mạo</option>
+                                <option value="pornography">Nội dung khiêu dâm</option>
+                                <option value="other">Lý do khác</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="report_description" class="form-label">Mô tả chi tiết (Tùy chọn):</label>
+                            <textarea class="form-control" id="report_description" name="description" rows="3"
+                                placeholder="Cung cấp thêm chi tiết về vấn đề..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-danger">Gửi Báo cáo</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <style>
+        /* ------------------------------------ */
+        /* 1. Tùy chỉnh Modal chính (reportModal) */
+        /* ------------------------------------ */
+        #reportModal .modal-content {
+            border-radius: 12px;
+            /* Bo góc mềm mại hơn cho popup */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: none;
+        }
+
+        /* ------------------------------------ */
+        /* 2. Tiêu đề Modal */
+        /* ------------------------------------ */
+        #reportModal .modal-header {
+            background-color: #dc3545;
+            /* Màu nền đỏ nhạt (màu nguy hiểm của Bootstrap) */
+            color: white;
+            /* Màu chữ trắng */
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            padding: 1rem 1.5rem;
+            border-bottom: none;
+        }
+
+        #reportModal .modal-title {
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+
+        /* Đảm bảo nút đóng có màu trắng */
+        #reportModal .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+            /* Làm nút đóng màu trắng */
+        }
+
+        /* ------------------------------------ */
+        /* 3. Nội dung Modal (Form) */
+        /* ------------------------------------ */
+        #reportModal .modal-body {
+            padding: 1.5rem;
+        }
+
+        #reportModal .modal-body p {
+            color: #555;
+            margin-bottom: 1.25rem;
+            font-size: 0.95rem;
+        }
+
+        /* Thiết kế cho Select Box và Textarea (Form controls) */
+        #reportModal .form-control,
+        #reportModal .form-select {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            padding: 0.75rem 1rem;
+            box-shadow: none;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        #reportModal .form-control:focus,
+        #reportModal .form-select:focus {
+            border-color: #dc3545;
+            /* Đổi màu viền khi tập trung */
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+            /* Thêm bóng mờ nhẹ */
+        }
+
+        /* ------------------------------------ */
+        /* 4. Footer Modal (Các nút) */
+        /* ------------------------------------ */
+        #reportModal .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #eee;
+            justify-content: flex-end;
+            /* Căn nút sang phải */
+        }
+
+        /* Tùy chỉnh nút Đóng (Secondary) */
+        #reportModal .btn-secondary {
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        /* Tùy chỉnh nút Gửi Báo cáo (Danger) */
+        #reportModal .btn-danger {
+            border-radius: 6px;
+            font-weight: 600;
+        }
+    </style>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 @endsection

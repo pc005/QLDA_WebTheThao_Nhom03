@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\DanhMucController;
 use App\Http\Controllers\BaiVietController;
+use App\Http\Controllers\FavoriteController;
 
 
 
@@ -53,5 +54,13 @@ Route::get('/reset-password/{token}', [LoginController::class, 'showResetForm'])
 // Xử lý đặt lại mật khẩu
 Route::post('/reset-password', [LoginController::class, 'resetPassword'])->name('password.update');
 
+// Yêu cầu phải đăng nhập
+Route::middleware(['auth'])->group(function () {
+    // 1. Tuyến đường xử lý Thêm/Xóa (sẽ dùng AJAX)
+    Route::post('/favorites/toggle', [FavoriteController::class, 'toggleFavorite'])->name('favorites.toggle');
+
+    // 2. Tuyến đường hiển thị trang danh sách yêu thích chung
+    Route::get('/yeu-thich-cua-toi', [FavoriteController::class, 'index'])->name('favorites.index');
+});
 
 

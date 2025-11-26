@@ -4,13 +4,38 @@
 @section('content')
     <!--===============================================================================================-->
     <link rel="icon" type="image/png" href="{{ asset('images/icons/favicon.png') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/util.min.css') }}">
+
     <div class="container">
-        <h1 class="bai-viet-title">{{ $baiViet->tieu_de }}</h1>
-        <img class="bai-viet-image" src="{{ $baiViet->anh_dai_dien }}" alt="{{ $baiViet->tieu_de }}" class="img-fluid">
+        <!-- Tiêu đề và Nút Yêu Thích -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="bai-viet-title mb-0">{{ $baiViet->tieu_de }}</h1>
+
+            @auth
+                @php
+                    // Lấy trạng thái yêu thích
+                    $isFavorited = auth()->user()->hasFavorited($baiViet);
+                @endphp
+
+                {{-- NÚT LƯU THEO THIẾT KẾ MỚI --}}
+                <button
+                    id="toggle-favorite-btn"
+                    data-id="{{ $baiViet->id }}"
+                    data-type="{{ class_basename($baiViet) }}"
+                    class="btn-save-style {{ $isFavorited ? 'is-saved' : '' }}"
+                    title="{{ $isFavorited ? 'Xóa khỏi danh sách đã lưu' : 'Lưu bài viết' }}"
+                >
+                    {{-- Dùng 2 Icon để chuyển đổi qua CSS: far (Regular/Outline) và fas (Solid/Filled) --}}
+                    <i class="bookmark-icon fa-bookmark {{ $isFavorited ? 'fas' : 'far' }}"></i>
+                    <span class="bookmark-text">Lưu</span>
+                </button>
+            @endauth
+        </div>
+        <img class="bai-viet-image img-fluid" src="{{ $baiViet->anh_dai_dien }}" alt="{{ $baiViet->tieu_de }}">
         <p class="noi-dung">{{ $baiViet->noi_dung }}</p>
 
         <div class="text-muted mt-3">
@@ -39,9 +64,66 @@
                 border-radius: 8px;
                 /* bo góc nhẹ cho đẹp */
             }
+            /* ==================================== */
+            /* CSS MỚI CHO NÚT LƯU */
+            /* ==================================== */
+            .btn-save-style {
+                /* Thiết kế chung */
+                display: inline-flex;
+                align-items: center;
+                padding: 8px 15px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                background-color: #fff;
+                color: #333;
+                cursor: pointer;
+                transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+            }
+            .btn-save-style:hover {
+                border-color: #007bff; /* Hover chuyển sang màu xanh */
+            }
+            .bookmark-icon {
+                font-size: 1.2rem;
+                margin-right: 5px;
+                transition: color 0.2s;
+            }
+            .bookmark-text {
+                font-size: 1rem;
+                line-height: 1;
+                color: #333;
+                transition: color 0.2s;
+            }
+
+            /* TRẠNG THÁI CHƯA LƯU (OUTLINE STATE) */
+            .btn-save-style:not(.is-saved) {
+                border-color: #ccc;
+            }
+            .btn-save-style:not(.is-saved) .bookmark-icon {
+                color: #999; /* Icon màu xám nhạt */
+            }
+            .btn-save-style:not(.is-saved):hover {
+                border-color: #007bff;
+            }
+            .btn-save-style:not(.is-saved):hover .bookmark-icon {
+                color: #007bff;
+            }
+
+            /* TRẠNG THÁI ĐÃ LƯU (SAVED STATE) */
+            .btn-save-style.is-saved {
+                border-color: #007bff;
+                background-color: #f0f8ff; /* Nền xanh nhạt */
+            }
+            /* Đổi icon thành solid khi đã lưu */
+            .btn-save-style.is-saved .bookmark-icon {
+                color: #007bff; /* Icon màu xanh đậm */
+            }
+
+            /* SỬA LỖI FONT AWESOME CHO VIỆC CHUYỂN ĐỔI ICON */
+            /* Logic chuyển đổi icon sẽ được xử lý bằng JavaScript: thêm/xóa class 'fas'/'far' */
         </style>
         <div>
             <!-- Share -->
+
             <div class="flex-s-s">
                 <span class="f1-s-12 cl5 p-t-1 m-r-15">
                     Share:
@@ -76,7 +158,6 @@
                     <i class="fab fa-pinterest-p m-r-7"></i>
                     Pinterest
                 </a>
-
             </div>
             <!-- Leave a comment -->
             <div>
@@ -253,4 +334,80 @@
             color: #666;
         }
     </style>
+
+    {{-- Script AJAX/Fetch API (Sử dụng Fetch API) --}}
+    @push('scripts')
+        <script>
+            // Bọc trong hàm đảm bảo DOM đã tải hoàn tất
+            document.addEventListener('DOMContentLoaded', function() {
+                const button = document.getElementById('toggle-favorite-btn');
+
+                // KIỂM TRA LẦN 1: Nếu không tìm thấy nút (người dùng chưa đăng nhập), thoát
+                if (!button) {
+                    console.log('Nút Lưu không tìm thấy (Chưa đăng nhập hoặc lỗi DOM).');
+                    return;
+                }
+
+                console.log('Nút Lưu đã được gắn sự kiện.'); // DEBUG THÀNH CÔNG
+
+                button.addEventListener('click', function() {
+                    const icon = button.querySelector('.bookmark-icon');
+                    const itemId = button.dataset.id;
+                    const itemType = button.dataset.type;
+
+                    // LẤY CSRF TOKEN TỪ META TAG
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+                    // TẠM THỜI VÔ HIỆU HÓA NÚT KHI ĐANG XỬ LÝ
+                    button.disabled = true;
+
+                    // LOG THÔNG TIN GỬI ĐI ĐỂ DEBUG
+                    console.log('Gửi AJAX:', { route: '{{ route('favorites.toggle') }}', id: itemId, type: itemType });
+
+                    fetch('{{ route('favorites.toggle') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        body: JSON.stringify({
+                            model_id: itemId,
+                            model_type: itemType
+                        })
+                    })
+                        .then(response => {
+                            // Xử lý lỗi HTTP (Ví dụ: 403 Forbidden, 500 Internal Server Error)
+                            if (!response.ok) {
+                                return response.json().then(error => { throw new Error(error.message || 'Lỗi từ máy chủ: ' + response.status); });
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            // Cập nhật trạng thái nút
+                            if (data.is_favorited) {
+                                button.classList.add('is-saved');
+                                icon.classList.remove('far');
+                                icon.classList.add('fas');
+                                button.title = 'Xóa khỏi danh sách đã lưu';
+                            } else {
+                                button.classList.remove('is-saved');
+                                icon.classList.remove('fas');
+                                icon.classList.add('far');
+                                button.title = 'Lưu bài viết';
+                            }
+                            console.log('Thành công:', data.message);
+                        })
+                        .catch(error => {
+                            // Lỗi AJAX sẽ được hiển thị chi tiết hơn
+                            console.error('Lỗi AJAX:', error);
+                            alert('Có lỗi xảy ra khi thực hiện thao tác. Chi tiết: ' + error.message);
+                        })
+                        .finally(() => {
+                            // KÍCH HOẠT LẠI NÚT DÙ THÀNH CÔNG HAY THẤT BẠI
+                            button.disabled = false;
+                        });
+                });
+            });
+        </script>
+    @endpush
 @endsection

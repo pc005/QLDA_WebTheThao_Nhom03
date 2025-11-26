@@ -41,4 +41,13 @@ class Video extends Model
     {
         return $this->belongsTo(NguoiDung::class, 'nguoi_dung_id');
     }
+
+    /**
+     * Lấy danh sách Người dùng đã yêu thích Video này.
+     */
+    public function favoritedBy(): MorphToMany
+    {
+        // Tương tự như BaiViet
+        return $this->morphToMany(NguoiDung::class, 'favoritable', 'favorites', 'favoritable_id', 'nguoi_dung_id');
+    }
 }

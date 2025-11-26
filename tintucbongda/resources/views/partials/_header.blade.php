@@ -20,13 +20,13 @@
                     <div class="left-topbar">
                         <span class="left-topbar-item flex-wr-s-c">
                             <span>
-                                New York, NY
+                                {{-- New York, NY --}}
                             </span>
 
-                            <img class="m-b-1 m-rl-8" src="images/icons/icon-night.png" alt="IMG">
+                            {{-- <img class="m-b-1 m-rl-8" src="images/icons/icon-night.png" alt="IMG"> --}}
 
                             <span>
-                                HI 58° LO 56°
+                                {{-- HI 58° LO 56° --}}
                             </span>
                         </span>
 
@@ -37,26 +37,25 @@
                         <a href="#" class="left-topbar-item">
                             Contact
                         </a>
-                        @if(Auth::check())
+                        @if (Auth::check())
                             <span class="left-topbar-item">
                                 Xin chào, {{ Auth::user()->ho_ten }}
                             </span>
 
                             <a href="{{ route('logout') }}" class="left-topbar-item"
-                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 Đăng xuất
                             </a>
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
-
                         @else
-                            <a href="{{ route('register.show') }}" class="left-topbar-item">Đăng Nhập</a>
-                            <a href="{{ route('login.show') }}" class="left-topbar-item">Đăng Kí</a>
+                            <a href="{{ route('login.show') }}" class="left-topbar-item">Đăng Nhập</a>
+                            <a href="{{ route('register.show') }}" class="left-topbar-item">Đăng Kí</a>
                         @endif
 
-                            
+
                     </div>
 
                     <div class="right-topbar">
@@ -84,7 +83,7 @@
             </div>
 
             <!-- Header Mobile -->
-            <div class="wrap-header-mobile">
+            {{-- <div class="wrap-header-mobile">
                 <!-- Logo moblie -->
                 <div class="logo-mobile">
                     <a href="/home"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
@@ -96,10 +95,10 @@
                         <span class="hamburger-inner"></span>
                     </span>
                 </div>
-            </div>
+            </div> --}}
 
             <!-- Menu Mobile -->
-            <div class="menu-mobile">
+            {{-- <div class="menu-mobile">
                 <ul class="topbar-mobile">
                     <li class="left-topbar">
                         <span class="left-topbar-item flex-wr-s-c">
@@ -213,18 +212,19 @@
                         </span>
                     </li>
                 </ul>
-            </div>
+            </div> --}}
 
             <!--  -->
             <div class="container wrap-logo">
                 <!-- Logo desktop -->
                 <div class="logo">
-                    <a href="/home"><img src="images/icons/logo-01.png" alt="LOGO"></a>
+                    {{-- <a href="#"><img src="images/icons/logo-01.png" alt="LOGO"></a> --}}
+                    <a href="/home"><img src="{{ asset('images/icons/logo-01.png') }}" alt="LOGO"></a>
                 </div>
 
                 <!-- Banner -->
                 <div class="banner-header">
-                    <a href="#"><img src="images/banner-01.jpg" alt="IMG"></a>
+                    <a href="/home"><img src="{{ asset('images/banner-01.jpg') }}" alt="IMG"></a>
                 </div>
             </div>
 
@@ -234,7 +234,7 @@
                     <!-- Menu desktop -->
                     <nav class="menu-desktop">
                         <a class="logo-stick" href="/home">
-                            <img src="images/icons/logo-01.png" alt="LOGO">
+                            <img src="{{ asset('images/icons/logo-01.png') }}" alt="LOGO">
                         </a>
 
                         <ul class="main-menu">
@@ -256,14 +256,12 @@
                                             role="tab">All</a>
                                         <a class="nav-link" data-toggle="pill" href="#news-1"
                                             role="tab">Entertaiment</a>
-                                        <a class="nav-link" data-toggle="pill" href="#news-2"
-                                            role="tab">Fashion</a>
+                                        <a class="nav-link" data-toggle="pill" href="#news-2" role="tab">Fashion</a>
                                         <a class="nav-link" data-toggle="pill" href="#news-3" role="tab">Life
                                             Style</a>
                                         <a class="nav-link" data-toggle="pill" href="#news-4"
                                             role="tab">Technology</a>
-                                        <a class="nav-link" data-toggle="pill" href="#news-5"
-                                            role="tab">Travel</a>
+                                        <a class="nav-link" data-toggle="pill" href="#news-5" role="tab">Travel</a>
                                     </div>
 
                                     <div class="tab-content">
@@ -272,8 +270,7 @@
                                                 <div class="col-3">
                                                     <!-- Item post -->
                                                     <div>
-                                                        <a href="blog-detail-01.html"
-                                                            class="wrap-pic-w hov1 trans-03">
+                                                        <a href="blog-detail-01.html" class="wrap-pic-w hov1 trans-03">
                                                             <img src="images/post-05.jpg" alt="IMG">
                                                         </a>
 

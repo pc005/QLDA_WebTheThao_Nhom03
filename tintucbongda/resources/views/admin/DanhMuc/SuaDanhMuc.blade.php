@@ -1,4 +1,4 @@
-@extends('layouts.app') {{-- hoặc layouts.app nếu bạn dùng layout khác --}}
+@extends('admin.layouts.admin')
 
 @section('content')
     <div class="container">
@@ -33,6 +33,13 @@
                     @foreach ($categories as $category)
                         <option value="{{ $category->id }}">{{ $category->ten_danh_muc }}</option>
                     @endforeach
+                </select>
+            </div>
+            <div class="form-group mb-3">
+                <label for="trang_thai">Trạng thái</label>
+                <select class="form-control" id="trang_thai" name="trang_thai" required>
+                    <option value="Hoạt động">Hoạt động</option>
+                    <option value="Không hoạt động">Không hoạt động</option>
                 </select>
             </div>
 

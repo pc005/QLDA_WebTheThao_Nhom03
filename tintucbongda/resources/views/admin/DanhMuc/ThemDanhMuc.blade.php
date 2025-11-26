@@ -1,7 +1,16 @@
-@extends('layouts.app') {{-- hoặc layouts.app nếu bạn dùng layout khác --}}
+@extends('admin.layouts.admin')
 
 @section('content')
     <div class="container">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <form action="{{ route('categories.store') }}" method="POST">
             @csrf
 

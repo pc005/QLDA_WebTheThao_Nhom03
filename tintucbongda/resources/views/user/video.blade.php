@@ -47,63 +47,49 @@
                 Twitter
             </a>
 
-            <a href="#" class="dis-block f1-s-13 cl0 bg-google borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03">
+            {{-- <a href="#" class="dis-block f1-s-13 cl0 bg-google borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03">
                 <i class="fab fa-google-plus-g m-r-7"></i>
                 Google+
-            </a>
-
-            <a href="#"
-                class="dis-block f1-s-13 cl0 bg-pinterest borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03">
-                <i class="fab fa-pinterest-p m-r-7"></i>
-                Pinterest
-            </a>
+            </a> --}}
 
 
-        </div>
-        <div class="like-button" data-video-id="{{ $video->id }}" {{ auth()->check() ? '' : 'disabled' }}>
-            <span class="like-icon hidden">👍</span>
-            <span class="like-text hidden">Bạn đã thích</span>
-            <span class="like-count">{{ $video->likes_count }} Likes</span>
-        </div>
+            <!-- Nút Like -->
+            {{-- <div class="mt-4">
+                <button id="likeButton" class="like-button">
+                    <i id="likeIcon" class="fa-regular fa-heart"></i>
+                    <span id="likeText">Like</span>
+                </button>
+            </div>
+            <script>
+                const likeButton = document.getElementById('likeButton');
+                const likeIcon = document.getElementById('likeIcon');
+                const likeText = document.getElementById('likeText');
 
-        <script>
-            document.querySelectorAll('.like-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    const videoId = this.dataset.videoId;
-
-                    fetch(`/videos/${videoId}/like`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Đảm bảo bạn giữ token CSRF
-                            },
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            const likeIcon = this.querySelector('.like-icon');
-                            const likeText = this.querySelector('.like-text');
-                            const likeCount = this.querySelector('.like-count');
-
-                            if (data.status === 'liked') {
-                                likeIcon.classList.remove('hidden');
-                                likeText.classList.remove('hidden');
-                                likeCount.textContent = parseInt(likeCount.textContent) + 1 + ' Likes';
-                            } else if (data.status === 'unliked') {
-                                likeIcon.classList.add('hidden');
-                                likeText.classList.add('hidden');
-                                likeCount.textContent = parseInt(likeCount.textContent) - 1 + ' Likes';
-                            } else if (data.status === 'not_logged_in') {
-                                alert(data.message); // Hoặc hiển thị thông báo khác
-                            }
-                        })
-                        .catch(error => console.error('Error:', error));
+                likeButton.addEventListener('click', function() {
+                    if (likeIcon.classList.contains('fa-regular')) {
+                        // Chuyển sang trạng thái đã like
+                        likeIcon.classList.remove('fa-regular');
+                        likeIcon.classList.add('fa-solid');
+                        likeIcon.style.color = '#e0245e'; // màu đỏ
+                        likeText.textContent = 'Đã like';
+                    } else {
+                        // Chuyển lại trạng thái chưa like
+                        likeIcon.classList.remove('fa-solid');
+                        likeIcon.classList.add('fa-regular');
+                        likeIcon.style.color = '';
+                        likeText.textContent = 'Like';
+                    }
                 });
-            });
-        </script>
+            </script> --}}
 
 
 
 
+
+
+
+
+        </div>
         <!-- Leave a comment -->
         <div>
             <h4 class="f1-l-4 cl3 p-b-12">
@@ -132,7 +118,6 @@
                 </button>
             </form>
         </div>
-    </div>
 
 
 

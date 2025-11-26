@@ -2,6 +2,14 @@
 @extends('layouts.app') <!-- Kế thừa layout chính của bạn -->
 
 @section('content')
+    {{-- <head>
+        <meta property="og:title" content="{{ $baiViet->tieu_de }}" />
+        <meta property="og:description" content="{{ Str::limit($baiViet->noi_dung, 150) }}" />
+        <meta property="og:image" content="{{ asset($baiViet->hinh_anh) }}" />
+        <meta property="og:url" content="{{ url()->current() }}" />
+        <meta property="og:type" content="article" />
+
+    </head> --}}
     <!--===============================================================================================-->
     <link rel="icon" type="image/png" href="{{ asset('images/icons/favicon.png') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -13,7 +21,7 @@
     <div class="container">
         <!-- Tiêu đề và Nút Yêu Thích -->
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="bai-viet-title mb-0">{{ $baiViet->tieu_de }}</h1>
+            <h1 class="bai-viet-title">{{ $baiViet->tieu_de }}</h1>
 
             @auth
                 @php
@@ -35,10 +43,32 @@
                 </button>
             @endauth
         </div>
-        <img class="bai-viet-image img-fluid" src="{{ $baiViet->anh_dai_dien }}" alt="{{ $baiViet->tieu_de }}">
+        @php
+        function normalizeImage($path) {
+        // Nếu là URL thật (http/https)
+        if (filter_var($path, FILTER_VALIDATE_URL)) {
+        return $path;
+        }
+
+        // Nếu là đường dẫn tuyệt đối của Windows → convert về web path
+        if (str_contains($path, 'uploads')) {
+        $clean = str_replace(public_path(), '', $path);
+        return asset($clean);
+        }
+
+        // Seeder hoặc đường dẫn tương đối
+        return asset($path);
+        }
+
+        $imageUrl = normalizeImage($baiViet->anh_dai_dien);
+        @endphp
+
+
+        {{-- <img class="bai-viet-image" src="{{ $baiViet->anh_dai_dien }}" alt="{{ $baiViet->tieu_de }}" class="img-fluid"> --}}
+        <img class="bai-viet-image" src="{{ $imageUrl }}" alt="{{ $baiViet->tieu_de }}">
         <p class="noi-dung">{{ $baiViet->noi_dung }}</p>
 
-        <div class="text-muted mt-3">
+        <div class="mt-3 text-muted">
             <small>Ngày tạo: {{ $baiViet->ngay_tao }}</small>
         </div>
 
@@ -123,7 +153,6 @@
         </style>
         <div>
             <!-- Share -->
-
             <div class="flex-s-s">
                 <span class="f1-s-12 cl5 p-t-1 m-r-15">
                     Share:
@@ -134,6 +163,8 @@
                     $url = url()->current(); // Lấy URL hiện tại
                 @endphp
 
+
+
                 <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($url) }}"
                     class="dis-block f1-s-13 cl0 bg-facebook borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03"
                     target="_blank" rel="noopener noreferrer">
@@ -141,23 +172,129 @@
                     Facebook
                 </a>
 
-                <a href="#"
-                    class="dis-block f1-s-13 cl0 bg-twitter borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03">
-                    <i class="fab fa-twitter m-r-7"></i>
-                    Twitter
+                @php
+                    $url = url()->current(); // Lấy URL hiện tại
+                @endphp
+
+                <a href="https://zalo.me/share?url={{ urlencode($url) }}"
+                    class="zalo dis-block f1-s-13 cl0 bg-zalo borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03"
+                    target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-share-alt m-r-7"></i>
+                    Zalo
                 </a>
 
-                <a href="#"
-                    class="dis-block f1-s-13 cl0 bg-google borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03">
-                    <i class="fab fa-google-plus-g m-r-7"></i>
-                    Google+
-                </a>
 
-                <a href="#"
-                    class="dis-block f1-s-13 cl0 bg-pinterest borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03">
-                    <i class="fab fa-pinterest-p m-r-7"></i>
-                    Pinterest
-                </a>
+
+                <!-- Nút Like -->
+                <!-- Nút Like -->
+                {{-- <button id="likeButton" data-id="{{ $baiViet->id }}" class="like-button {{ $daLike ? 'liked' : '' }}">
+                    @if ($daLike)
+                        <i id="likeIcon" class="fa-solid fa-heart" style="color:#e0245e"></i>
+                        <span id="likeText">Đã like</span>
+                    @else
+                        <i id="likeIcon" class="fa-regular fa-heart"></i>
+                        <span id="likeText">Like</span>
+                    @endif
+                </button>
+
+
+
+                <script>
+                    document.getElementById('likeButton').addEventListener('click', function() {
+                        let baiVietId = this.getAttribute('data-id');
+
+                        fetch(`/like/${baiVietId}`, {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({})
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                const icon = document.getElementById('likeIcon');
+                                const text = document.getElementById('likeText');
+
+                                if (data.status === 'liked') {
+                                    this.classList.add('liked');
+                                    icon.classList.remove('fa-regular');
+                                    icon.classList.add('fa-solid');
+                                    icon.style.color = '#e0245e';
+                                    text.textContent = 'Đã like';
+                                } else {
+                                    this.classList.remove('liked');
+                                    icon.classList.remove('fa-solid');
+                                    icon.classList.add('fa-regular');
+                                    icon.style.color = '';
+                                    text.textContent = 'Like';
+                                }
+                            });
+                    });
+                </script> --}}
+
+
+                <!-- CSS -->
+                <style>
+                    .zalo {
+                        background-color: #0068ff;
+                    }
+
+                    .like-button {
+                        cursor: pointer;
+                        display: inline-flex;
+                        align-items: center;
+                        padding: 10px 16px;
+                        border: none;
+                        border-radius: 25px;
+                        background-color: #f5f5f5;
+                        font-size: 16px;
+                        font-weight: 500;
+                        color: #333;
+                        transition: all 0.3s ease;
+                    }
+
+                    .like-button:hover {
+                        background-color: #eaeaea;
+                    }
+
+                    .like-button i {
+                        font-size: 20px;
+                        margin-right: 8px;
+                        transition: color 0.3s ease;
+                    }
+
+                    .like-button.liked {
+                        background-color: #ffe6eb;
+                        color: #e0245e;
+                    }
+
+                    .like-button.liked i {
+                        color: #e0245e;
+                    }
+                </style>
+
+                {{-- <!-- JS -->
+                <script>
+                    const likeButton = document.getElementById('likeButton');
+                    const likeIcon = document.getElementById('likeIcon');
+                    const likeText = document.getElementById('likeText');
+
+                    likeButton.addEventListener('click', function() {
+                        this.classList.toggle('liked');
+                        if (this.classList.contains('liked')) {
+                            likeIcon.classList.remove('fa-regular');
+                            likeIcon.classList.add('fa-solid');
+                            likeText.textContent = 'Đã like';
+                        } else {
+                            likeIcon.classList.remove('fa-solid');
+                            likeIcon.classList.add('fa-regular');
+                            likeText.textContent = 'Like';
+                        }
+                    });
+                </script> --}}
+
+
             </div>
             <!-- Leave a comment -->
             <div>
@@ -258,19 +395,29 @@
         }
     </style>
     </div>
+
     <div class="row justify-content-center">
+        {{-- <div>
+            <h1 style="baivietngaunhien">bài viết ngẫu nhiên</h1>
+        </div> --}}
         @foreach ($articles->random(4) as $article)
-            <div class="b col-md-4 mb-4">
-                <div class="card h-100 shadow-sm border-0">
+            <div class="mb-4 b col-md-4">
+                <div class="border-0 shadow-sm card h-100">
                     <!-- Ảnh vuông -->
                     <a href="{{ route('bai-viet.show', $article->id) }}">
-                        <img src="{{ asset($article['anh_dai_dien']) }}" class="card-img-top square-img"
-                            alt="{{ $article['tieu_de'] }}">
+                        {{-- <img src="{{ asset($article['anh_dai_dien']) }}" class="card-img-top square-img"
+                            alt="{{ $article['tieu_de'] }}"> --}}
+                            @php
+                                $img = normalizeImage($article['anh_dai_dien']);
+                            @endphp
+
+                            <img src="{{ $img }}" class="card-img-top square-img" alt="{{ $article['tieu_de'] }}">
+
                     </a>
 
                     <!-- Nội dung -->
-                    <div class="card-body px-3 py-2">
-                        <h5 class="card-title mb-2">
+                    <div class="px-3 py-2 card-body">
+                        <h5 class="mb-2 card-title">
                             <a class="tieu_de" href="{{ route('bai-viet.show', $article->id) }}"
                                 class="text-dark text-decoration-none">
                                 {{ $article['tieu_de'] }}
@@ -282,7 +429,7 @@
                     </div>
 
                     <!-- Footer -->
-                    <div class="card-footer bg-white border-0 text-end text-muted small px-3">
+                    <div class="px-3 bg-white border-0 card-footer text-end text-muted small">
                         {{ optional($article->created_at)->format('d/m/Y') }}
                     </div>
                 </div>
@@ -300,7 +447,7 @@
 
         .b {
             max-width: 300px;
-            max-height: 300px
+            /* max-height: 300px */
         }
 
         .square-img {

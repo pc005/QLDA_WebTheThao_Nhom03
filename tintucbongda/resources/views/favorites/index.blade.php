@@ -90,7 +90,7 @@
 
                     {{-- Menu Điều Hướng --}}
                     <div class="list-group list-group-flush">
-                        <a href="#" class="list-group-item list-group-item-action">Thông tin chung</a>
+                        <a href="{{ route('profile.index') }}" class="list-group-item list-group-item-action">Thông tin chung</a>
                         <a href="#" class="list-group-item list-group-item-action">Ý kiến của bạn (0)</a>
                         {{-- Link Hiện Tại --}}
                         <a href="{{ route('favorites.index') }}" class="list-group-item list-group-item-action active-vnexpress-style">

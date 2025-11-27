@@ -9,7 +9,7 @@ use App\Http\Controllers\BaiVietController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\BTV\BTVController;
-
+use App\Http\Controllers\ProfileController;
 
 
 // Route::get('/', [HomeController::class, 'home'])->name('home');
@@ -29,6 +29,7 @@ Route::post('/categories', [DanhMucController::class, 'store'])->name('categorie
 Route::resource('videos', VideoController::class);
 Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show');
 Route::get('/video/{id}/like', [VideoController::class, 'like'])->name('video.like');
+
 use App\Http\Controllers\LuotThichController;
 
 Route::post('/like/{baiViet}', [LuotThichController::class, 'store'])->name('like.store');
@@ -73,8 +74,7 @@ Route::prefix('admin')
         Route::get('/categories', [AdminController::class, 'categories'])->name('categories.index');
         Route::get('/ads', [AdminController::class, 'ads'])->name('ads.index');
         Route::get('/settings', [AdminController::class, 'settings'])->name('settings.index');
-
-});
+    });
 
 //BTV (Biên tập viên)
 Route::prefix('btv')
@@ -93,13 +93,21 @@ Route::prefix('btv')
     });
 
 
-// Yêu cầu phải đăng nhập
 Route::middleware(['auth'])->group(function () {
-    // 1. Tuyến đường xử lý Thêm/Xóa (sẽ dùng AJAX)
-    Route::post('/favorites/toggle', [FavoriteController::class, 'toggleFavorite'])->name('favorites.toggle');
 
-    // 2. Tuyến đường hiển thị trang danh sách yêu thích chung
-    Route::get('/yeu-thich-cua-toi', [FavoriteController::class, 'index'])->name('favorites.index');
+    // --- NHÓM YÊU THÍCH (Favorites) ---
+    Route::controller(FavoriteController::class)->group(function () {
+        Route::get('/yeu-thich-cua-toi', 'index')->name('favorites.index');
+        Route::post('/favorites/toggle', 'toggleFavorite')->name('favorites.toggle');
+    });
+
+    // --- NHÓM HỒ SƠ CÁ NHÂN (Profile) ---
+    Route::controller(ProfileController::class)->group(function () {
+        Route::get('/thong-tin-tai-khoan', 'index')->name('profile.index');
+        Route::post('/thong-tin-tai-khoan/avatar', 'updateAvatar')->name('profile.update.avatar');
+        Route::patch('/profile/name', 'updateName')->name('profile.update.name');
+    });
+
+    Route::put('/profile/email', [ProfileController::class, 'updateEmail'])->name('profile.update.email');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.update.password');
 });
-
-

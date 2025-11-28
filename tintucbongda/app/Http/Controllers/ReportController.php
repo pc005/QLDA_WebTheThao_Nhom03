@@ -20,11 +20,11 @@ class ReportController extends Controller
         // Lưu báo cáo
         BaoCao::create([
             'nguoi_dung_id' => Auth::check() ? Auth::id() : null,
-            'doi_tuong' => 'bai_viet',
+            'doi_tuong' => 'BaiViet',
             'doi_tuong_id' => $id,
             'ly_do' => $request->ly_do,
             'mo_ta' => $request->mo_ta,
-            'trang_thai' => 'đang xử lý',
+            'trang_thai' => 'Chưa xử lý',
             'ngay_tao' => Carbon::now(),
         ]);
 

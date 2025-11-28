@@ -8,6 +8,7 @@
     .table-custom thead { background: #f9fafb; }
     .badge-pending { background: #fbbf24; color: #111827; font-weight: 600; }
     .badge-approved { background: #10b981; color: white; font-weight: 600; }
+    .badge-rejected { background: #ef4444; color: white; font-weight: 600; }
     .badge-draft { background: #6b7280; color: white; font-weight: 600; }
     .btn-sm { padding: 6px 12px; font-size: 13px; border-radius: 6px; }
     .action-btns { display: flex; gap: 6px; flex-wrap: wrap; }
@@ -28,7 +29,7 @@
 
     <div class="card table-custom">
         <div class="table-responsive">
-            <table class="table table-hover mb-0">
+            <table class="table mb-0 table-hover">
                 <thead>
                     <tr>
                         <th style="width: 5%;">#</th>
@@ -53,6 +54,12 @@
                                     <span class="badge badge-pending">Chờ duyệt</span>
                                 @elseif ($post->trang_thai === 'Đã duyệt')
                                     <span class="badge badge-approved">Đã duyệt</span>
+                                @elseif ($post->trang_thai === 'Bị từ chối')
+                                    <span class="badge badge-rejected">Bị từ chối</span>
+                                    <br>
+                                    <button type="button" class="mt-1 btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#reasonModal{{ $post->id }}">
+                                        Xem lý do
+                                    </button>
                                 @elseif ($post->trang_thai === 'Nháp')
                                     <span class="badge badge-draft">Nháp</span>
                                 @else
@@ -76,7 +83,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center text-muted py-4">
+                            <td colspan="5" class="py-4 text-center text-muted">
                                 <i class="fas fa-inbox" style="font-size: 32px;"></i>
                                 <p class="mt-2">Bạn chưa tạo bài viết nào</p>
                                 <a href="{{ route('btv.posts.create') }}" class="btn btn-primary btn-sm">Tạo bài viết ngay</a>
@@ -90,10 +97,32 @@
 
     <!-- Pagination -->
     @if ($posts->hasPages())
-        <div class="d-flex justify-content-center mt-4">
+        <div class="mt-4 d-flex justify-content-center">
             {{ $posts->links('pagination::bootstrap-5') }}
         </div>
     @endif
 </div>
+
+<!-- Modals for rejection reasons -->
+@foreach($posts as $post)
+@if($post->trang_thai === 'Bị từ chối')
+<div class="modal fade" id="reasonModal{{ $post->id }}" tabindex="-1" aria-labelledby="reasonModalLabel{{ $post->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reasonModalLabel{{ $post->id }}">Lý do từ chối: {{ $post->tieu_de }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>{{ $post->ly_do_tu_choi }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+@endforeach
 
 @endsection

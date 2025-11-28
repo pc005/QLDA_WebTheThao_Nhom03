@@ -169,7 +169,8 @@
         </a>
         <div class="collapse" id="postsMenu">
             <a class="sub-item" href="{{ route('admin.posts.index') }}">Danh sách bài viết</a>
-            <a class="sub-item" href="#">Thêm bài viết</a>
+            <a class="sub-item" href="{{ route('admin.posts.featured') }}">Danh sách bài viết nổi bật</a>
+            <a class="sub-item" href="{{ route('admin.posts.reported') }}">Danh sách bài viết bị tố cáo</a>
         </div>
 
         <!-- Danh mục -->

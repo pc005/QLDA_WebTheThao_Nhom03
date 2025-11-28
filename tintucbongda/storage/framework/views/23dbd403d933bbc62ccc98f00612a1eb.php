@@ -5,9 +5,8 @@
     <title>Blog Detail With Sidebar</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--===============================================================================================-->
-    
-    <!--===============================================================================================-->
+
+    <link rel="stylesheet" type="text/css" href="<?php echo e(asset('css/main.css')); ?>">
 </head>
 
 <body class="animsition">
@@ -17,17 +16,17 @@
         <!-- Header desktop -->
         <div class="container-menu-desktop">
             <div class="topbar">
-                <div class="content-topbar container h-100">
+                <div class="container content-topbar h-100">
                     <div class="left-topbar">
                         <span class="left-topbar-item flex-wr-s-c">
                             <span>
-                                New York, NY
+                                
                             </span>
 
-                            <img class="m-b-1 m-rl-8" src="images/icons/icon-night.png" alt="IMG">
+                            
 
                             <span>
-                                HI 58° LO 56°
+                                
                             </span>
                         </span>
 
@@ -38,14 +37,26 @@
                         <a href="#" class="left-topbar-item">
                             Contact
                         </a>
+                        <?php if(Auth::check()): ?>
+                            <span class="left-topbar-item">
+                                Xin chào, <?php echo e(Auth::user()->ho_ten); ?>
 
-                        <a href="#" class="left-topbar-item">
-                            Sing up
-                        </a>
+                            </span>
 
-                        <a href="#" class="left-topbar-item">
-                            Log in
-                        </a>
+                            <a href="<?php echo e(route('logout')); ?>" class="left-topbar-item"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Đăng xuất
+                            </a>
+
+                            <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
+                                <?php echo csrf_field(); ?>
+                            </form>
+                        <?php else: ?>
+                            <a href="<?php echo e(route('login.show')); ?>" class="left-topbar-item">Đăng Nhập</a>
+                            <a href="<?php echo e(route('register.show')); ?>" class="left-topbar-item">Đăng Kí</a>
+                        <?php endif; ?>
+
+
                     </div>
 
                     <div class="right-topbar">
@@ -73,147 +84,22 @@
             </div>
 
             <!-- Header Mobile -->
-            <div class="wrap-header-mobile">
-                <!-- Logo moblie -->
-                <div class="logo-mobile">
-                    <a href="/home"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
-                </div>
-
-                <!-- Button show menu -->
-                <div class="btn-show-menu-mobile hamburger hamburger--squeeze m-r--8">
-                    <span class="hamburger-box">
-                        <span class="hamburger-inner"></span>
-                    </span>
-                </div>
-            </div>
+            
 
             <!-- Menu Mobile -->
-            <div class="menu-mobile">
-                <ul class="topbar-mobile">
-                    <li class="left-topbar">
-                        <span class="left-topbar-item flex-wr-s-c">
-                            <span>
-                                New York, NY
-                            </span>
-
-                            <img class="m-b-1 m-rl-8" src="images/icons/icon-night.png" alt="IMG">
-
-                            <span>
-                                HI 58° LO 56°
-                            </span>
-                        </span>
-                    </li>
-
-                    <li class="left-topbar">
-                        <a href="#" class="left-topbar-item">
-                            About
-                        </a>
-
-                        <a href="#" class="left-topbar-item">
-                            Contact
-                        </a>
-
-                        <a href="#" class="left-topbar-item">
-                            Sing up
-                        </a>
-
-                        <a href="#" class="left-topbar-item">
-                            Log in
-                        </a>
-                    </li>
-
-                    <li class="right-topbar">
-                        <a href="#">
-                            <span class="fab fa-facebook-f"></span>
-                        </a>
-
-                        <a href="#">
-                            <span class="fab fa-twitter"></span>
-                        </a>
-
-                        <a href="#">
-                            <span class="fab fa-pinterest-p"></span>
-                        </a>
-
-                        <a href="#">
-                            <span class="fab fa-vimeo-v"></span>
-                        </a>
-
-                        <a href="#">
-                            <span class="fab fa-youtube"></span>
-                        </a>
-                    </li>
-                </ul>
-
-                <ul class="main-menu-m">
-                    <li>
-                        <a href="<?php echo e(route('home')); ?>">Home</a>
-                        <ul class="sub-menu-m">
-                            <li><a href="<?php echo e(route('home')); ?>">Homepage v1</a></li>
-                            <li><a href="home-02.html">Homepage v2</a></li>
-                            <li><a href="home-03.html">Homepage v3</a></li>
-                        </ul>
-
-                        <span class="arrow-main-menu-m">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>
-                        </span>
-                    </li>
-
-                    <li>
-                        <a href="/video">News</a>
-                    </li>
-
-                    <li>
-                        <a href="/video">Entertainment </a>
-                    </li>
-
-                    <li>
-                        <a href="/video">Business</a>
-                    </li>
-
-                    <li>
-                        <a href="/video">Travel</a>
-                    </li>
-
-                    <li>
-                        <a href="/video">Life Style</a>
-                    </li>
-
-                    <li>
-                        <a href="/video">Video</a>
-                    </li>
-
-                    <li>
-                        <a href="#">Features</a>
-                        <ul class="sub-menu-m">
-                            <li><a href="/video">Category Page v1</a></li>
-                            <li><a href="/video">Category Page v2</a></li>
-                            <li><a href="blog-grid.html">Blog Grid Sidebar</a></li>
-                            <li><a href="blog-list-01.html">Blog List Sidebar v1</a></li>
-                            <li><a href="blog-list-02.html">Blog List Sidebar v2</a></li>
-                            <li><a href="blog-detail-01.html">Blog Detail Sidebar</a></li>
-                            <li><a href="blog-detail-02.html">Blog Detail No Sidebar</a></li>
-                            <li><a href="about.html">About Us</a></li>
-                            <li><a href="contact.html">Contact Us</a></li>
-                        </ul>
-
-                        <span class="arrow-main-menu-m">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>
-                        </span>
-                    </li>
-                </ul>
-            </div>
+            
 
             <!--  -->
-            <div class="wrap-logo container">
+            <div class="container wrap-logo">
                 <!-- Logo desktop -->
                 <div class="logo">
-                    <a href="/home"><img src="images/icons/logo-01.png" alt="LOGO"></a>
+                    
+                    <a href="/home"><img src="<?php echo e(asset('images/icons/logo-01.png')); ?>" alt="LOGO"></a>
                 </div>
 
                 <!-- Banner -->
                 <div class="banner-header">
-                    <a href="#"><img src="images/banner-01.jpg" alt="IMG"></a>
+                    <a href="/home"><img src="<?php echo e(asset('images/banner-01.jpg')); ?>" alt="IMG"></a>
                 </div>
             </div>
 
@@ -223,7 +109,7 @@
                     <!-- Menu desktop -->
                     <nav class="menu-desktop">
                         <a class="logo-stick" href="/home">
-                            <img src="images/icons/logo-01.png" alt="LOGO">
+                            <img src="<?php echo e(asset('images/icons/logo-01.png')); ?>" alt="LOGO">
                         </a>
 
                         <ul class="main-menu">
@@ -237,7 +123,7 @@
                             </li>
 
                             <li class="mega-menu-item">
-                                <a href="/video">News</a>
+                                <a href="/videos">News</a>
 
                                 <div class="sub-mega-menu">
                                     <div class="nav flex-column nav-pills" role="tablist">
@@ -245,14 +131,12 @@
                                             role="tab">All</a>
                                         <a class="nav-link" data-toggle="pill" href="#news-1"
                                             role="tab">Entertaiment</a>
-                                        <a class="nav-link" data-toggle="pill" href="#news-2"
-                                            role="tab">Fashion</a>
+                                        <a class="nav-link" data-toggle="pill" href="#news-2" role="tab">Fashion</a>
                                         <a class="nav-link" data-toggle="pill" href="#news-3" role="tab">Life
                                             Style</a>
                                         <a class="nav-link" data-toggle="pill" href="#news-4"
                                             role="tab">Technology</a>
-                                        <a class="nav-link" data-toggle="pill" href="#news-5"
-                                            role="tab">Travel</a>
+                                        <a class="nav-link" data-toggle="pill" href="#news-5" role="tab">Travel</a>
                                     </div>
 
                                     <div class="tab-content">
@@ -261,8 +145,7 @@
                                                 <div class="col-3">
                                                     <!-- Item post -->
                                                     <div>
-                                                        <a href="blog-detail-01.html"
-                                                            class="wrap-pic-w hov1 trans-03">
+                                                        <a href="blog-detail-01.html" class="wrap-pic-w hov1 trans-03">
                                                             <img src="images/post-05.jpg" alt="IMG">
                                                         </a>
 
@@ -1100,7 +983,7 @@
                             </li>
 
                             <li class="mega-menu-item">
-                                <a href="/video">Entertainment </a>
+                                <a href="/videos">Entertainment </a>
 
                                 <div class="sub-mega-menu">
                                     <div class="nav flex-column nav-pills" role="tablist">
@@ -1537,7 +1420,7 @@
                             </li>
 
                             <li class="mega-menu-item">
-                                <a href="/video">Business</a>
+                                <a href="/videos">Business</a>
 
                                 <div class="sub-mega-menu">
                                     <div class="nav flex-column nav-pills" role="tablist">
@@ -1832,7 +1715,7 @@
                             </li>
 
                             <li class="mega-menu-item">
-                                <a href="/video">Travel</a>
+                                <a href="/videos">Travel</a>
 
                                 <div class="sub-mega-menu">
                                     <div class="nav flex-column nav-pills" role="tablist">
@@ -2127,7 +2010,7 @@
                             </li>
 
                             <li class="mega-menu-item">
-                                <a href="/video">Life Style</a>
+                                <a href="/videos">Life Style</a>
 
                                 <div class="sub-mega-menu">
                                     <div class="nav flex-column nav-pills" role="tablist">
@@ -2280,7 +2163,7 @@
                             </li>
 
                             <li class="mega-menu-item">
-                                <a href="/video">Video</a>
+                                <a href="/videos">Video</a>
 
                                 <div class="sub-mega-menu">
                                     <div class="nav flex-column nav-pills" role="tablist">
@@ -2435,8 +2318,8 @@
                             <li class="main-menu-active">
                                 <a href="#">Features</a>
                                 <ul class="sub-menu">
-                                    <li><a href="/video">Category Page v1</a></li>
-                                    <li><a href="/video">Category Page v2</a></li>
+                                    <li><a href="/videos">Category Page v1</a></li>
+                                    <li><a href="/videos">Category Page v2</a></li>
                                     <li><a href="blog-grid.html">Blog Grid Sidebar</a></li>
                                     <li><a href="blog-list-01.html">Blog List Sidebar v1</a></li>
                                     <li><a href="blog-list-02.html">Blog List Sidebar v2</a></li>

@@ -52,6 +52,7 @@
                             </form>
                         @else
                             <a href="{{ route('login') }}" class="left-topbar-item">Đăng Nhập</a>
+                            <a href="{{ route('login') }}" class="left-topbar-item">Đăng Nhập</a>
                             <a href="{{ route('register.show') }}" class="left-topbar-item">Đăng Kí</a>
                         @endif
 
@@ -2461,6 +2462,7 @@
         </div>
     </header>
 
+   <!-- Search Bar Section -->
    <!-- Search Bar Section -->
     <div class="container">
         <!-- Load Font Awesome -->

@@ -149,7 +149,7 @@
             </div>
             <style>
                 .pagination {
-                    margin-left: 40px;
+                    /* margin-left: 40px; */
 
 
                     display: flex;

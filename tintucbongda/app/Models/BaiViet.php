@@ -22,6 +22,7 @@ class BaiViet extends Model
         'noi_bat',
         'ngay_tao',
         'ngay_cap_nhat',
+        'ly_do_tu_choi',
     ];
 
     public $timestamps = true;

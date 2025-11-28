@@ -70,7 +70,23 @@
                 @foreach ($featuredArticles as $article)
                     <div class="col-lg-4 col-md-6 col-12 d-flex">
                         <div class="border-0 shadow card featured-card flex-fill position-relative">
-                            <div class="featured-img position-relative w-100" style="background-image: url('{{ asset($article['anh_dai_dien']) }}');">
+                            @php
+                                $imgPath = $article['anh_dai_dien'];
+                                if (!empty($imgPath)) {
+                                    if (filter_var($imgPath, FILTER_VALIDATE_URL)) {
+                                        $imgUrl = $imgPath;
+                                    } elseif (str_starts_with($imgPath, public_path())) {
+                                        $relPath = str_replace(public_path(), '', $imgPath);
+                                        $relPath = str_replace('\\', '/', $relPath);
+                                        $imgUrl = asset(ltrim($relPath, '/'));
+                                    } else {
+                                        $imgUrl = asset($imgPath);
+                                    }
+                                } else {
+                                    $imgUrl = asset('images/no-image.png');
+                                }
+                            @endphp
+                            <div class="featured-img position-relative w-100" style="background-image: url('{{ $imgUrl }}');">
                                 <a href="{{ route('bai-viet.show', $article->id) }}" class="dis-block how1-child1 trans-03 w-100 h-100"></a>
                                 <span class="top-0 px-3 py-2 m-2 shadow featured-badge badge bg-warning text-dark position-absolute start-0 fs-6">Nổi bật</span>
                             </div>
@@ -144,46 +160,6 @@
                 text-decoration: none;
             }
         </style>
-
-        {{-- <style>
-            .row {
-                display: flex;
-                /* Sử dụng Flexbox */
-                flex-wrap: wrap;
-                /* Cho phép dòng mới khi không đủ chỗ */
-                margin: -15px;
-                /* Giảm khoảng cách giữa các cột */
-            }
-
-            .col-md-4 {
-                flex: 1 0 30%;
-                /* Mỗi cột chiếm 30% chiều rộng */
-                max-width: 30%;
-                /* Đặt chiều rộng tối đa của cột là 30% */
-                padding: 15px;
-                /* Khoảng cách giữa các cột */
-                box-sizing: border-box;
-                /* Đảm bảo padding không làm vượt quá chiều rộng */
-            }
-
-            .bg-img1 {
-                background-size: cover;
-                /* Đảm bảo hình ảnh được phóng to để lấp đầy khu vực */
-                background-position: center;
-                /* Căn giữa hình ảnh */
-                height: 200px;
-                /* Chiều cao cố định cho hình ảnh */
-                position: relative;
-                /* Để trẻ em có thể định vị chính xác */
-            }
-
-            .how1-child1 {
-                display: block;
-                /* Tạo khối cho liên kết */
-                height: 100%;
-                /* Cho liên kết chiếm đầy chiều cao vùng chứa */
-            }
-        </style> --}}
 
         <!-- Post -->
         <section class="post bg0 p-t-85">
@@ -918,7 +894,23 @@
                         <div class="col-sm-6 col-md-4">
                             <div class="m-b-45">
                                 <a href="{{ route('bai-viet.show', $article->id) }}" class="wrap-pic-w hov1 trans-03">
-                                    <img src="{{ asset($article['anh_dai_dien']) }}" alt="IMG">
+                                    @php
+                                        $imgPath = $article['anh_dai_dien'];
+                                        if (!empty($imgPath)) {
+                                            if (filter_var($imgPath, FILTER_VALIDATE_URL)) {
+                                                $imgUrl = $imgPath;
+                                            } elseif (str_starts_with($imgPath, public_path())) {
+                                                $relPath = str_replace(public_path(), '', $imgPath);
+                                                $relPath = str_replace('\\', '/', $relPath);
+                                                $imgUrl = asset(ltrim($relPath, '/'));
+                                            } else {
+                                                $imgUrl = asset($imgPath);
+                                            }
+                                        } else {
+                                            $imgUrl = asset('images/no-image.png');
+                                        }
+                                    @endphp
+                                    <img src="{{ $imgUrl }}" alt="IMG">
                                 </a>
 
                                 <div class="p-t-16">

@@ -19,27 +19,21 @@
     <div class="container">
         <h1 class="bai-viet-title">{{ $baiViet->tieu_de }}</h1>
         @php
-            function normalizeImage($path) {
-                // Nếu là URL thật (http/https)
-                if (filter_var($path, FILTER_VALIDATE_URL)) {
-                    return $path;
+            $imagePath = $baiViet->anh_dai_dien;
+            if (!empty($imagePath)) {
+                if (filter_var($imagePath, FILTER_VALIDATE_URL)) {
+                    $imageUrl = $imagePath;
+                } elseif (str_starts_with($imagePath, public_path())) {
+                    $relativePath = str_replace(public_path(), '', $imagePath);
+                    $relativePath = str_replace('\\', '/', $relativePath);
+                    $imageUrl = asset(ltrim($relativePath, '/'));
+                } else {
+                    $imageUrl = asset($imagePath);
                 }
-
-                // Nếu là đường dẫn tuyệt đối của Windows → convert về web path
-                if (str_contains($path, 'uploads')) {
-                    $clean = str_replace(public_path(), '', $path);
-                    return asset($clean);
-                }
-
-                // Seeder hoặc đường dẫn tương đối
-                return asset($path);
+            } else {
+                $imageUrl = asset('images/no-image.png'); // Placeholder image
             }
-
-            $imageUrl = normalizeImage($baiViet->anh_dai_dien);
         @endphp
-
-
-        {{-- <img class="bai-viet-image" src="{{ $baiViet->anh_dai_dien }}" alt="{{ $baiViet->tieu_de }}" class="img-fluid"> --}}
         <img class="bai-viet-image" src="{{ $imageUrl }}" alt="{{ $baiViet->tieu_de }}">
 
         <p class="noi-dung">{{ $baiViet->noi_dung }}</p>
@@ -265,13 +259,23 @@
                 <div class="border-0 shadow-sm card h-100">
                     <!-- Ảnh vuông -->
                     <a href="{{ route('bai-viet.show', $article->id) }}">
-                        {{-- <img src="{{ asset($article['anh_dai_dien']) }}" class="card-img-top square-img"
-                            alt="{{ $article['tieu_de'] }}"> --}}
-                            @php
-                                $img = normalizeImage($article['anh_dai_dien']);
-                            @endphp
-
-                            <img src="{{ $img }}" class="card-img-top square-img" alt="{{ $article['tieu_de'] }}">
+                        @php
+                            $imgPath = $article['anh_dai_dien'];
+                            if (!empty($imgPath)) {
+                                if (filter_var($imgPath, FILTER_VALIDATE_URL)) {
+                                    $imgUrl = $imgPath;
+                                } elseif (str_starts_with($imgPath, public_path())) {
+                                    $relPath = str_replace(public_path(), '', $imgPath);
+                                    $relPath = str_replace('\\', '/', $relPath);
+                                    $imgUrl = asset(ltrim($relPath, '/'));
+                                } else {
+                                    $imgUrl = asset($imgPath);
+                                }
+                            } else {
+                                $imgUrl = asset('images/no-image.png');
+                            }
+                        @endphp
+                        <img src="{{ $imgUrl }}" class="card-img-top square-img" alt="{{ $article['tieu_de'] }}">
 
                     </a>
 

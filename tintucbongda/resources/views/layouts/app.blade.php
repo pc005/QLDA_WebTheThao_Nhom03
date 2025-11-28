@@ -21,7 +21,8 @@
 
     @include('partials._footer')
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="{{ asset('libs/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('libs/toastr/toastr.min.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('libs/toastr/toastr.min.css') }}">
 
 

@@ -3,35 +3,31 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-// use App\Models\Report; // Kích hoạt dòng này khi bạn có model Report
+use App\Models\BaoCao;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ReportController extends Controller
 {
-    /**
-     * Xử lý và lưu báo cáo bài viết vào cơ sở dữ liệu.
-     */
-    public function store(Request $request, $articleId)
+    public function store(Request $request, $id)
     {
-        // 1. Xác thực dữ liệu
+        // Xác thực dữ liệu
         $request->validate([
-            'reason' => 'required|string|in:spam,hate_speech,misinformation,pornography,other',
-            'description' => 'nullable|string|max:1000',
+            'ly_do' => 'required|string|max:255',
+            'mo_ta' => 'nullable|string|max:1000',
         ]);
 
-        // 2. Logic lưu báo cáo vào DB (Giả định bạn có bảng/model Report)
-
-        /*
-        // Ví dụ về việc lưu dữ liệu:
-        Report::create([
-            'article_id' => $articleId,
-            'user_id' => auth()->check() ? auth()->id() : null, // Ghi lại ID người dùng nếu đã đăng nhập
-            'reason' => $request->reason,
-            'description' => $request->description,
-            'ip_address' => $request->ip(),
+        // Lưu báo cáo
+        BaoCao::create([
+            'nguoi_dung_id' => Auth::check() ? Auth::id() : null,
+            'doi_tuong' => 'bai_viet',
+            'doi_tuong_id' => $id,
+            'ly_do' => $request->ly_do,
+            'mo_ta' => $request->mo_ta,
+            'trang_thai' => 'đang xử lý',
+            'ngay_tao' => Carbon::now(),
         ]);
-        */
 
-        // 3. Trả về phản hồi cho người dùng
-        return back()->with('success', 'Cảm ơn bạn! Báo cáo của bạn đã được ghi nhận và sẽ được xem xét sớm.');
+        return back()->with('success', 'Báo cáo của bạn đã được ghi nhận.');
     }
 }

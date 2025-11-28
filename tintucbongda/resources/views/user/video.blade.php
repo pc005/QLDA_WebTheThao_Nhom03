@@ -89,8 +89,8 @@
 
 
         </div>
-         {{-- report --}}
-            <div class="my-3">
+        {{-- report --}}
+        {{-- <div class="my-3">
                 <button type="button" class="btn btn-sm btn-outline-danger report-button-right" data-bs-toggle="modal"
                     data-bs-target="#reportModal">
                     <i class="fas fa-flag me-2"></i> Báo cáo bài viết
@@ -106,9 +106,52 @@
                 .my-3 {
                     overflow: auto;
                 }
-            </style>
+            </style> --}}
+        <div class="my-3">
+            <button type="button" class="btn btn-sm btn-outline-danger report-button-right" data-bs-toggle="modal"
+                data-bs-target="#reportModal">
+                <i class="fas fa-flag me-2"></i> Báo cáo bài viết
+            </button>
+        </div>
 
-            
+        <!-- Modal -->
+        <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{ route('bai-viet.report', $video->id) }}" method="POST">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="reportModalLabel">Báo cáo bài viết</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="ly_do" class="form-label">Lý do báo cáo</label>
+                                <select name="ly_do" id="ly_do" class="form-select" required>
+                                    <option value="">-- Chọn lý do --</option>
+                                    <option value="spam">Spam</option>
+                                    <option value="hate_speech">Ngôn từ thù ghét</option>
+                                    <option value="misinformation">Thông tin sai lệch</option>
+                                    <option value="pornography">Nội dung khiêu dâm</option>
+                                    <option value="other">Khác</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="mo_ta" class="form-label">Mô tả chi tiết (tùy chọn)</label>
+                                <textarea name="mo_ta" id="mo_ta" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-danger">Gửi Báo cáo</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
         <!-- Leave a comment -->
         <div>
             <h4 class="f1-l-4 cl3 p-b-12">

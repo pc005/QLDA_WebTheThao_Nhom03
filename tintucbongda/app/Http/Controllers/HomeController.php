@@ -17,7 +17,7 @@ class HomeController extends Controller
 public function home()
 {
     // 3 bài viết nổi bật đã được admin duyệt
-    $featuredArticles = BaiViet::where('trang_thai', 'Đã duyệt')->orderBy('created_at', 'desc')->take(3)->get();
+    $featuredArticles = BaiViet::where('trang_thai', 'Đã duyệt')->where('noi_bat', 1)->orderBy('created_at', 'desc')->take(3)->get();
     $articles = BaiViet::limit(3)->get(); // Lấy 3 bài viết đầu tiên
     $latestArticles = BaiViet::orderBy('created_at', 'desc')->take(6)->get(); // Lấy 6 bài viết mới nhất
     return view('home', compact('articles', 'latestArticles', 'featuredArticles'));

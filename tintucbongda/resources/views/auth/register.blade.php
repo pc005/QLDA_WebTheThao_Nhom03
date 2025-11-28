@@ -36,7 +36,7 @@
         </form>
 
         <div class="login-footer">
-            <a href="{{ route('login.show') }}">Đã có tài khoản? Đăng nhập</a>
+            <a href="{{ route('login') }}">Đã có tài khoản? Đăng nhập</a>
         </div>
 
     </div>

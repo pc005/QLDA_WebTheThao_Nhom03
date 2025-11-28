@@ -61,7 +61,8 @@ class LoginController extends Controller
         return redirect()->route('home');
     }
     //Hiển thị form đăng ký
-    public function showFormRegister(){
+    public function showFormRegister()
+    {
         return view('auth.register'); // resources/views/auth/login.blade.php
     }
     //Xử lý đăng ký
@@ -104,7 +105,7 @@ class LoginController extends Controller
 
         toastr()->success('Tạo tài khoản thành công! Hãy đăng nhập.');
 
-        return redirect()->route('login.show');
+        return redirect()->route('login');
     }
     // =============================
     // QUÊN MẬT KHẨU
@@ -154,7 +155,7 @@ class LoginController extends Controller
         $reset = DB::table('password_resets')->where('token', $token)->first();
         if (!$reset || now()->diffInMinutes($reset->created_at) > 60) {
             toastr()->error("Link đặt lại mật khẩu không hợp lệ hoặc đã hết hạn!");
-            return redirect()->route('login.show');
+            return redirect()->route('login');
         }
 
         return view('auth.reset', compact('token'));
@@ -189,7 +190,7 @@ class LoginController extends Controller
         if (now()->diffInMinutes($reset->created_at) > 60) {
             DB::table('password_resets')->where('token', $request->token)->delete();
             toastr()->error("Link đặt lại mật khẩu đã hết hạn!");
-            return redirect()->route('login.show');
+            return redirect()->route('login');
         }
 
         $user = NguoiDung::where('email', $reset->email)->first();
@@ -200,13 +201,13 @@ class LoginController extends Controller
             return back();
         }
         //cập nhật không cần dùng make vì trong kia đã đó sử dụng để ãm hóa ròi
-        $user->update([ 'mat_khau' => $request->password  ]);
+        $user->update(['mat_khau' => $request->password]);
 
         // Xóa token sau khi dùng
         DB::table('password_resets')->where('email', $reset->email)->delete();
 
         toastr()->success("Đặt lại mật khẩu thành công! Hãy đăng nhập.");
-        return redirect()->route('login.show');
+        return redirect()->route('login');
     }
 
     //Log out
@@ -214,8 +215,6 @@ class LoginController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('login.show');
+        return redirect()->route('login');
     }
-
-
 }

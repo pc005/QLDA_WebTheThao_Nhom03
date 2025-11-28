@@ -296,36 +296,52 @@
 
 
             </div>
-            <!-- Leave a comment -->
-            <div>
-                <h4 class="f1-l-4 cl3 p-b-12">
-                    Leave a Comment
-                </h4>
+          <!-- ==================================================================== -->
+        <!-- KHU VỰC BÌNH LUẬN (STYLE VNEXPRESS - KHÔNG TAB) -->
+        <!-- ==================================================================== -->
+        <div id="comment-section" class="mt-5 mb-5 p-3 bg-white rounded shadow-sm">
+            <h4 class="mb-4 font-weight-bold" style="border-left: 4px solid #9f224e; padding-left: 10px; color: #333;">
+                Ý kiến <span id="comment-count" class="text-muted" style="font-size: 0.8em;">(0)</span>
+            </h4>
 
-                <p class="f1-s-13 cl8 p-b-40">
-                    Your email address will not be published. Required fields are marked *
-                </p>
+            <!-- Form nhập bình luận -->
+            @auth
+                <div class="comment-input-box mb-4">
+                    <textarea id="comment-content" class="form-control" rows="3" placeholder="Chia sẻ ý kiến của bạn..."></textarea>
+                    <div class="d-flex justify-content-end mt-2">
+                        <button id="btn-submit-comment" class="btn btn-vne-primary px-4">Gửi</button>
+                    </div>
+                </div>
+            @else
+                <div class="alert alert-light text-center border mb-4">
+                    <a href="{{ route('login') }}" class="text-danger font-weight-bold">Đăng nhập</a> để gửi bình luận.
+                </div>
+            @endauth
 
-                <form>
-                    <textarea class="bo-1-rad-3 bocl13 size-a-15 f1-s-13 cl5 plh6 p-rl-18 p-tb-14 m-b-20" name="msg"
-                        placeholder="Comment..."></textarea>
-
-                    <input class="bo-1-rad-3 bocl13 size-a-16 f1-s-13 cl5 plh6 p-rl-18 m-b-20" type="text" name="name"
-                        placeholder="Name*">
-
-                    <input class="bo-1-rad-3 bocl13 size-a-16 f1-s-13 cl5 plh6 p-rl-18 m-b-20" type="text" name="email"
-                        placeholder="Email*">
-
-                    <input class="bo-1-rad-3 bocl13 size-a-16 f1-s-13 cl5 plh6 p-rl-18 m-b-20" type="text" name="website"
-                        placeholder="Website">
-
-                    <button class="size-a-17 bg2 borad-3 f1-s-12 cl0 hov-btn1 trans-03 p-rl-15 m-t-10">
-                        Post Comment
-                    </button>
-                </form>
+            <!-- Danh sách bình luận -->
+            <div id="comment-list">
+                <!-- Comments will be loaded here via JS -->
+                <div class="text-center py-3"><i class="fas fa-spinner fa-spin"></i> Đang tải ý kiến...</div>
             </div>
         </div>
-
+        <!-- ==================================================================== -->
+        </div>
+    <style>
+     /* CSS Mới cho Bình Luận (VNExpress Style) */
+        .btn-vne-primary { background-color: #9f224e; color: #fff; border: none; font-weight: 500; }
+        .btn-vne-primary:hover { background-color: #851c41; color: #fff; }
+        .comment-item { display: flex; gap: 15px; margin-bottom: 20px; }
+        .comment-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; background: #eee; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #666; font-size: 18px; }
+        .comment-body { flex: 1; }
+        .comment-name { font-weight: 700; color: #222; margin-right: 10px; }
+        .comment-content { color: #333; line-height: 1.5; }
+        .comment-actions { display: flex; gap: 15px; margin-top: 5px; font-size: 0.85rem; color: #757575; }
+        .action-link { cursor: pointer; display: flex; align-items: center; gap: 4px; }
+        .action-link:hover { color: #9f224e; }
+        .border-bottom-active { border-bottom: 2px solid #9f224e !important; color: #9f224e !important; }
+        .comment-input-box textarea { background: #fafafa; border: 1px solid #eee; resize: none; }
+        .comment-input-box textarea:focus { background: #fff; border-color: #9f224e; box-shadow: none; }
+    </style>
 
     </div>
     </div>
@@ -482,79 +498,266 @@
         }
     </style>
 
+    <style>
+        /* CSS MỚI CHO AVATAR - BẮT BUỘC PHẢI CÓ */
+        .avatar-wrapper { 
+            position: relative; 
+            width: 40px; 
+            height: 40px; 
+            flex-shrink: 0;
+            margin-right: 10px; /* Thêm khoảng cách với tên */
+        }
+        
+        .comment-avatar-img { 
+            width: 100%; 
+            height: 100%; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            position: absolute; /* Đè lên chữ */
+            top: 0; 
+            left: 0; 
+            z-index: 2;
+            background-color: white; 
+        }
+        
+        .comment-avatar-text { 
+            width: 100%; 
+            height: 100%; 
+            border-radius: 50%; 
+            background: #eee; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: bold; 
+            color: #666; 
+            font-size: 18px; 
+            position: absolute; /* Nằm dưới */
+            top: 0; 
+            left: 0; 
+            z-index: 1;
+        }
+    </style>
     {{-- Script AJAX/Fetch API (Sử dụng Fetch API) --}}
     @push('scripts')
-        <script>
-            // Bọc trong hàm đảm bảo DOM đã tải hoàn tất
-            document.addEventListener('DOMContentLoaded', function() {
-                const button = document.getElementById('toggle-favorite-btn');
+         <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- XỬ LÝ NÚT LƯU (CŨ) ---
+            const btnSave = document.getElementById('toggle-favorite-btn');
+            if(btnSave) {
+                btnSave.addEventListener('click', function() {
+                    const icon = btnSave.querySelector('.bookmark-icon');
+                    // ... (Code cũ của bạn giữ nguyên, tôi viết gọn lại)
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+                    fetch('{{ route('favorites.toggle') }}', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken},
+                        body: JSON.stringify({ model_id: btnSave.dataset.id, model_type: btnSave.dataset.type })
+                    }).then(res => res.json()).then(data => {
+                        if(data.is_favorited) {
+                            btnSave.classList.add('is-saved'); icon.classList.replace('far', 'fas');
+                        } else {
+                            btnSave.classList.remove('is-saved'); icon.classList.replace('fas', 'far');
+                        }
+                    });
+                });
+            }
 
-                // KIỂM TRA LẦN 1: Nếu không tìm thấy nút (người dùng chưa đăng nhập), thoát
-                if (!button) {
-                    console.log('Nút Lưu không tìm thấy (Chưa đăng nhập hoặc lỗi DOM).');
+           // --- XỬ LÝ BÌNH LUẬN (MỚI - ĐÃ CẬP NHẬT BẮT LỖI) ---
+            const baiVietId = {{ $baiViet->id }};
+            const commentList = document.getElementById('comment-list');
+            const commentCount = document.getElementById('comment-count');
+            const commentInput = document.getElementById('comment-content');
+            const btnSubmit = document.getElementById('btn-submit-comment');
+            
+            // Lấy CSRF token an toàn
+            const csrfTokenMeta = document.querySelector('meta[name="csrf-token"]');
+            const csrfToken = csrfTokenMeta ? csrfTokenMeta.content : '';
+
+            // HÀM RENDER AVATAR THÔNG MINH
+            function getAvatar(name, imgUrl) {
+                // 1. Lấy chữ cái đầu tên (Ví dụ: "Nam" -> "N")
+                const char = name ? name.charAt(0).toUpperCase() : 'U';
+                
+                // 2. Tạo HTML cho lớp nền (hiển thị chữ cái)
+                const fallbackHtml = `<div class="comment-avatar-text">${char}</div>`;
+                
+                // 3. Nếu có đường dẫn ảnh
+                if (imgUrl && imgUrl !== 'null' && imgUrl !== '') {
+                    // Trả về cấu trúc gồm 2 lớp:
+                    // - Lớp dưới: fallbackHtml (chữ cái)
+                    // - Lớp trên: thẻ img. 
+                    // Nếu img lỗi (onerror), nó tự ẩn mình đi (display='none') để lộ lớp dưới ra.
+                    return `
+                        <div class="avatar-wrapper">
+                            ${fallbackHtml}
+                            <img src="${imgUrl}" 
+                                 class="comment-avatar-img" 
+                                 alt="${name}"
+                                 onerror="this.style.display='none'">
+                        </div>
+                    `;
+                }
+
+                // 4. Nếu không có đường dẫn ảnh -> chỉ trả về lớp nền
+                return `<div class="avatar-wrapper">${fallbackHtml}</div>`;
+            }
+
+            // 2. Load danh sách bình luận
+            function loadComments() {
+                fetch(`/binh-luan/${baiVietId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if(commentCount) commentCount.textContent = `(${data.length})`;
+                        if (data.length === 0) {
+                            commentList.innerHTML = '<p class="text-muted text-center">Chưa có ý kiến nào. Hãy là người đầu tiên!</p>';
+                            return;
+                        }
+
+                        let html = '';
+                        data.forEach(cmt => {
+                            html += `
+                                <div class="comment-item" id="comment-${cmt.id}">
+                                    ${getAvatar(cmt.ho_ten, cmt.anh_dai_dien)}
+                                    <div class="comment-body">
+                                        <div class="mb-1">
+                                            <span class="comment-name">${cmt.ho_ten}</span>
+                                            <span class="comment-content" id="content-${cmt.id}">${cmt.noi_dung}</span>
+                                        </div>
+                                        <div class="comment-actions">
+                                            <span class="action-link"><i class="far fa-thumbs-up"></i> Thích</span>
+                                            <span class="action-link">Trả lời</span>
+                                            <span>${cmt.ngay_tao}</span>
+                                            ${cmt.can_edit ? `
+                                                <span class="action-link text-primary ml-auto" onclick="editComment(${cmt.id}, '${cmt.noi_dung}')">Sửa</span>
+                                                <span class="action-link text-danger" onclick="deleteComment(${cmt.id})">Xóa</span>
+                                            ` : ''}
+                                        </div>
+                                        <!-- Form sửa ẩn -->
+                                        <div id="edit-form-${cmt.id}" class="mt-2" style="display:none;">
+                                            <textarea class="form-control mb-2" id="edit-input-${cmt.id}" rows="2"></textarea>
+                                            <button onclick="saveEdit(${cmt.id})" class="btn btn-sm btn-vne-primary">Lưu</button>
+                                            <button onclick="cancelEdit(${cmt.id})" class="btn btn-sm btn-light">Hủy</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        commentList.innerHTML = html;
+                    });
+            }
+
+            // 3. Gửi bình luận mới (UPDATED)
+            if (btnSubmit) {
+                btnSubmit.addEventListener('click', function() {
+                    const content = commentInput.value.trim();
+                    if (!content) return alert('Vui lòng nhập nội dung!');
+
+                    // Kiểm tra CSRF
+                    if (!csrfToken) return alert('Lỗi: Thiếu CSRF Token trong thẻ meta.');
+
+                    btnSubmit.disabled = true;
+                    btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+                    fetch('{{ route("binh-luan.store") }}', {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json', 
+                            'X-CSRF-TOKEN': csrfToken,
+                            'Accept': 'application/json' // Quan trọng để Laravel trả về JSON khi lỗi
+                        },
+                        body: JSON.stringify({ bai_viet_id: baiVietId, noi_dung: content })
+                    })
+                    .then(async res => {
+                        // Nếu server trả về lỗi (400, 401, 403, 500...)
+                        if (!res.ok) {
+                            const errorData = await res.json().catch(() => ({})); 
+                            // Ưu tiên hiện lỗi validate
+                            if (errorData.message) throw new Error(errorData.message);
+                            if (errorData.errors) throw new Error(Object.values(errorData.errors).flat().join('\n'));
+                            throw new Error(`Lỗi server: ${res.status}`);
+                        }
+                        return res.json();
+                    })
+                    .then(data => {
+                        commentInput.value = '';
+                        loadComments(); // Reload lại danh sách
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert('Không gửi được: ' + err.message); // Hiển thị lỗi chi tiết
+                    })
+                    .finally(() => {
+                        btnSubmit.disabled = false;
+                        btnSubmit.innerText = 'Gửi';
+                    });
+                });
+            }
+
+            // 4. Các hàm global (Sửa, Xóa, Lưu)
+            window.deleteComment = function(id) {
+                if (!confirm('Bạn chắc chắn muốn xóa?')) return;
+                fetch(`/binh-luan/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'X-CSRF-TOKEN': csrfToken }
+                }).then(() => {
+                    document.getElementById(`comment-${id}`).remove();
+                });
+            };
+
+            window.editComment = function(id, oldContent) {
+                document.getElementById(`content-${id}`).style.display = 'none';
+                const form = document.getElementById(`edit-form-${id}`);
+                const input = document.getElementById(`edit-input-${id}`);
+                form.style.display = 'block';
+                input.value = oldContent;
+            };
+
+            window.cancelEdit = function(id) {
+                document.getElementById(`content-${id}`).style.display = 'inline';
+                document.getElementById(`edit-form-${id}`).style.display = 'none';
+            };
+
+            window.saveEdit = function(id) {
+                // 1. Lấy nội dung mới từ ô textarea
+                const newContent = document.getElementById(`edit-input-${id}`).value.trim();
+                
+                // Kiểm tra nếu nội dung rỗng
+                if (!newContent) {
+                    alert('Nội dung bình luận không được để trống!');
                     return;
                 }
 
-                console.log('Nút Lưu đã được gắn sự kiện.'); // DEBUG THÀNH CÔNG
-
-                button.addEventListener('click', function() {
-                    const icon = button.querySelector('.bookmark-icon');
-                    const itemId = button.dataset.id;
-                    const itemType = button.dataset.type;
-
-                    // LẤY CSRF TOKEN TỪ META TAG
-                    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-
-                    // TẠM THỜI VÔ HIỆU HÓA NÚT KHI ĐANG XỬ LÝ
-                    button.disabled = true;
-
-                    // LOG THÔNG TIN GỬI ĐI ĐỂ DEBUG
-                    console.log('Gửi AJAX:', { route: '{{ route('favorites.toggle') }}', id: itemId, type: itemType });
-
-                    fetch('{{ route('favorites.toggle') }}', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': csrfToken
-                        },
-                        body: JSON.stringify({
-                            model_id: itemId,
-                            model_type: itemType
-                        })
-                    })
-                        .then(response => {
-                            // Xử lý lỗi HTTP (Ví dụ: 403 Forbidden, 500 Internal Server Error)
-                            if (!response.ok) {
-                                return response.json().then(error => { throw new Error(error.message || 'Lỗi từ máy chủ: ' + response.status); });
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            // Cập nhật trạng thái nút
-                            if (data.is_favorited) {
-                                button.classList.add('is-saved');
-                                icon.classList.remove('far');
-                                icon.classList.add('fas');
-                                button.title = 'Xóa khỏi danh sách đã lưu';
-                            } else {
-                                button.classList.remove('is-saved');
-                                icon.classList.remove('fas');
-                                icon.classList.add('far');
-                                button.title = 'Lưu bài viết';
-                            }
-                            console.log('Thành công:', data.message);
-                        })
-                        .catch(error => {
-                            // Lỗi AJAX sẽ được hiển thị chi tiết hơn
-                            console.error('Lỗi AJAX:', error);
-                            alert('Có lỗi xảy ra khi thực hiện thao tác. Chi tiết: ' + error.message);
-                        })
-                        .finally(() => {
-                            // KÍCH HOẠT LẠI NÚT DÙ THÀNH CÔNG HAY THẤT BẠI
-                            button.disabled = false;
-                        });
+                // 2. Gửi yêu cầu cập nhật lên server
+                fetch(`/binh-luan/${id}`, {
+                    method: 'PUT',
+                    headers: { 
+                        'Content-Type': 'application/json', 
+                        'X-CSRF-TOKEN': csrfToken,    // Bắt buộc phải có Token
+                        'Accept': 'application/json'  // Bắt buộc để nhận lỗi JSON từ Laravel
+                    },
+                    body: JSON.stringify({ noi_dung: newContent })
+                })
+                .then(async res => {
+                    // 3. Kiểm tra xem server có trả về lỗi không
+                    if (!res.ok) {
+                        const errorData = await res.json().catch(() => ({}));
+                        throw new Error(errorData.message || 'Có lỗi xảy ra khi cập nhật');
+                    }
+                    return res.json();
+                })
+                .then(() => {
+                    // 4. Thành công -> Tải lại danh sách bình luận
+                    loadComments();
+                })
+                .catch(err => {
+                    // 5. Hiển thị lỗi nếu có
+                    alert(err.message);
                 });
-            });
-        </script>
+            };
+
+            // Chạy lần đầu
+            loadComments();
+        });
+    </script>
     @endpush
 @endsection

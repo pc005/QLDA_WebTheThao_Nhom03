@@ -51,7 +51,7 @@
                                 @csrf
                             </form>
                         @else
-                            <a href="{{ route('login.show') }}" class="left-topbar-item">Đăng Nhập</a>
+                            <a href="{{ route('login') }}" class="left-topbar-item">Đăng Nhập</a>
                             <a href="{{ route('register.show') }}" class="left-topbar-item">Đăng Kí</a>
                         @endif
 
@@ -2461,29 +2461,25 @@
         </div>
     </header>
 
-    <!-- Breadcrumb -->
+   <!-- Search Bar Section -->
     <div class="container">
-        <div class="headline bg0 flex-wr-sb-c p-rl-20 p-tb-8">
-            <div class="f2-s-1 p-r-30 m-tb-6">
-                <a href="/home" class="breadcrumb-item f1-s-3 cl9">
-                    Home
-                </a>
+        <!-- Load Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-                <a href="blog-list-01.html" class="breadcrumb-item f1-s-3 cl9">
-                    Blog
-                </a>
-
-                <span class="breadcrumb-item f1-s-3 cl9">
-                    Nulla non interdum metus non laoreet nisi tellus eget aliquam lorem pellentesque
-                </span>
-            </div>
-
-            <div class="pos-relative size-a-2 bo-1-rad-22 of-hidden bocl11 m-tb-6">
-                <input class="f1-s-1 cl6 plh9 s-full p-l-25 p-r-45" type="text" name="search"
-                    placeholder="Search">
-                <button class="flex-c-c size-a-1 ab-t-r fs-20 cl2 hov-cl10 trans-03">
-                    <i class="zmdi zmdi-search"></i>
-                </button>
-            </div>
+        <div class="headline bg0 flex-c-c p-rl-20 p-tb-10">
+            <form action="{{ route('search') }}" method="GET" class="w-full" style="max-width: 700px;">
+                <div class="input-group" style="border: 1px solid #e5e5e5; border-radius: 4px; overflow: hidden;">
+                    <input type="text" name="q" class="form-control border-0 shadow-none" 
+                           placeholder="Tìm kiếm tin tức..." 
+                           style="height: 40px; font-size: 15px;">
+                    
+                    <div class="input-group-append">
+                        <button class="btn border-0 rounded-0" type="submit" 
+                                style="background-color: #9f224e; color: white; height: 40px; width: 50px; padding: 0; transition: 0.3s; display: flex; align-items: center; justify-content: center;">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>

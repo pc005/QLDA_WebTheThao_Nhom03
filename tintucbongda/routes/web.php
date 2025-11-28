@@ -10,7 +10,9 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\BTV\BTVController;
 use App\Http\Controllers\ProfileController;
-
+use App\Http\Controllers\BinhLuanController;
+use App\Http\Controllers\TimKiemController;
+use App\Http\Controllers\LuotThichController;
 
 // Route::get('/', [HomeController::class, 'home'])->name('home');
 // Route::get('/home', [HomeController::class, 'home'])->name('home');
@@ -18,31 +20,19 @@ Route::get('/video', [HomeController::class, 'video'])->name('video');
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/home', [HomeController::class, 'home'])->name('home');
 
-
 Route::resource('DanhMuc', DanhMucController::class);
 Route::get('danhmucs/{id}/edit', [DanhMucController::class, 'edit'])->name('danhmucs.edit');
 Route::put('danhmucs/{id}', [DanhMucController::class, 'update'])->name('danhmucs.update');
-
 Route::resource('danhmucs', DanhMucController::class);
 Route::post('/categories', [DanhMucController::class, 'store'])->name('categories.store');
-
 Route::resource('videos', VideoController::class);
 Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show');
 Route::get('/video/{id}/like', [VideoController::class, 'like'])->name('video.like');
-
-use App\Http\Controllers\LuotThichController;
-
 Route::post('/like/{baiViet}', [LuotThichController::class, 'store'])->name('like.store');
-
-
 Route::get('/bai-viet/{id}', [BaiVietController::class, 'show'])->name('bai-viet.show');
 
-
-
-
-
 //Login
-Route::get('/login', [LoginController::class, 'showFormLogin'])->name('login.show');
+Route::get('/login', [LoginController::class, 'showFormLogin'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/register', [LoginController::class, 'showFormRegister'])->name('register.show');
@@ -92,7 +82,6 @@ Route::prefix('btv')
         // Thêm các route khác cho BTV nếu cần
     });
 
-
 Route::middleware(['auth'])->group(function () {
 
     // --- NHÓM YÊU THÍCH (Favorites) ---
@@ -111,3 +100,15 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/profile/email', [ProfileController::class, 'updateEmail'])->name('profile.update.email');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.update.password');
 });
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/binh-luan', [BinhLuanController::class, 'store'])->name('binh-luan.store');
+    Route::put('/binh-luan/{id}', [BinhLuanController::class, 'update'])->name('binh-luan.update');
+    Route::delete('/binh-luan/{id}', [BinhLuanController::class, 'destroy'])->name('binh-luan.destroy');
+});
+
+// Route lấy danh sách không cần đăng nhập cũng xem được
+Route::get('/binh-luan/{baiVietId}', [BinhLuanController::class, 'index'])->name('binh-luan.index');
+
+// Route cho trang tìm kiếm
+Route::get('/tim-kiem', [TimKiemController::class, 'index'])->name('search');

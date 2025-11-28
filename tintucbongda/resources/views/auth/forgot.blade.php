@@ -29,7 +29,7 @@
         </form>
 
         <div class="login-footer">
-            <a href="{{ route('login.show') }}">Quay lại đăng nhập</a>
+            <a href="{{ route('login') }}">Quay lại đăng nhập</a>
         </div>
 
     </div>

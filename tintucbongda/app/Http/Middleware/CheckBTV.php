@@ -17,7 +17,7 @@ class CheckBTV
     public function handle($request, Closure $next)
     {
         if (!Auth::check()) {
-            return redirect()->route('login.show');
+            return redirect()->route('login');
         }
 
         if (Auth::user()->vai_tro !== 'BTV') {

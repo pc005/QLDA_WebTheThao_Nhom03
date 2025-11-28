@@ -96,6 +96,13 @@ class BTVController extends Controller
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('uploads/posts'), $filename);
             $data['anh_dai_dien'] = 'uploads/posts/' . $filename;
+        } else {
+            // Nếu không upload file mới, giữ nguyên đường dẫn cũ hoặc normalize nếu cần
+            if (isset($data['anh_dai_dien']) && str_starts_with($data['anh_dai_dien'], public_path())) {
+                $data['anh_dai_dien'] = str_replace(public_path(), '', $data['anh_dai_dien']);
+                $data['anh_dai_dien'] = str_replace('\\', '/', $data['anh_dai_dien']);
+                $data['anh_dai_dien'] = ltrim($data['anh_dai_dien'], '/');
+            }
         }
 
         BaiViet::create($data);

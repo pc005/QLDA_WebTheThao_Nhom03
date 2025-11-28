@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\BaiViet;
 use App\Models\DanhMuc;
+use App\Models\NguoiDung;
+use App\Models\Video;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -13,7 +16,12 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        return view('admin.dashboard');
+        $tongBaiViet = BaiViet::count();
+        $tongVideo = Video::count();
+        $tongNguoiDung = NguoiDung::count();
+        $tongDanhMuc = DanhMuc::count();
+
+        return view('admin.dashboard', compact('tongBaiViet', 'tongVideo', 'tongNguoiDung', 'tongDanhMuc'));
     }
 
     public function posts()
@@ -53,9 +61,13 @@ class AdminController extends Controller
         $data['noi_bat'] = $request->has('noi_bat') ? 1 : 0;
 
         if ($request->hasFile('anh_dai_dien')) {
+            $uploadPath = public_path('uploads/posts');
+            if (!File::exists($uploadPath)) {
+                File::makeDirectory($uploadPath, 0755, true);
+            }
             $file = $request->file('anh_dai_dien');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/posts'), $filename);
+            $file->move($uploadPath, $filename);
             $data['anh_dai_dien'] = 'uploads/posts/' . $filename;
         }
 
@@ -181,9 +193,13 @@ class AdminController extends Controller
             if ($post->anh_dai_dien && file_exists(public_path($post->anh_dai_dien))) {
                 @unlink(public_path($post->anh_dai_dien));
             }
+            $uploadPath = public_path('uploads/posts');
+            if (!File::exists($uploadPath)) {
+                File::makeDirectory($uploadPath, 0755, true);
+            }
             $file = $request->file('anh_dai_dien');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/posts'), $filename);
+            $file->move($uploadPath, $filename);
             $data['anh_dai_dien'] = 'uploads/posts/' . $filename;
         }
 

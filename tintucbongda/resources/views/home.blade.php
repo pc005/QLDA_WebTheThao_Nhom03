@@ -4,224 +4,6 @@
     <!-- Content -->
     <!-- Feature post -->
     <section class="bg0">
-
-
-<<<<<<< HEAD
-        <div class="row m-rl-0 justify-content-center">
-            @foreach ($articles as $article)
-                <div class="col-md-4 p-rl-1 p-b-2">
-                    <div class="card h-100 shadow-sm">
-                        <div class="img card-img-top bg-img1 size-a-11 how1 pos-relative"
-                            style="background-image: url('{{ asset($article['anh_dai_dien']) }}');">
-                            {{-- Liên kết phủ toàn bộ ảnh --}}
-                            <a href="{{ route('bai-viet.show', $article->id) }}" class="dis-block how1-child1 trans-03"></a>
-                        </div>
-
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <a href="{{ route('bai-viet.show', $article->id) }}"
-                                    class="tieu_de f1-l-1 cl0 hov-cl10 trans-03 respon1">
-                                    {{ $article['tieu_de'] }}
-                                </a>
-                            </h5>
-                            <p class="card-text">
-                                {{ Str::limit($article['tom_tat'] ?? $article['noi_dung'], 100) }}
-                            </p>
-                        </div>
-
-                        <div class="card-footer text-muted">
-                            Đăng ngày {{ optional($article->created_at)->format('d/m/Y') }}
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-
-        <style>
-            /* ------------------------------------ */
-            /* 1. STYLING CƠ BẢN CỦA CARD (H-100) */
-            /* ------------------------------------ */
-            .card {
-                border: 1px solid #e0e0e0;
-                /* Viền nhẹ */
-                border-radius: 8px;
-                /* Bo góc nhẹ */
-                overflow: hidden;
-                /* Thêm hiệu ứng chuyển động cho card */
-                transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            }
-
-            /* Hiệu ứng khi di chuột qua card */
-            .card:hover {
-                transform: translateY(-5px);
-                /* Nâng card lên 5px */
-                box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15) !important;
-                /* Đổ bóng mạnh hơn */
-            }
-
-            /* ------------------------------------ */
-            /* 2. STYLING CHO ẢNH ĐẠI DIỆN (.img) */
-            /* ------------------------------------ */
-            .img {
-                overflow: hidden;
-                background-size: cover;
-                /* Đảm bảo ảnh nền phủ kín vùng chứa */
-                background-position: center;
-                /* Căn giữa ảnh nền */
-            }
-
-            /* ------------------------------------ */
-            /* 3. STYLING CHO TIÊU ĐỀ (.tieu_de) */
-            /* ------------------------------------ */
-            .tieu_de {
-                color: #333333 !important;
-                /* Đảm bảo màu tối cho tiêu đề */
-                text-decoration: none;
-                font-weight: 600;
-                /* Làm tiêu đề nổi bật hơn */
-                margin-bottom: 0.5rem;
-                line-height: 1.3;
-                /* Giới hạn số dòng cho tiêu đề (cần cho tính đồng bộ) */
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                /* Ví dụ: Giới hạn 2 dòng */
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-            }
-
-            /* ------------------------------------ */
-            /* 4. STYLING CHO TÓM TẮT (.card-text) */
-            /* ------------------------------------ */
-            .card-text {
-                color: #6c757d;
-                /* Màu xám cho nội dung tóm tắt */
-                font-size: 0.9rem;
-                line-height: 1.5;
-                /* Giới hạn 3 dòng cho tóm tắt */
-                display: -webkit-box;
-                -webkit-line-clamp: 3;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-            }
-
-            /* ------------------------------------ */
-            /* 5. STYLING CHO FOOTER (.card-footer) */
-            /* ------------------------------------ */
-            .card-footer {
-                background-color: #f7f7f7;
-                /* Nền xám nhạt */
-                border-top: 1px solid #e0e0e0;
-                font-size: 0.8rem;
-                color: #999;
-                /* Màu chữ rất nhẹ */
-                padding: 0.75rem 1.25rem;
-            }
-
-            /* Xóa class c10 và img trống cũ */
-            .c10,
-            .img {}
-
-
-
-            /* ------------------------------------ */
-            /* 1. STYLING CƠ BẢN CỦA CARD (Bo góc chính) */
-            /* ------------------------------------ */
-            .card {
-                border: 1px solid #e0e0e0;
-                border-radius: 10px;
-                /* **Tăng độ bo góc của toàn bộ card** */
-                overflow: hidden;
-                /* **Rất quan trọng: Để các thành phần bên trong (ảnh) được bo góc theo card** */
-                transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            }
-
-            /* Hiệu ứng khi di chuột qua card */
-            .card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
-                /* Đổ bóng mạnh hơn và rõ ràng hơn */
-            }
-
-            /* ------------------------------------ */
-            /* 2. STYLING CHO ẢNH ĐẠI DIỆN (.img) */
-            /* ------------------------------------ */
-            .img {
-                overflow: hidden;
-                /* Bo góc chỉ ảnh hưởng đến góc trên cùng của ảnh (theo bo góc card) */
-                border-top-left-radius: 10px;
-                border-top-right-radius: 10px;
-
-                background-size: cover;
-                /* Đảm bảo ảnh nền phủ kín vùng chứa */
-                background-position: center;
-                /* Căn giữa ảnh nền */
-            }
-
-            /* ------------------------------------ */
-            /* 3. STYLING CHO TIÊU ĐỀ (.tieu_de) */
-            /* ------------------------------------ */
-            .tieu_de {
-                color: #333333 !important;
-                text-decoration: none;
-                font-weight: 600;
-                margin-bottom: 0.5rem;
-                line-height: 1.3;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-            }
-
-            /* ------------------------------------ */
-            /* 4. STYLING CHO TÓM TẮT VÀ FOOTER */
-            /* ------------------------------------ */
-            .card-text {
-                color: #6c757d;
-                font-size: 0.9rem;
-                line-height: 1.5;
-                display: -webkit-box;
-                -webkit-line-clamp: 3;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-            }
-
-            .card-footer {
-                background-color: #f7f7f7;
-                border-top: 1px solid #e0e0e0;
-                font-size: 0.8rem;
-                color: #999;
-                padding: 0.75rem 1.25rem;
-            }
-        </style>
-
-        {{-- <div class="row m-rl-0 justify-content-center">
-            @foreach ($articles as $article)
-                <div class="col-md-4 p-rl-1 p-b-2">
-                    <!-- Card wrapper -->
-                    <div class="card h-100 shadow-sm">
-                        <!-- Ảnh đại diện -->
-                        <div class="img card-img-top bg-img1 size-a-11 how1 pos-relative"
-                            style="background-image: url('{{ asset($article['anh_dai_dien']) }}');">
-                            <a href="{{ route('bai-viet.show', $article->id) }}" class=" dis-block how1-child1 trans-03"></a>
-                        </div>
-
-                        <!-- Nội dung card -->
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <a href="{{ route('bai-viet.show', $article->id) }}"
-                                    class="tieu_de f1-l-1 cl0 hov-cl10 trans-03 respon1">
-                                    {{ $article['tieu_de'] }}
-                                </a>
-                            </h5>
-                            <p class="card-text">
-                                {{ Str::limit($article['noi_dung'], 100) }}
-                            </p>
-                        </div>
-
-                        <!-- Footer card -->
-                        <div class="card-footer text-muted">
-                            Đăng ngày {{ optional($article->created_at)->format('d/m/Y') }}
-=======
         <div class="container mb-4">
             <div class="row justify-content-center gx-4 gy-4">
                 @foreach ($featuredArticles as $article)
@@ -264,7 +46,6 @@
                             <div class="bg-white border-0 card-footer text-end">
                                 <span class="text-muted small"><i class="fa fa-calendar me-1"></i>{{ optional($article->created_at)->format('d/m/Y') }}</span>
                             </div>
->>>>>>> d4c14bb287ea7788cfe2395fdf21b8556e868ee5
                         </div>
                     </div>
                 @endforeach
@@ -314,15 +95,10 @@
 
             .tieu_de {
 
-                color: #000000;
+                color: #1900fc;
                 text-decoration: none;
             }
-<<<<<<< HEAD
-        </style> --}}
-
-=======
         </style>
->>>>>>> d4c14bb287ea7788cfe2395fdf21b8556e868ee5
 
         <!-- Post -->
         <section class="post bg0 p-t-85">
@@ -1103,4 +879,5 @@
                 </div>
             </div>
         </section>
-    @endsection
+    </section>
+@endsection

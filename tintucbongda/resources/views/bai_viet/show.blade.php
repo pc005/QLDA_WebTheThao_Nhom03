@@ -18,10 +18,27 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/util.min.css') }}">
     <div class="container">
         <h1 class="bai-viet-title">{{ $baiViet->tieu_de }}</h1>
-        <img class="bai-viet-image" src="{{ $baiViet->anh_dai_dien }}" alt="{{ $baiViet->tieu_de }}" class="img-fluid">
+        @php
+            $imagePath = $baiViet->anh_dai_dien;
+            if (!empty($imagePath)) {
+                if (filter_var($imagePath, FILTER_VALIDATE_URL)) {
+                    $imageUrl = $imagePath;
+                } elseif (str_starts_with($imagePath, public_path())) {
+                    $relativePath = str_replace(public_path(), '', $imagePath);
+                    $relativePath = str_replace('\\', '/', $relativePath);
+                    $imageUrl = asset(ltrim($relativePath, '/'));
+                } else {
+                    $imageUrl = asset($imagePath);
+                }
+            } else {
+                $imageUrl = asset('images/no-image.png'); // Placeholder image
+            }
+        @endphp
+        <img class="bai-viet-image" src="{{ $imageUrl }}" alt="{{ $baiViet->tieu_de }}">
+
         <p class="noi-dung">{{ $baiViet->noi_dung }}</p>
 
-        <div class="text-muted mt-3">
+        <div class="mt-3 text-muted">
             <small>Ngày tạo: {{ $baiViet->ngay_tao }}</small>
         </div>
 
@@ -238,17 +255,33 @@
             <h1 style="baivietngaunhien">bài viết ngẫu nhiên</h1>
         </div> --}}
         @foreach ($articles->random(4) as $article)
-            <div class="b col-md-4 mb-4">
-                <div class="card h-100 shadow-sm border-0">
+            <div class="mb-4 b col-md-4">
+                <div class="border-0 shadow-sm card h-100">
                     <!-- Ảnh vuông -->
                     <a href="{{ route('bai-viet.show', $article->id) }}">
-                        <img src="{{ asset($article['anh_dai_dien']) }}" class="card-img-top square-img"
-                            alt="{{ $article['tieu_de'] }}">
+                        @php
+                            $imgPath = $article['anh_dai_dien'];
+                            if (!empty($imgPath)) {
+                                if (filter_var($imgPath, FILTER_VALIDATE_URL)) {
+                                    $imgUrl = $imgPath;
+                                } elseif (str_starts_with($imgPath, public_path())) {
+                                    $relPath = str_replace(public_path(), '', $imgPath);
+                                    $relPath = str_replace('\\', '/', $relPath);
+                                    $imgUrl = asset(ltrim($relPath, '/'));
+                                } else {
+                                    $imgUrl = asset($imgPath);
+                                }
+                            } else {
+                                $imgUrl = asset('images/no-image.png');
+                            }
+                        @endphp
+                        <img src="{{ $imgUrl }}" class="card-img-top square-img" alt="{{ $article['tieu_de'] }}">
+
                     </a>
 
                     <!-- Nội dung -->
-                    <div class="card-body px-3 py-2">
-                        <h5 class="card-title mb-2">
+                    <div class="px-3 py-2 card-body">
+                        <h5 class="mb-2 card-title">
                             <a class="tieu_de" href="{{ route('bai-viet.show', $article->id) }}"
                                 class="text-dark text-decoration-none">
                                 {{ $article['tieu_de'] }}
@@ -260,7 +293,7 @@
                     </div>
 
                     <!-- Footer -->
-                    <div class="card-footer bg-white border-0 text-end text-muted small px-3">
+                    <div class="px-3 bg-white border-0 card-footer text-end text-muted small">
                         {{ optional($article->created_at)->format('d/m/Y') }}
                     </div>
                 </div>

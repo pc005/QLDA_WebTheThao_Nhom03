@@ -189,8 +189,9 @@
             <i class="fa-solid fa-chevron-down ms-auto"></i>
         </a>
         <div class="collapse" id="videoMenu">
-            <a class="sub-item">Danh sách video</a>
-            <a class="sub-item">Thêm video</a>
+            <a class="sub-item" href="/admin/videos">Danh sách Video</a>
+
+            {{-- <a class="sub-item" href="{{ route('admin.videos.create') }}">Thêm video</a> --}}
         </div>
 
         <!-- Banner -->

@@ -22,8 +22,10 @@ class BaiVietController extends Controller
         $baiViet = BaiViet::findOrFail($id);
         $articles = BaiViet::inRandomOrder()->limit(5)->get();
         // Trả về view với dữ liệu
+
         return view('bai_viet.show', compact('baiViet', 'articles'));
     }
+
 }
 
 

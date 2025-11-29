@@ -98,4 +98,21 @@ public function like(Request $request, Video $video)
         return response()->json(['status' => 'liked']);
     }
 }
+
+// app/Http/Controllers/Admin/VideoController.php
+
+public function quanlyvideo()
+{
+    $videos = Video::orderBy('created_at', 'desc')->paginate(15);
+
+
+    return view('admin.videos.danhsachvideoadmin', compact('videos'));
+}
+
+
+public function editVideo(Video $video) // Thay vì editVideo($id)
+{
+
+    return view('admin.videos.editvideo', compact('video'));
+}
 }

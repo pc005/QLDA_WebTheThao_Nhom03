@@ -153,7 +153,7 @@
 
 
         <!-- Leave a comment -->
-        <div>
+        {{-- <div>
             <h4 class="f1-l-4 cl3 p-b-12">
                 Leave a Comment
             </h4>
@@ -179,7 +179,7 @@
                     Post Comment
                 </button>
             </form>
-        </div>
+        </div> --}}
 
 
 
@@ -255,46 +255,7 @@
 
 
 
-    <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="reportModalLabel">Báo cáo Bài viết</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
 
-                <form action="{{ route('bai-viet.report', $video->id) }}" method="POST">
-                    @csrf
-                    <div class="modal-body">
-                        <p>Vui lòng chọn lý do bạn muốn báo cáo bài viết này:</p>
-
-                        <div class="mb-3">
-                            <label for="report_reason" class="form-label">Lý do báo cáo:</label>
-                            <select class="form-select" id="report_reason" name="reason" required>
-                                <option value="" selected disabled>-- Chọn lý do --</option>
-                                <option value="spam">Spam hoặc Quảng cáo</option>
-                                <option value="hate_speech">Nội dung thù địch/Phân biệt chủng tộc</option>
-                                <option value="misinformation">Thông tin sai lệch/Giả mạo</option>
-                                <option value="pornography">Nội dung khiêu dâm</option>
-                                <option value="other">Lý do khác</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="report_description" class="form-label">Mô tả chi tiết (Tùy chọn):</label>
-                            <textarea class="form-control" id="report_description" name="description" rows="3"
-                                placeholder="Cung cấp thêm chi tiết về vấn đề..."></textarea>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-danger">Gửi Báo cáo</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
     <style>
         /* ------------------------------------ */
         /* 1. Tùy chỉnh Modal chính (reportModal) */

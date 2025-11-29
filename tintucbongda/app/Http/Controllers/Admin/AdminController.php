@@ -121,10 +121,11 @@ class AdminController extends Controller
         return redirect()->route('admin.posts.index');
     }
 
-    public function videos()
-    {
-        return view('admin.videos.index');
-    }
+    // public function videos()
+    // {
+    //     // return view('admin.videos.index');
+    //      return view('admin.videos.danhsachvideoadmin');
+    // }
 
     public function users()
     {

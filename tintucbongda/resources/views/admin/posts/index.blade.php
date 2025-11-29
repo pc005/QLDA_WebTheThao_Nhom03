@@ -78,6 +78,17 @@
                                             <i class="fas fa-times"></i>
                                         </button>
                                     @endif
+                                    @if ($post->trang_thai === 'Đã duyệt')
+                                        @if ($post->noi_bat == 1)
+                                            <button type="button" class="btn btn-secondary btn-sm" title="Bỏ nổi bật" onclick="toggleFeatured({{ $post->id }}, 0)">
+                                                <i class="fas fa-star"></i>
+                                            </button>
+                                        @else
+                                            <button type="button" class="btn btn-warning btn-sm" title="Đánh dấu nổi bật" onclick="toggleFeatured({{ $post->id }}, 1)">
+                                                <i class="far fa-star"></i>
+                                            </button>
+                                        @endif
+                                    @endif
                                     <a href="{{ route('admin.posts.edit', $post->id) }}" class="btn btn-warning btn-sm" title="Sửa">
                                         <i class="fas fa-edit"></i>
                                     </a>
@@ -162,6 +173,41 @@ function confirmApproveFromList(postId) {
             csrf.name = '_token';
             csrf.value = '{{ csrf_token() }}';
             form.appendChild(csrf);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    });
+}
+
+function toggleFeatured(postId, featured) {
+    const action = featured ? 'đánh dấu nổi bật' : 'bỏ nổi bật';
+    const confirmText = featured ? 'Bài viết sẽ được hiển thị ở trang chủ!' : 'Bài viết sẽ bị xóa khỏi danh sách nổi bật!';
+
+    Swal.fire({
+        title: `Xác nhận ${action} bài viết?`,
+        text: confirmText,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: featured ? '#ffc107' : '#6c757d',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: featured ? 'Đánh dấu nổi bật' : 'Bỏ nổi bật',
+        cancelButtonText: 'Hủy'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Submit the toggle featured form
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/admin/posts/${postId}/toggle-featured`;
+            const csrf = document.createElement('input');
+            csrf.type = 'hidden';
+            csrf.name = '_token';
+            csrf.value = '{{ csrf_token() }}';
+            const featuredInput = document.createElement('input');
+            featuredInput.type = 'hidden';
+            featuredInput.name = 'featured';
+            featuredInput.value = featured;
+            form.appendChild(csrf);
+            form.appendChild(featuredInput);
             document.body.appendChild(form);
             form.submit();
         }

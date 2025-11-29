@@ -279,4 +279,23 @@ class AdminController extends Controller
         toastr()->success('Bài viết đã được xóa thành công!');
         return redirect()->route('admin.posts.index');
     }
+
+    // Toggle featured status
+    public function toggleFeatured(Request $request, $id)
+    {
+        $post = BaiViet::find($id);
+
+        if (!$post) {
+            toastr()->error('Bài viết không tồn tại!');
+            return back();
+        }
+
+        $featured = $request->input('featured', 0);
+        $post->update(['noi_bat' => $featured]);
+
+        $message = $featured ? 'Bài viết đã được đánh dấu nổi bật!' : 'Bài viết đã được bỏ khỏi danh sách nổi bật!';
+        toastr()->success($message);
+
+        return back();
+    }
 }

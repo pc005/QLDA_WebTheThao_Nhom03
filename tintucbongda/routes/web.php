@@ -79,6 +79,8 @@ Route::prefix('admin')
         Route::delete('/posts/{id}', [AdminController::class, 'destroy'])->name('posts.destroy');
         Route::post('/posts/{id}/approve', [AdminController::class, 'approvePost'])->name('posts.approve');
         Route::post('/posts/{id}/reject', [AdminController::class, 'rejectPost'])->name('posts.reject');
+        Route::post('/posts/{id}/toggle-featured', [AdminController::class, 'toggleFeatured'])->name('posts.toggle-featured');
+        //Route::get('/videos', [AdminController::class, 'videos'])->name('videos.index');
         // Route::get('/videos', [AdminController::class, 'videos'])->name('videos.index');
         Route::get('/videos', [VideoController::class, 'quanlyvideo'])->name('admin.videos.danhsachvideoadmin');
         Route::get('/videos/{video}/editvideo', [VideoController::class, 'editVideo'])->name('videos.editvideo');

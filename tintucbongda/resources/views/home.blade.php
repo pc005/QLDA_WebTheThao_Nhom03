@@ -119,108 +119,157 @@
                 <div class="row justify-content-center">
                     <div class="col-md-10 col-lg-8">
                         <div class="p-r-10 p-rl-0-sr991 p-b-20">
-                            <!-- Entertainment  -->
-                            {{-- <div class="p-b-25">
-                                <div class="how2 how2-cl1 flex-s-c">
-                                    <h3 class="f1-m-2 cl12 tab01-title">
-                                        {{ $entertainmentCategory->ten_danh_muc ?? 'Entertainment' }}
-                                    </h3>
-                                </div>
 
-                                @php
-                                    $entMain = $entertainmentArticles ?? collect();
-                                    $entFirst = $entMain->first();
-                                    $entRest = $entMain->slice(1, 2);
-                                @endphp
-
-                                <div class="flex-wr-sb-s p-t-35">
-                                    <div class="size-w-6 w-full-sr575">
-                                        @if ($entFirst)
-                                            <div class="m-b-30">
-                                                @php
-                                                    $imgPath = $entFirst['anh_dai_dien'];
-                                                    if (!empty($imgPath)) {
-                                                        if (filter_var($imgPath, FILTER_VALIDATE_URL)) {
-                                                            $imgUrl = $imgPath;
-                                                        } elseif (str_starts_with($imgPath, public_path())) {
-                                                            $relPath = str_replace(public_path(), '', $imgPath);
-                                                            $relPath = str_replace('\\', '/', $relPath);
-                                                            $imgUrl = asset(ltrim($relPath, '/'));
-                                                        } else {
-                                                            $imgUrl = asset($imgPath);
-                                                        }
-                                                    } else {
-                                                        $imgUrl = asset('images/no-image.png');
-                                                    }
-                                                @endphp
-                                                <a href="{{ route('bai-viet.show', $entFirst->id) }}" class="wrap-pic-w hov1 trans-03">
-                                                    <img src="{{ $imgUrl }}" alt="{{ $entFirst->tieu_de }}">
-                                                </a>
-
-                                                <div class="p-t-25">
-                                                    <h5 class="p-b-5">
-                                                        <a href="{{ route('bai-viet.show', $entFirst->id) }}" class="f1-m-3 cl2 hov-cl10 trans-03">
-                                                            {{ Str::limit($entFirst->tieu_de, 100) }}
-                                                        </a>
-                                                    </h5>
-
-                                                    <span class="cl8">
-                                                        <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
-                                                            {{ $entFirst->danhMuc->ten_danh_muc ?? 'Chưa phân loại' }}
-                                                        </a>
-
-                                                        <span class="f1-s-3 m-rl-3">-</span>
-
-                                                        <span class="f1-s-3">{{ optional($entFirst->created_at)->format('M d') }}</span>
-                                                    </span>
-
-                                                    <p class="f1-s-1 cl6 p-t-18">{{ Str::limit(strip_tags($entFirst->noi_dung), 120) }}</p>
-                                                </div>
-                                            </div>
-                                        @endif
+                            {{-- @foreach ($danhMucList as $danhMuc)
+                                <div class="p-b-25">
+                                    <div class="how2 how2-cl1 flex-s-c">
+                                        <h3 class="f1-m-2 cl12 tab01-title">
+                                            {{ $danhMuc->ten_danh_muc }}
+                                        </h3>
                                     </div>
 
-                                    <div class="size-w-7 w-full-sr575">
-                                        @foreach ($entRest as $ent)
-                                            <div class="m-b-30">
-                                                @php
-                                                    $imgPath = $ent['anh_dai_dien'];
-                                                    if (!empty($imgPath)) {
-                                                        if (filter_var($imgPath, FILTER_VALIDATE_URL)) {
-                                                            $imgUrl = $imgPath;
-                                                        } elseif (str_starts_with($imgPath, public_path())) {
-                                                            $relPath = str_replace(public_path(), '', $imgPath);
-                                                            $relPath = str_replace('\\', '/', $relPath);
-                                                            $imgUrl = asset(ltrim($relPath, '/'));
-                                                        } else {
-                                                            $imgUrl = asset($imgPath);
-                                                        }
-                                                    } else {
-                                                        $imgUrl = asset('images/no-image.png');
-                                                    }
-                                                @endphp
-                                                <a href="{{ route('bai-viet.show', $ent->id) }}" class="wrap-pic-w hov1 trans-03">
-                                                    <img src="{{ $imgUrl }}" alt="{{ $ent->tieu_de }}">
-                                                </a>
+                                    @php
+                                        $bvList = $baiVietTheoDanhMuc[$danhMuc->id] ?? collect();
+                                        $first = $bvList->first();
+                                        $rest = $bvList->slice(1);
+                                    @endphp
 
-                                                <div class="p-t-10">
-                                                    <h5 class="p-b-5">
-                                                        <a href="{{ route('bai-viet.show', $ent->id) }}" class="f1-s-5 cl3 hov-cl10 trans-03">{{ Str::limit($ent->tieu_de, 80) }}</a>
-                                                    </h5>
-
-                                                    <span class="cl8">
-                                                        <a href="#" class="f1-s-6 cl8 hov-cl10 trans-03">{{ $ent->danhMuc->ten_danh_muc ?? 'Chưa phân loại' }}</a>
-                                                        <span class="f1-s-3 m-rl-3">-</span>
-                                                        <span class="f1-s-3">{{ optional($ent->created_at)->format('M d') }}</span>
-                                                    </span>
+                                    <div class="flex-wr-sb-s p-t-35">
+                                        <div class="size-w-6 w-full-sr575">
+                                            @if ($first)
+                                                <div class="m-b-30">
+                                                    <a href="{{ route('bai-viet.show', $first->id) }}"
+                                                        class="wrap-pic-w hov1 trans-03">
+                                                        <img src="{{ asset($first->anh_dai_dien) }}"
+                                                            alt="{{ $first->tieu_de }}">
+                                                    </a>
+                                                    <div class="p-t-25">
+                                                        <h5 class="p-b-5">
+                                                            <a href="{{ route('bai-viet.show', $first->id) }}"
+                                                                class="f1-m-3 cl2 hov-cl10 trans-03">
+                                                                {{ Str::limit($first->tieu_de, 100) }}
+                                                            </a>
+                                                        </h5>
+                                                        <span class="cl8">
+                                                            <span class="f1-s-4 cl8 hov-cl10 trans-03">
+                                                                {{ $danhMuc->ten_danh_muc }}
+                                                            </span>
+                                                            <span class="f1-s-3 m-rl-3">-</span>
+                                                            <span
+                                                                class="f1-s-3">{{ optional($first->created_at)->format('M d') }}</span>
+                                                        </span>
+                                                        <p class="f1-s-1 cl6 p-t-18">
+                                                            {{ Str::limit(strip_tags($first->noi_dung), 120) }}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        @endforeach
+                                            @endif
+                                        </div>
+                                        <div class="size-w-7 w-full-sr575">
+                                            @foreach ($rest as $item)
+                                                <div class="m-b-30">
+                                                    <a href="{{ route('bai-viet.show', $item->id) }}"
+                                                        class="wrap-pic-w hov1 trans-03">
+                                                        <img src="{{ asset($item->anh_dai_dien) }}"
+                                                            alt="{{ $item->tieu_de }}">
+                                                    </a>
+                                                    <div class="p-t-10">
+                                                        <h5 class="p-b-5">
+                                                            <a href="{{ route('bai-viet.show', $item->id) }}"
+                                                                class="f1-s-5 cl3 hov-cl10 trans-03">
+                                                                {{ Str::limit($item->tieu_de, 80) }}
+                                                            </a>
+                                                        </h5>
+                                                        <span class="cl8">
+                                                            <span class="f1-s-6 cl8 hov-cl10 trans-03">
+                                                                {{ $danhMuc->ten_danh_muc }}
+                                                            </span>
+                                                            <span class="f1-s-3 m-rl-3">-</span>
+                                                            <span
+                                                                class="f1-s-3">{{ optional($item->created_at)->format('M d') }}</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
-                            </div> --}}
+
+                                <div class="p-b-25">
+                                    <div class="how2 how2-cl1 flex-s-c">
+                                        <h3 class="f1-m-2 cl12 tab01-title">
+                                            {{ $danhMuc->ten_danh_muc }}
+                                        </h3>
+                                    </div>
+
+                                    @php
+                                        $bvList = $baiVietTheoDanhMuc[$danhMuc->id] ?? collect();
+                                        $first = $bvList->first();
+                                        $rest = $bvList->slice(1);
+                                    @endphp
+
+                                    <div class="flex-wr-sb-s p-t-35">
+                                        <div class="size-w-6 w-full-sr575">
+                                            @if ($first)
+                                                <div class="m-b-30">
+                                                    <a href="{{ route('bai-viet.show', $first->id) }}"
+                                                        class="wrap-pic-w hov1 trans-03">
+                                                        <img src="{{ asset($first->anh_dai_dien) }}"
+                                                            alt="{{ $first->tieu_de }}">
+                                                    </a>
+                                                    <div class="p-t-25">
+                                                        <h5 class="p-b-5">
+                                                            <a href="{{ route('bai-viet.show', $first->id) }}"
+                                                                class="f1-m-3 cl2 hov-cl10 trans-03">
+                                                                {{ Str::limit($first->tieu_de, 100) }}
+                                                            </a>
+                                                        </h5>
+                                                        <span class="cl8">
+                                                            <span class="f1-s-4 cl8 hov-cl10 trans-03">
+                                                                {{ $danhMuc->ten_danh_muc }}
+                                                            </span>
+                                                            <span class="f1-s-3 m-rl-3">-</span>
+                                                            <span
+                                                                class="f1-s-3">{{ optional($first->created_at)->format('M d') }}</span>
+                                                        </span>
+                                                        <p class="f1-s-1 cl6 p-t-18">
+                                                            {{ Str::limit(strip_tags($first->noi_dung), 120) }}</p>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="size-w-7 w-full-sr575">
+                                            @foreach ($rest as $item)
+                                                <div class="m-b-30">
+                                                    <a href="{{ route('bai-viet.show', $item->id) }}"
+                                                        class="wrap-pic-w hov1 trans-03">
+                                                        <img src="{{ asset($item->anh_dai_dien) }}"
+                                                            alt="{{ $item->tieu_de }}">
+                                                    </a>
+                                                    <div class="p-t-10">
+                                                        <h5 class="p-b-5">
+                                                            <a href="{{ route('bai-viet.show', $item->id) }}"
+                                                                class="f1-s-5 cl3 hov-cl10 trans-03">
+                                                                {{ Str::limit($item->tieu_de, 80) }}
+                                                            </a>
+                                                        </h5>
+                                                        <span class="cl8">
+                                                            <span class="f1-s-6 cl8 hov-cl10 trans-03">
+                                                                {{ $danhMuc->ten_danh_muc }}
+                                                            </span>
+                                                            <span class="f1-s-3 m-rl-3">-</span>
+                                                            <span
+                                                                class="f1-s-3">{{ optional($item->created_at)->format('M d') }}</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach --}}
                             @foreach ($danhMucList as $danhMuc)
                                 <div class="p-b-25">
+
                                     <div class="how2 how2-cl1 flex-s-c">
                                         <h3 class="f1-m-2 cl12 tab01-title">
                                             {{ $danhMuc->ten_danh_muc }}
@@ -234,6 +283,7 @@
                                     @endphp
 
                                     <div class="flex-wr-sb-s p-t-35">
+
                                         <div class="size-w-6 w-full-sr575">
                                             @if ($first)
                                                 <div class="m-b-30">
@@ -257,12 +307,15 @@
                                                             <span
                                                                 class="f1-s-3">{{ optional($first->created_at)->format('M d') }}</span>
                                                         </span>
+
                                                         <p class="f1-s-1 cl6 p-t-18">
-                                                            {{ Str::limit(strip_tags($first->noi_dung), 120) }}</p>
+                                                            {{ Str::limit(strip_tags($first->noi_dung), 120) }}
+                                                        </p>
                                                     </div>
                                                 </div>
                                             @endif
                                         </div>
+
                                         <div class="size-w-7 w-full-sr575">
                                             @foreach ($rest as $item)
                                                 <div class="m-b-30">
@@ -271,6 +324,7 @@
                                                         <img src="{{ asset($item->anh_dai_dien) }}"
                                                             alt="{{ $item->tieu_de }}">
                                                     </a>
+
                                                     <div class="p-t-10">
                                                         <h5 class="p-b-5">
                                                             <a href="{{ route('bai-viet.show', $item->id) }}"
@@ -278,6 +332,7 @@
                                                                 {{ Str::limit($item->tieu_de, 80) }}
                                                             </a>
                                                         </h5>
+
                                                         <span class="cl8">
                                                             <span class="f1-s-6 cl8 hov-cl10 trans-03">
                                                                 {{ $danhMuc->ten_danh_muc }}
@@ -290,79 +345,7 @@
                                                 </div>
                                             @endforeach
                                         </div>
-                                    </div>
-                                </div>
 
-                                <div class="p-b-25">
-                                    <div class="how2 how2-cl1 flex-s-c">
-                                        <h3 class="f1-m-2 cl12 tab01-title">
-                                            {{ $danhMuc->ten_danh_muc }}
-                                        </h3>
-                                    </div>
-
-                                    @php
-                                        $bvList = $baiVietTheoDanhMuc[$danhMuc->id] ?? collect();
-                                        $first = $bvList->first();
-                                        $rest = $bvList->slice(1);
-                                    @endphp
-
-                                    <div class="flex-wr-sb-s p-t-35">
-                                        <div class="size-w-6 w-full-sr575">
-                                            @if ($first)
-                                                <div class="m-b-30">
-                                                    <a href="{{ route('bai-viet.show', $first->id) }}"
-                                                        class="wrap-pic-w hov1 trans-03">
-                                                        <img src="{{ asset($first->anh_dai_dien) }}"
-                                                            alt="{{ $first->tieu_de }}">
-                                                    </a>
-                                                    <div class="p-t-25">
-                                                        <h5 class="p-b-5">
-                                                            <a href="{{ route('bai-viet.show', $first->id) }}"
-                                                                class="f1-m-3 cl2 hov-cl10 trans-03">
-                                                                {{ Str::limit($first->tieu_de, 100) }}
-                                                            </a>
-                                                        </h5>
-                                                        <span class="cl8">
-                                                            <span class="f1-s-4 cl8 hov-cl10 trans-03">
-                                                                {{ $danhMuc->ten_danh_muc }}
-                                                            </span>
-                                                            <span class="f1-s-3 m-rl-3">-</span>
-                                                            <span
-                                                                class="f1-s-3">{{ optional($first->created_at)->format('M d') }}</span>
-                                                        </span>
-                                                        <p class="f1-s-1 cl6 p-t-18">
-                                                            {{ Str::limit(strip_tags($first->noi_dung), 120) }}</p>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        </div>
-                                        <div class="size-w-7 w-full-sr575">
-                                            @foreach ($rest as $item)
-                                                <div class="m-b-30">
-                                                    <a href="{{ route('bai-viet.show', $item->id) }}"
-                                                        class="wrap-pic-w hov1 trans-03">
-                                                        <img src="{{ asset($item->anh_dai_dien) }}"
-                                                            alt="{{ $item->tieu_de }}">
-                                                    </a>
-                                                    <div class="p-t-10">
-                                                        <h5 class="p-b-5">
-                                                            <a href="{{ route('bai-viet.show', $item->id) }}"
-                                                                class="f1-s-5 cl3 hov-cl10 trans-03">
-                                                                {{ Str::limit($item->tieu_de, 80) }}
-                                                            </a>
-                                                        </h5>
-                                                        <span class="cl8">
-                                                            <span class="f1-s-6 cl8 hov-cl10 trans-03">
-                                                                {{ $danhMuc->ten_danh_muc }}
-                                                            </span>
-                                                            <span class="f1-s-3 m-rl-3">-</span>
-                                                            <span
-                                                                class="f1-s-3">{{ optional($item->created_at)->format('M d') }}</span>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
                                     </div>
                                 </div>
                             @endforeach
@@ -370,350 +353,8 @@
 
 
 
-                            {{-- <!-- Business  -->
-                            <div class="p-b-25">
-                                <div class="how2 how2-cl2 flex-s-c">
-                                    <h3 class="f1-m-2 cl13 tab01-title">
-                                        Business
-                                    </h3>
-                                </div>
 
-                                <div class="flex-wr-sb-s p-t-35">
-                                    <div class="size-w-6 w-full-sr575">
-                                        <!-- Item post -->
-                                        <div class="m-b-30">
-                                            <a href="blog-detail-02.html" class="wrap-pic-w hov1 trans-03">
-                                                <img src="images/post-10.jpg" alt="IMG">
-                                            </a>
 
-                                            <div class="p-t-25">
-                                                <h5 class="p-b-5">
-                                                    <a href="blog-detail-02.html" class="f1-m-3 cl2 hov-cl10 trans-03">
-                                                        Bitcoin lorem ipsum dolor sit amet consectetur
-                                                    </a>
-                                                </h5>
-
-                                                <span class="cl8">
-                                                    <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
-                                                        Finance
-                                                    </a>
-
-                                                    <span class="f1-s-3 m-rl-3">
-                                                        -
-                                                    </span>
-
-                                                    <span class="f1-s-3">
-                                                        Feb 18
-                                                    </span>
-                                                </span>
-
-                                                <p class="f1-s-1 cl6 p-t-18">
-                                                    Duis eu felis id tortor congue consequat. Sed vitae vestibulum enim, et
-                                                    pharetra magna
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="size-w-7 w-full-sr575">
-                                        <!-- Item post -->
-                                        <div class="m-b-30">
-                                            <a href="blog-detail-02.html" class="wrap-pic-w hov1 trans-03">
-                                                <img src="images/post-11.jpg" alt="IMG">
-                                            </a>
-
-                                            <div class="p-t-10">
-                                                <h5 class="p-b-5">
-                                                    <a href="blog-detail-02.html" class="f1-s-5 cl3 hov-cl10 trans-03">
-                                                        Donec metus orci, malesuada et lectus vitae
-                                                    </a>
-                                                </h5>
-
-                                                <span class="cl8">
-                                                    <a href="#" class="f1-s-6 cl8 hov-cl10 trans-03">
-                                                        Small Business
-                                                    </a>
-
-                                                    <span class="f1-s-3 m-rl-3">
-                                                        -
-                                                    </span>
-
-                                                    <span class="f1-s-3">
-                                                        Feb 17
-                                                    </span>
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <!-- Item post -->
-                                        <div class="m-b-30">
-                                            <a href="blog-detail-02.html" class="wrap-pic-w hov1 trans-03">
-                                                <img src="images/post-24.jpg" alt="IMG">
-                                            </a>
-
-                                            <div class="p-t-10">
-                                                <h5 class="p-b-5">
-                                                    <a href="blog-detail-02.html" class="f1-s-5 cl3 hov-cl10 trans-03">
-                                                        Donec metus orci, malesuada et lectus vitae
-                                                    </a>
-                                                </h5>
-
-                                                <span class="cl8">
-                                                    <a href="#" class="f1-s-6 cl8 hov-cl10 trans-03">
-                                                        Economy
-                                                    </a>
-
-                                                    <span class="f1-s-3 m-rl-3">
-                                                        -
-                                                    </span>
-
-                                                    <span class="f1-s-3">
-                                                        Feb 16
-                                                    </span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Travel  -->
-                            <div class="p-b-25">
-                                <div class="how2 how2-cl3 flex-s-c">
-                                    <h3 class="f1-m-2 cl14 tab01-title">
-                                        Travel
-                                    </h3>
-                                </div>
-
-                                <div class="flex-wr-sb-s p-t-35">
-                                    <div class="size-w-6 w-full-sr575">
-                                        <!-- Item post -->
-                                        <div class="m-b-30">
-                                            <a href="blog-detail-02.html" class="wrap-pic-w hov1 trans-03">
-                                                <img src="images/post-14.jpg" alt="IMG">
-                                            </a>
-
-                                            <div class="p-t-25">
-                                                <h5 class="p-b-5">
-                                                    <a href="blog-detail-02.html" class="f1-m-3 cl2 hov-cl10 trans-03">
-                                                        You wish lorem ipsum dolor sit amet consectetur
-                                                    </a>
-                                                </h5>
-
-                                                <span class="cl8">
-                                                    <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
-                                                        Beach
-                                                    </a>
-
-                                                    <span class="f1-s-3 m-rl-3">
-                                                        -
-                                                    </span>
-
-                                                    <span class="f1-s-3">
-                                                        Feb 18
-                                                    </span>
-                                                </span>
-
-                                                <p class="f1-s-1 cl6 p-t-18">
-                                                    Duis eu felis id tortor congue consequat. Sed vitae vestibulum enim, et
-                                                    pharetra magna
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="size-w-7 w-full-sr575">
-                                        <!-- Item post -->
-                                        <div class="m-b-30">
-                                            <a href="blog-detail-02.html" class="wrap-pic-w hov1 trans-03">
-                                                <img src="images/post-15.jpg" alt="IMG">
-                                            </a>
-
-                                            <div class="p-t-10">
-                                                <h5 class="p-b-5">
-                                                    <a href="blog-detail-02.html" class="f1-s-5 cl3 hov-cl10 trans-03">
-                                                        Donec metus orci, malesuada et lectus vitae
-                                                    </a>
-                                                </h5>
-
-                                                <span class="cl8">
-                                                    <a href="#" class="f1-s-6 cl8 hov-cl10 trans-03">
-                                                        Beach
-                                                    </a>
-
-                                                    <span class="f1-s-3 m-rl-3">
-                                                        -
-                                                    </span>
-
-                                                    <span class="f1-s-3">
-                                                        Feb 17
-                                                    </span>
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <!-- Item post -->
-                                        <div class="m-b-30">
-                                            <a href="blog-detail-02.html" class="wrap-pic-w hov1 trans-03">
-                                                <img src="images/post-17.jpg" alt="IMG">
-                                            </a>
-
-                                            <div class="p-t-10">
-                                                <h5 class="p-b-5">
-                                                    <a href="blog-detail-02.html" class="f1-s-5 cl3 hov-cl10 trans-03">
-                                                        Donec metus orci, malesuada et lectus vitae
-                                                    </a>
-                                                </h5>
-
-                                                <span class="cl8">
-                                                    <a href="#" class="f1-s-6 cl8 hov-cl10 trans-03">
-                                                        Hotels
-                                                    </a>
-
-                                                    <span class="f1-s-3 m-rl-3">
-                                                        -
-                                                    </span>
-
-                                                    <span class="f1-s-3">
-                                                        Feb 16
-                                                    </span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Life Style  -->
-                            <div class="p-b-25 m-r--10 m-r-0-sr991">
-                                <div class="how2 how2-cl5 flex-s-c m-r-10 m-r-0-sr991">
-                                    <h3 class="f1-m-2 cl17 tab01-title">
-                                        Life Style
-                                    </h3>
-                                </div>
-
-                                <div class="row p-t-35">
-                                    <div class="col-sm-6 p-r-25 p-r-15-sr991">
-                                        <!-- Item post -->
-                                        <div class="flex-wr-sb-s m-b-30">
-                                            <a href="blog-detail-02.html" class="size-w-1 wrap-pic-w hov1 trans-03">
-                                                <img src="images/post-25.jpg" alt="IMG">
-                                            </a>
-
-                                            <div class="size-w-2">
-                                                <h5 class="p-b-5">
-                                                    <a href="blog-detail-02.html" class="f1-s-5 cl3 hov-cl10 trans-03">
-                                                        Donec metus orci, malesuada et lectus vitae
-                                                    </a>
-                                                </h5>
-
-                                                <span class="cl8">
-                                                    <a href="#" class="f1-s-6 cl8 hov-cl10 trans-03">
-                                                        Beach
-                                                    </a>
-
-                                                    <span class="f1-s-3 m-rl-3">
-                                                        -
-                                                    </span>
-
-                                                    <span class="f1-s-3">
-                                                        Feb 17
-                                                    </span>
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <!-- Item post -->
-                                        <div class="flex-wr-sb-s m-b-30">
-                                            <a href="blog-detail-02.html" class="size-w-1 wrap-pic-w hov1 trans-03">
-                                                <img src="images/post-26.jpg" alt="IMG">
-                                            </a>
-
-                                            <div class="size-w-2">
-                                                <h5 class="p-b-5">
-                                                    <a href="blog-detail-02.html" class="f1-s-5 cl3 hov-cl10 trans-03">
-                                                        Donec metus orci, malesuada et lectus vitae
-                                                    </a>
-                                                </h5>
-
-                                                <span class="cl8">
-                                                    <a href="#" class="f1-s-6 cl8 hov-cl10 trans-03">
-                                                        Flights
-                                                    </a>
-
-                                                    <span class="f1-s-3 m-rl-3">
-                                                        -
-                                                    </span>
-
-                                                    <span class="f1-s-3">
-                                                        Feb 16
-                                                    </span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6 p-r-25 p-r-15-sr991">
-                                        <!-- Item post -->
-                                        <div class="flex-wr-sb-s m-b-30">
-                                            <a href="blog-detail-02.html" class="size-w-1 wrap-pic-w hov1 trans-03">
-                                                <img src="images/post-03.jpg" alt="IMG">
-                                            </a>
-
-                                            <div class="size-w-2">
-                                                <h5 class="p-b-5">
-                                                    <a href="blog-detail-02.html" class="f1-s-5 cl3 hov-cl10 trans-03">
-                                                        Donec metus orci, malesuada et lectus vitae
-                                                    </a>
-                                                </h5>
-
-                                                <span class="cl8">
-                                                    <a href="#" class="f1-s-6 cl8 hov-cl10 trans-03">
-                                                        Beachs
-                                                    </a>
-
-                                                    <span class="f1-s-3 m-rl-3">
-                                                        -
-                                                    </span>
-
-                                                    <span class="f1-s-3">
-                                                        Feb 17
-                                                    </span>
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <!-- Item post -->
-                                        <div class="flex-wr-sb-s m-b-30">
-                                            <a href="blog-detail-02.html" class="size-w-1 wrap-pic-w hov1 trans-03">
-                                                <img src="images/post-27.jpg" alt="IMG">
-                                            </a>
-
-                                            <div class="size-w-2">
-                                                <h5 class="p-b-5">
-                                                    <a href="blog-detail-02.html" class="f1-s-5 cl3 hov-cl10 trans-03">
-                                                        Donec metus orci, malesuada et lectus vitae
-                                                    </a>
-                                                </h5>
-
-                                                <span class="cl8">
-                                                    <a href="#" class="f1-s-6 cl8 hov-cl10 trans-03">
-                                                        Flight
-                                                    </a>
-
-                                                    <span class="f1-s-3 m-rl-3">
-                                                        -
-                                                    </span>
-
-                                                    <span class="f1-s-3">
-                                                        Feb 16
-                                                    </span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

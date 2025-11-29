@@ -124,7 +124,7 @@
                             @endforeach
 
                             <li class="mega-menu-item">
-                                <a href="/dsvideos">Video</a>
+                                <a href="/videos">Video</a>
                                 <div class="sub-mega-menu">
                                 </div>
                             </li>
@@ -144,7 +144,7 @@
     <div class="container">
         <div class="headline bg0 flex-wr-sb-c p-rl-20 p-tb-8">
             <div class="f2-s-1 p-r-30 m-tb-6">
-                <a href="/home" class="breadcrumb-item f1-s-3 cl9">
+                {{-- <a href="/home" class="breadcrumb-item f1-s-3 cl9">
                     Home
                 </a>
 
@@ -154,7 +154,7 @@
 
                 <span class="breadcrumb-item f1-s-3 cl9">
                     Nulla non interdum metus non laoreet nisi tellus eget aliquam lorem pellentesque
-                </span>
+                </span> --}}
             </div>
 
             <div class="pos-relative size-a-2 bo-1-rad-22 of-hidden bocl11 m-tb-6">

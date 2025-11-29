@@ -87,9 +87,13 @@ class HomeController extends Controller
         }
 
         // Lấy tất cả danh mục (hiển thị động)
-        $danhMucList = DanhMuc::all();
+        // $danhMucList = DanhMuc::all();
 
-        // Với mỗi danh mục, lấy 3 bài viết mới nhất (đã duyệt)
+        $danhMucList = DanhMuc::take(3)->get();
+
+
+
+
         $baiVietTheoDanhMuc = [];
         foreach ($danhMucList as $danhMuc) {
             $baiVietTheoDanhMuc[$danhMuc->id] = BaiViet::where('danh_muc_id', $danhMuc->id)

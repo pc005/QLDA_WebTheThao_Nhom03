@@ -45,7 +45,10 @@ Route::post('/bai-viet/{id}/report', [ReportController::class, 'store'])
 
 
 
-//Login
+
+
+
+
 Route::get('/login', [LoginController::class, 'showFormLogin'])->name('login.show');
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -76,8 +79,14 @@ Route::prefix('admin')
         Route::delete('/posts/{id}', [AdminController::class, 'destroy'])->name('posts.destroy');
         Route::post('/posts/{id}/approve', [AdminController::class, 'approvePost'])->name('posts.approve');
         Route::post('/posts/{id}/reject', [AdminController::class, 'rejectPost'])->name('posts.reject');
+<<<<<<< HEAD
         Route::post('/posts/{id}/toggle-featured', [AdminController::class, 'toggleFeatured'])->name('posts.toggle-featured');
         Route::get('/videos', [AdminController::class, 'videos'])->name('videos.index');
+=======
+        // Route::get('/videos', [AdminController::class, 'videos'])->name('videos.index');
+        Route::get('/videos', [VideoController::class, 'quanlyvideo'])->name('admin.videos.danhsachvideoadmin');
+        Route::get('/videos/{video}/editvideo', [VideoController::class, 'editVideo'])->name('videos.editvideo');
+>>>>>>> 6efab209c47d2aca2bf4361bb05092afb3b677c0
         Route::get('/users', [AdminController::class, 'users'])->name('users.index');
         Route::get('/categories', [AdminController::class, 'categories'])->name('categories.index');
         Route::get('/ads', [AdminController::class, 'ads'])->name('ads.index');
@@ -97,6 +106,5 @@ Route::prefix('btv')
         Route::get('/posts/{id}/edit', [BTVController::class, 'editPost'])->name('posts.edit');
         Route::put('/posts/{id}', [BTVController::class, 'update'])->name('posts.update');
         Route::delete('/posts/{id}', [BTVController::class, 'deletePost'])->name('posts.delete');
-        Route::get('/videos', [BTVController::class, 'listVideos'])->name('videos.index');
-        // Thêm các route khác cho BTV nếu cần
+
     });

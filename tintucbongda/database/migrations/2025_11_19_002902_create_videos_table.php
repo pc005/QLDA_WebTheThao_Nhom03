@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('tieu_de');
             $table->text('url');
-            $table->unsignedBigInteger('bai_viet_id');
+            // $table->unsignedBigInteger('bai_viet_id');
             $table->unsignedBigInteger('nguoi_dung_id');
             $table->string('trang_thai');
             $table->dateTime('ngay_tao')->nullable();
             $table->dateTime('ngay_cap_nhat')->nullable();
 
-            $table->foreign('bai_viet_id')->references('id')->on('bai_viets')->onDelete('cascade');
+            // $table->foreign('bai_viet_id')->references('id')->on('bai_viets')->onDelete('cascade');
             $table->foreign('nguoi_dung_id')->references('id')->on('nguoi_dungs')->onDelete('cascade');
             $table->timestamps();
         });

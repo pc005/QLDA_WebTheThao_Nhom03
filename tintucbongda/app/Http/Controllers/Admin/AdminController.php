@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\BaiViet;
+use App\Models\BaoCao;
 use App\Models\DanhMuc;
 use App\Models\NguoiDung;
 use App\Models\Video;
@@ -33,6 +34,46 @@ class AdminController extends Controller
         }])->orderBy('created_at', 'desc')->paginate(15);
 
         return view('admin.posts.index', compact('posts'));
+    }
+
+    // Danh sách bài viết nổi bật
+    public function featuredPosts()
+    {
+        $posts = BaiViet::where('noi_bat', 1)->with(['user' => function ($q) {
+            $q->select('id', 'ho_ten', 'vai_tro', 'email');
+        }, 'danhMuc' => function ($q) {
+            $q->select('id', 'ten_danh_muc');
+        }])->orderBy('created_at', 'desc')->paginate(15);
+
+        return view('admin.posts.featured', compact('posts'));
+    }
+
+    // Danh sách bài viết bị tố cáo
+    public function reportedPosts()
+    {
+        $reports = BaoCao::where('doi_tuong', 'BaiViet')->with(['user' => function ($q) {
+            $q->select('id', 'ho_ten');
+        }, 'baiViet' => function ($q) {
+            $q->select('id', 'tieu_de', 'trang_thai');
+        }])->orderBy('created_at', 'desc')->paginate(15);
+
+        return view('admin.posts.reported', compact('reports'));
+    }
+
+    // Đánh dấu báo cáo đã xử lý
+    public function resolveReport($id)
+    {
+        $report = BaoCao::find($id);
+
+        if (!$report) {
+            toastr()->error('Báo cáo không tồn tại!');
+            return back();
+        }
+
+        $report->update(['trang_thai' => 'Đã xử lý']);
+        toastr()->success('Báo cáo đã được đánh dấu là đã xử lý!');
+
+        return back();
     }
 
     // Hiển thị form tạo bài viết cho Admin
@@ -123,8 +164,12 @@ class AdminController extends Controller
     }
 
     // Từ chối bài viết
-    public function rejectPost($id)
+    public function rejectPost(Request $request, $id)
     {
+        $request->validate([
+            'ly_do_tu_choi' => 'required|string|max:1000',
+        ]);
+
         $post = BaiViet::find($id);
 
         if (!$post) {
@@ -132,8 +177,13 @@ class AdminController extends Controller
             return back();
         }
 
-        $post->update(['trang_thai' => 'Từ chối']);
-        toastr()->warning('Bài viết đã bị từ chối!');
+        $post->update([
+            'trang_thai' => 'Bị từ chối',
+            'ly_do_tu_choi' => $request->ly_do_tu_choi,
+        ]);
+
+        // Gửi thông báo cho biên tập viên (tạm thời dùng toastr, sau này email)
+        toastr()->warning('Bài viết đã bị từ chối và thông báo đã gửi cho biên tập viên!');
 
         return back();
     }

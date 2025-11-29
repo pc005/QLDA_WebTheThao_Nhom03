@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BaoCao extends Model
 {
@@ -20,4 +21,14 @@ class BaoCao extends Model
         'trang_thai',
         'ngay_tao',
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(NguoiDung::class, 'nguoi_dung_id');
+    }
+
+    public function baiViet(): BelongsTo
+    {
+        return $this->belongsTo(BaiViet::class, 'doi_tuong_id');
+    }
 }

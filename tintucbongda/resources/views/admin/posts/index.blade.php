@@ -28,7 +28,7 @@
 
     <div class="card table-custom">
         <div class="table-responsive">
-            <table class="table table-hover mb-0">
+            <table class="table mb-0 table-hover">
                 <thead>
                     <tr>
                         <th style="width: 5%;">#</th>
@@ -59,8 +59,8 @@
                                     <span class="badge badge-pending">Chờ duyệt</span>
                                 @elseif ($post->trang_thai === 'Đã duyệt')
                                     <span class="badge badge-approved">Đã duyệt</span>
-                                @elseif ($post->trang_thai === 'Từ chối')
-                                    <span class="badge badge-rejected">Từ chối</span>
+                                @elseif ($post->trang_thai === 'Bị từ chối')
+                                    <span class="badge badge-rejected">Bị từ chối</span>
                                 @else
                                     <span class="badge bg-secondary">{{ $post->trang_thai }}</span>
                                 @endif
@@ -71,18 +71,12 @@
                                         <i class="fas fa-eye"></i>
                                     </a>
                                     @if ($post->trang_thai === 'Chờ duyệt')
-                                        <form action="{{ route('admin.posts.approve', $post->id) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            <button type="submit" class="btn btn-success btn-sm" title="Duyệt" onclick="return confirm('Xác nhận duyệt bài viết này?')">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        </form>
-                                        <form action="{{ route('admin.posts.reject', $post->id) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            <button type="submit" class="btn btn-warning btn-sm" title="Từ chối" onclick="return confirm('Xác nhận từ chối bài viết này?')">
-                                                <i class="fas fa-times"></i>
-                                            </button>
-                                        </form>
+                                        <button type="button" class="btn btn-success btn-sm" title="Duyệt" onclick="confirmApproveFromList({{ $post->id }})">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-warning btn-sm" title="Từ chối" data-bs-toggle="modal" data-bs-target="#rejectModal{{ $post->id }}">
+                                            <i class="fas fa-times"></i>
+                                        </button>
                                     @endif
                                     <a href="{{ route('admin.posts.edit', $post->id) }}" class="btn btn-warning btn-sm" title="Sửa">
                                         <i class="fas fa-edit"></i>
@@ -99,7 +93,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center text-muted py-4">
+                            <td colspan="6" class="py-4 text-center text-muted">
                                 <i class="fas fa-inbox" style="font-size: 32px;"></i>
                                 <p class="mt-2">Chưa có bài viết nào</p>
                             </td>
@@ -112,10 +106,67 @@
 
     <!-- Pagination -->
     @if ($posts->hasPages())
-        <div class="d-flex justify-content-center mt-4">
+        <div class="mt-4 d-flex justify-content-center">
             {{ $posts->links('pagination::bootstrap-5') }}
         </div>
     @endif
 </div>
+
+<!-- Modals for rejection -->
+@foreach($posts as $post)
+<div class="modal fade" id="rejectModal{{ $post->id }}" tabindex="-1" aria-labelledby="rejectModalLabel{{ $post->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rejectModalLabel{{ $post->id }}">Từ chối bài viết: {{ $post->tieu_de }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('admin.posts.reject', $post->id) }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="ly_do_tu_choi{{ $post->id }}" class="form-label">Lý do từ chối</label>
+                        <textarea class="form-control" id="ly_do_tu_choi{{ $post->id }}" name="ly_do_tu_choi" rows="4" required placeholder="Nhập lý do từ chối bài viết..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-danger">Từ chối bài viết</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endforeach
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+function confirmApproveFromList(postId) {
+    Swal.fire({
+        title: 'Xác nhận duyệt bài viết?',
+        text: "Bài viết sẽ được duyệt và xuất bản!",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Duyệt',
+        cancelButtonText: 'Hủy'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Submit the approve form
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/admin/posts/${postId}/approve`;
+            const csrf = document.createElement('input');
+            csrf.type = 'hidden';
+            csrf.name = '_token';
+            csrf.value = '{{ csrf_token() }}';
+            form.appendChild(csrf);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    });
+}
+</script>
 
 @endsection

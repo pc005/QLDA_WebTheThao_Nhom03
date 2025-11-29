@@ -36,11 +36,10 @@ Route::post('/like/{baiViet}', [LuotThichController::class, 'store'])->name('lik
 Route::get('/bai-viet/{id}', [BaiVietController::class, 'show'])->name('bai-viet.show');
 
 //report
+use App\Http\Controllers\ReportController;
 Route::post('/bai-viet/{id}/report', [ReportController::class, 'store'])
+    ->middleware('auth')
     ->name('bai-viet.report');
- use App\Http\Controllers\ReportController;
-
-Route::post('/bai-viet/{id}/report', [ReportController::class, 'store'])->name('bai-viet.report');
 
 
 
@@ -69,6 +68,9 @@ Route::prefix('admin')
         Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
 
         Route::get('/posts', [AdminController::class, 'posts'])->name('posts.index');
+        Route::get('/posts/featured', [AdminController::class, 'featuredPosts'])->name('posts.featured');
+        Route::get('/posts/reported', [AdminController::class, 'reportedPosts'])->name('posts.reported');
+        Route::post('/reports/{id}/resolve', [AdminController::class, 'resolveReport'])->name('reports.resolve');
         Route::get('/posts/create', [AdminController::class, 'createPost'])->name('posts.create');
         Route::post('/posts', [AdminController::class, 'store'])->name('posts.store');
         Route::get('/posts/{id}', [AdminController::class, 'show'])->name('posts.show');
@@ -101,7 +103,3 @@ Route::prefix('btv')
         Route::delete('/posts/{id}', [BTVController::class, 'deletePost'])->name('posts.delete');
 
     });
-
-
-
-

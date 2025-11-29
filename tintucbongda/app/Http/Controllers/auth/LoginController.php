@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\NguoiDung;
+use App\Models\User; // Dùng Model User chuẩn
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -12,100 +12,90 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
-
 class LoginController extends Controller
 {
-    // Hiển thị form login
+    // 1. Hiển thị form login
     public function showFormLogin()
     {
-        return view('auth.login'); // resources/views/auth/login.blade.php
+        if (Auth::check()) {
+            return $this->redirectUser(Auth::user());
+        }
+        return view('auth.login');
     }
-    // Xử lý đăng nhập
+
+    // 2. Xử lý đăng nhập (Chuẩn Laravel)
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:6',
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
-        if ($validator->fails()) {
-            toastr()->error($validator->errors()->first());
-            return back()->withInput();
+        // Thử đăng nhập (Laravel tự check hash và cột mat_khau nếu đã config Model)
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            
+            $request->session()->regenerate();
+            $user = Auth::user();
+
+            if ($user->trang_thai !== 'Hoạt động') {
+                Auth::logout();
+                return back()->with('error', 'Tài khoản đã bị khóa.');
+            }
+
+            return $this->redirectUser($user)->with('success', 'Đăng nhập thành công!');
         }
 
-        $user = NguoiDung::where('email', $request->email)->first();
+        return back()->with('error', 'Email hoặc mật khẩu không chính xác.');
+    }
 
-        if (!$user) {
-            toastr()->error('Email không tồn tại.');
-            return back();
-        }
-
-        if (!Hash::check($request->password, $user->mat_khau)) {
-            toastr()->error('Mật khẩu không chính xác.');
-            return back();
-        }
-
-        if ($user->trang_thai !== 'Hoạt động') {
-            toastr()->warning('Tài khoản đã bị khóa hoặc không hoạt động.');
-            return back();
-        }
-
-        Auth::login($user);
-        $request->session()->regenerate();
-
-        toastr()->success('Đăng nhập thành công!');
-
+    // Hàm phụ trợ chuyển hướng theo quyền
+    private function redirectUser($user)
+    {
         if ($user->vai_tro === 'Admin') return redirect()->route('admin.dashboard');
         if ($user->vai_tro === 'BTV') return redirect()->route('btv.dashboard');
-
         return redirect()->route('home');
     }
-    //Hiển thị form đăng ký
-    public function showFormRegister(){
-        return view('auth.register'); // resources/views/auth/login.blade.php
+
+    // 3. Đăng ký
+    public function showFormRegister()
+    {
+        return view('auth.register');
     }
-    //Xử lý đăng ký
+
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'ho_ten' => 'required|string|max:100',
             'email' => 'required|email|unique:nguoi_dungs,email',
             'password' => [
-                'required',
-                'min:6',
-                'confirmed',
-                'regex:/[a-z]/',
-                'regex:/[A-Z]/',
-                'regex:/[0-9]/',
-                'regex:/[@$!%*?&]/'
+                'required', 'min:6', 'confirmed',
+                'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'regex:/[@$!%*?&]/'
             ],
         ], [
-            'password.regex' => 'Mật khẩu phải có chữ hoa, chữ thường, số và ký tự đặc biệt.',
-            'password.min' => 'Mật khẩu tối thiểu 6 ký tự.',
-            'password.confirmed' => 'Mật khẩu nhập lại không khớp.',
-            'email.unique' => 'Email đã tồn tại trong hệ thống.',
+            'password.regex' => 'Mật khẩu yếu (cần chữ hoa, thường, số, ký tự đặc biệt).',
+            'email.unique' => 'Email đã tồn tại.',
         ]);
 
-        if ($validator->fails()) {
-            // Lấy lỗi đầu tiên và hiển thị toastr
-            toastr()->error($validator->errors()->first());
-            return back()->withInput();
-        }
-
-        // Tạo người dùng mới
-        NguoiDung::create([
+        User::create([
             'ho_ten' => $request->ho_ten,
             'email' => $request->email,
-            'mat_khau' => $request->password, // bỏ Hash::make
+            'mat_khau' => Hash::make($request->password), // QUAN TRỌNG: Phải mã hóa!
             'vai_tro' => 'Người dùng',
             'trang_thai' => 'Hoạt động',
         ]);
 
+        return redirect()->route('login.show')->with('success', 'Đăng ký thành công! Hãy đăng nhập.');
+    }
 
-        toastr()->success('Tạo tài khoản thành công! Hãy đăng nhập.');
-
+    // 4. Đăng xuất
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect()->route('login.show');
     }
+
     // =============================
     // QUÊN MẬT KHẨU
     // =============================
@@ -114,108 +104,71 @@ class LoginController extends Controller
     {
         return view('auth.forgot');
     }
+
     public function sendResetLink(Request $request)
     {
         $request->validate(['email' => 'required|email']);
 
-        $user = NguoiDung::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            toastr()->error("Email không tồn tại trong hệ thống.");
-            return back();
+            return back()->with('error', 'Email không tồn tại.');
         }
 
-        // Tạo token reset
         $token = Str::random(60);
 
-        // Lưu vào bảng password_resets
         DB::table('password_resets')->updateOrInsert(
             ['email' => $request->email],
-            [
-                'token' => $token,
-                'created_at' => now()
-            ]
+            ['token' => $token, 'created_at' => now()]
         );
 
-        // Gửi email
-        Mail::raw(
-            "Nhấn vào link đặt lại mật khẩu (hết hạn sau 60 phút): " . route('password.reset', $token),
-            function ($message) use ($request) {
-                $message->to($request->email)->subject("Đặt lại mật khẩu");
-            }
-        );
-
-        toastr()->success("Đã gửi link đặt lại mật khẩu tới email của bạn!");
-        return back();
+        // Gửi mail (Đảm bảo .env đã cấu hình SMTP Gmail)
+        try {
+            Mail::raw(
+                "Link reset mật khẩu (có hạn 60p): " . route('password.reset', $token),
+                function ($message) use ($request) {
+                    $message->to($request->email)->subject("Yêu cầu đặt lại mật khẩu");
+                }
+            );
+            return back()->with('success', 'Link reset đã được gửi vào email!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Lỗi gửi mail: ' . $e->getMessage());
+        }
     }
+
     public function showResetForm($token)
     {
-        // Kiểm tra token tồn tại và chưa hết hạn
         $reset = DB::table('password_resets')->where('token', $token)->first();
+        
         if (!$reset || now()->diffInMinutes($reset->created_at) > 60) {
-            toastr()->error("Link đặt lại mật khẩu không hợp lệ hoặc đã hết hạn!");
-            return redirect()->route('login.show');
+            return redirect()->route('login.show')->with('error', 'Link hết hạn!');
         }
 
         return view('auth.reset', compact('token'));
     }
+
     public function resetPassword(Request $request)
     {
-        // Validate password
         $request->validate([
-            'password' => [
-                'required',
-                'min:6',
-                'confirmed',
-                'regex:/[a-z]/',
-                'regex:/[A-Z]/',
-                'regex:/[0-9]/',
-                'regex:/[@$!%*?&]/'
-            ],
-        ], [
-            'password.regex' => 'Mật khẩu phải có chữ hoa, chữ thường, số và ký tự đặc biệt.',
-            'password.min' => 'Mật khẩu tối thiểu 6 ký tự.',
-            'password.confirmed' => 'Mật khẩu nhập lại không khớp.',
+            'password' => 'required|min:6|confirmed'
         ]);
 
         $reset = DB::table('password_resets')->where('token', $request->token)->first();
 
         if (!$reset) {
-            toastr()->error("Link đặt lại mật khẩu không hợp lệ hoặc đã dùng!");
-            return back();
+            return back()->with('error', 'Token không hợp lệ.');
         }
 
-        // Kiểm tra token hết hạn
-        if (now()->diffInMinutes($reset->created_at) > 60) {
-            DB::table('password_resets')->where('token', $request->token)->delete();
-            toastr()->error("Link đặt lại mật khẩu đã hết hạn!");
-            return redirect()->route('login.show');
-        }
+        $user = User::where('email', $reset->email)->first();
 
-        $user = NguoiDung::where('email', $reset->email)->first();
+        // Cập nhật mật khẩu mới (MÃ HÓA)
+        $user->update([
+            'mat_khau' => Hash::make($request->password) // QUAN TRỌNG: Phải mã hóa!
+        ]);
 
-        // Kiểm tra mật khẩu mới khác mật khẩu cũ
-        if (Hash::check($request->password, $user->mat_khau)) {
-            toastr()->error("Mật khẩu mới không được trùng mật khẩu cũ!");
-            return back();
-        }
-        //cập nhật không cần dùng make vì trong kia đã đó sử dụng để ãm hóa ròi
-        $user->update([ 'mat_khau' => $request->password  ]);
-
-        // Xóa token sau khi dùng
+        // Xóa token
         DB::table('password_resets')->where('email', $reset->email)->delete();
 
-        toastr()->success("Đặt lại mật khẩu thành công! Hãy đăng nhập.");
-        return redirect()->route('login.show');
+        return redirect()->route('login.show')->with('success', 'Đổi mật khẩu thành công!');
     }
-
-    //Log out
-    // LoginController.php
-    public function logout()
-    {
-        Auth::logout();
-        return redirect()->route('login.show');
-    }
-
-
 }

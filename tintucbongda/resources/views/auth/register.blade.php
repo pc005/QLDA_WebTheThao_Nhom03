@@ -107,8 +107,7 @@
 <!-- Toastr JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-<!-- Hiển thị thông báo -->
-{!! Toastr::message() !!}
+
 
 </body>
 </html>

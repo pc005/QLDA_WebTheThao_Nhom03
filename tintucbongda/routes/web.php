@@ -1,96 +1,74 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+// Import Controllers
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Auth\LoginController;
+// SỬA DÒNG NÀY: Dùng LoginController thay vì AuthController
+use App\Http\Controllers\Auth\LoginController; 
 use App\Http\Controllers\VideoController;
-use App\Http\Controllers\DanhMucController;
 use App\Http\Controllers\BaiVietController;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\BTV\BTVController;
+use App\Http\Controllers\DanhMucController;
+use App\Http\Controllers\Admin\AdminController; // Chú ý namespace Admin
+use App\Http\Controllers\BTV\BTVController;     // Chú ý namespace BTV
+use App\Http\Controllers\BtvPostController;
+use App\Http\Controllers\BtvVideoController;
 
-
-
-// Route::get('/', [HomeController::class, 'home'])->name('home');
-// Route::get('/home', [HomeController::class, 'home'])->name('home');
-Route::get('/video', [HomeController::class, 'video'])->name('video');
-Route::get('/', [HomeController::class, 'home'])->name('home');
-Route::get('/home', [HomeController::class, 'home'])->name('home');
-
-
-Route::resource('DanhMuc', DanhMucController::class);
-Route::get('danhmucs/{id}/edit', [DanhMucController::class, 'edit'])->name('danhmucs.edit');
-Route::put('danhmucs/{id}', [DanhMucController::class, 'update'])->name('danhmucs.update');
-
-Route::resource('danhmucs', DanhMucController::class);
-Route::post('/categories', [DanhMucController::class, 'store'])->name('categories.store');
-
-Route::resource('videos', VideoController::class);
+/*
+|--------------------------------------------------------------------------
+| 1. FRONTEND ROUTES (Khách xem)
+|--------------------------------------------------------------------------
+*/
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index']);
+Route::get('/bai-viet/{id}', [HomeController::class, 'show'])->name('bai-viet.show');
+Route::get('/videos', [VideoController::class, 'index'])->name('video.index');
 Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show');
-Route::get('/video/{id}/like', [VideoController::class, 'like'])->name('video.like');
-use App\Http\Controllers\LuotThichController;
+Route::post('/like/{type}/{id}', [HomeController::class, 'like'])->name('like.store')->middleware('auth');
 
-Route::post('/like/{baiViet}', [LuotThichController::class, 'store'])->name('like.store');
+/*
+|--------------------------------------------------------------------------
+| 2. AUTHENTICATION ROUTES (Sửa lại dùng LoginController)
+|--------------------------------------------------------------------------
+*/
+Route::middleware('guest')->group(function () {
+    // Đăng nhập
+    Route::get('/login', [LoginController::class, 'showFormLogin'])->name('login.show');
+    Route::post('/login', [LoginController::class, 'login'])->name('login.post'); // <--- Quan trọng
 
+    // Đăng ký
+    Route::get('/register', [LoginController::class, 'showFormRegister'])->name('register.show');
+    Route::post('/register', [LoginController::class, 'register'])->name('register.post');
 
-Route::get('/bai-viet/{id}', [BaiVietController::class, 'show'])->name('bai-viet.show');
-
-
-
-
-
-//Login
-Route::get('/login', [LoginController::class, 'showFormLogin'])->name('login.show');
-Route::post('/login', [LoginController::class, 'login'])->name('login.post');
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-Route::get('/register', [LoginController::class, 'showFormRegister'])->name('register.show');
-Route::post('/register', [LoginController::class, 'register'])->name('register.post');
-Route::get('/forgot-password', [LoginController::class, 'showForgotForm'])->name('password.forgot');
-Route::post('/forgot-password', [LoginController::class, 'sendResetLink'])->name('password.email');
-Route::get('/reset-password/{token}', [LoginController::class, 'showResetForm'])->name('password.reset');
-Route::post('/reset-password', [LoginController::class, 'resetPassword'])->name('password.update');
-
-//AdminController
-Route::prefix('admin')
-    ->name('admin.')
-    ->middleware(['auth', 'checkadmin'])
-    ->group(function () {
-
-        Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
-
-        Route::get('/posts', [AdminController::class, 'posts'])->name('posts.index');
-        Route::get('/posts/create', [AdminController::class, 'createPost'])->name('posts.create');
-        Route::post('/posts', [AdminController::class, 'store'])->name('posts.store');
-        Route::get('/posts/{id}', [AdminController::class, 'show'])->name('posts.show');
-        Route::get('/posts/{id}/edit', [AdminController::class, 'editPost'])->name('posts.edit');
-        Route::put('/posts/{id}', [AdminController::class, 'update'])->name('posts.update');
-        Route::delete('/posts/{id}', [AdminController::class, 'destroy'])->name('posts.destroy');
-        Route::post('/posts/{id}/approve', [AdminController::class, 'approvePost'])->name('posts.approve');
-        Route::post('/posts/{id}/reject', [AdminController::class, 'rejectPost'])->name('posts.reject');
-        Route::get('/videos', [AdminController::class, 'videos'])->name('videos.index');
-        Route::get('/users', [AdminController::class, 'users'])->name('users.index');
-        Route::get('/categories', [AdminController::class, 'categories'])->name('categories.index');
-        Route::get('/ads', [AdminController::class, 'ads'])->name('ads.index');
-        Route::get('/settings', [AdminController::class, 'settings'])->name('settings.index');
-
+    // Quên mật khẩu
+    Route::get('/forgot-password', [LoginController::class, 'showForgotForm'])->name('password.request');
+    Route::post('/forgot-password', [LoginController::class, 'sendResetLink'])->name('password.email');
+    Route::get('/reset-password/{token}', [LoginController::class, 'showResetForm'])->name('password.reset');
+    Route::post('/reset-password', [LoginController::class, 'resetPassword'])->name('password.update');
 });
 
-//BTV (Biên tập viên)
-Route::prefix('btv')
-    ->name('btv.')
-    ->middleware(['auth', 'checkbtv'])
-    ->group(function () {
-        Route::get('/', [BTVController::class, 'dashboard'])->name('dashboard');
-        Route::get('/posts/create', [BTVController::class, 'createPost'])->name('posts.create');
-        Route::post('/posts', [BTVController::class, 'store'])->name('posts.store');
-        Route::get('/posts', [BTVController::class, 'listPosts'])->name('posts.index');
-        Route::get('/posts/{id}/edit', [BTVController::class, 'editPost'])->name('posts.edit');
-        Route::put('/posts/{id}', [BTVController::class, 'update'])->name('posts.update');
-        Route::delete('/posts/{id}', [BTVController::class, 'deletePost'])->name('posts.delete');
-        Route::get('/videos', [BTVController::class, 'listVideos'])->name('videos.index');
-        // Thêm các route khác cho BTV nếu cần
-    });
+// Đăng xuất
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
+/*
+|--------------------------------------------------------------------------
+| 3. ADMIN ROUTES
+|--------------------------------------------------------------------------
+*/
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'checkadmin']], function () {
+    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::resource('danhmucs', DanhMucController::class);
+    Route::resource('baiviets', BaiVietController::class);
+    // Các route admin khác...
+});
 
-
-
+/*
+|--------------------------------------------------------------------------
+| 4. BTV ROUTES
+|--------------------------------------------------------------------------
+*/
+Route::group(['prefix' => 'btv', 'as' => 'btv.', 'middleware' => ['auth', 'checkbtv']], function () {
+    Route::get('/', [BTVController::class, 'dashboard'])->name('dashboard');
+    Route::resource('posts', BtvPostController::class);
+    Route::resource('videos', BtvVideoController::class);
+});

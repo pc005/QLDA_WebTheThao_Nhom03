@@ -12,7 +12,7 @@ class Video extends Model
     protected $fillable = [
         'tieu_de',
         'url',
-        'bai_viet_id',
+        // 'bai_viet_id',
         'nguoi_dung_id',
         'trang_thai',
         'ngay_tao',
@@ -31,10 +31,10 @@ class Video extends Model
     ];
 
     // Quan hệ: Video thuộc về 1 bài viết
-    public function baiViet()
-    {
-        return $this->belongsTo(BaiViet::class, 'bai_viet_id');
-    }
+    // public function baiViet()
+    // {
+    //     return $this->belongsTo(BaiViet::class, 'bai_viet_id');
+    // }
 
     // Quan hệ: Video thuộc về 1 người dùng
     public function nguoiDung()

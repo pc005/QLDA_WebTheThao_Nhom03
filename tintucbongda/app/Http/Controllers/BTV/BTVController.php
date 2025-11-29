@@ -64,12 +64,7 @@ class BTVController extends Controller
     }
 
     // Danh sách video của BTV
-    public function listVideos()
-    {
-        // $videos = Video::where('nguoi_tao_id', auth()->id())->get();
-        // return view('btv.videos.index', compact('videos'));
-        return view('btv.videos.index'); // demo
-    }
+
 
     // Lưu bài viết mới
     public function store(Request $request)
@@ -78,7 +73,7 @@ class BTVController extends Controller
             'tieu_de' => 'required|string|max:255',
             'noi_dung' => 'required|string',
             'danh_muc_id' => 'required|integer|exists:danh_mucs,id',
-            'anh_dai_dien' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'anh_dai_dien' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // 2MB
             'tom_tat' => 'nullable|string',
             'trang_thai' => 'required|in:Chờ duyệt,Nháp',
         ]);

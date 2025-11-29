@@ -16,7 +16,6 @@
         <div class="login-header">
             <img src="{{ asset('images/icons/user.png') }}" class="login-icon">
             <h2>Quên mật khẩu</h2>
-            {{-- <h2>Não Cá Vàng Hả Mạy"Dừa Lòng Tao Lắm"</h2> --}}
         </div>
 
         <form method="POST" action="{{ route('password.email') }}">

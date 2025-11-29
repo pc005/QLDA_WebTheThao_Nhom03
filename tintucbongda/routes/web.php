@@ -102,5 +102,6 @@ Route::prefix('btv')
         Route::get('/posts/{id}/edit', [BTVController::class, 'editPost'])->name('posts.edit');
         Route::put('/posts/{id}', [BTVController::class, 'update'])->name('posts.update');
         Route::delete('/posts/{id}', [BTVController::class, 'deletePost'])->name('posts.delete');
+        Route::get('/videos', [BTVController::class, 'listVideos'])->name('videos.index');
 
     });

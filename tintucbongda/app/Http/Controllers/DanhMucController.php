@@ -12,16 +12,7 @@ use Illuminate\Support\Str;
 
 class DanhMucController extends Controller
 {
-//     protected function isUniqueTenDanhMuc($tenDanhMuc, $currentId = null)
-// {
-//     $query = \App\Models\DanhMuc::where('ten_danh_muc', $tenDanhMuc);
 
-//     if ($currentId) {
-//         $query->where('id', '!=', $currentId); // loại trừ chính nó khi update
-//     }
-
-//     return !$query->exists(); // true nếu không trùng
-// }
 
 
     // Hàm kiểm tra danh_muc_cha_id hợp lệ

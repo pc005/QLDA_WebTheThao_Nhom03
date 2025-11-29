@@ -21,7 +21,7 @@
             <h2>Tạo Tài Khoản</h2>
         </div>
 
-        <form method="POST" action="{{ route('register.post') }}">
+        {{-- <form method="POST" action="{{ route('register.post') }}">
             @csrf
 
             <input type="text" name="ho_ten" placeholder="Họ và tên" class="login-input" value="{{ old('ho_ten') }}">
@@ -33,15 +33,30 @@
             <input type="password" name="password_confirmation" placeholder="Nhập lại mật khẩu" class="login-input">
 
             <button type="submit" class="login-btn">Đăng ký</button>
-        </form>
+        </form> --}}
+        <form method="POST" action="{{ route('register.post') }}">
+            @csrf
 
+            <input type="text" name="ho_ten" placeholder="Họ và tên" class="login-input"
+                value="{{ old('ho_ten') }}" required>
+
+            <input type="email" name="email" placeholder="Email" class="login-input"
+                value="{{ old('email') }}" required>
+
+            <input type="password" name="password" placeholder="Mật khẩu" class="login-input" required>
+
+            <input type="password" name="password_confirmation" placeholder="Nhập lại mật khẩu" class="login-input" required>
+
+            <button type="submit" class="login-btn">Đăng ký</button>
+        </form>
+        
         <div class="login-footer">
-            <a href="{{ route('login.show') }}">Đã có tài khoản? Đăng nhập</a>
+            <a href="{{ route('login.show') }}">Đã có tài khoản?   Đăng nhập</a>
         </div>
 
     </div>
 </div>
-    
+
 
 <style>
     body {
